@@ -1,0 +1,12 @@
+{
+  "name": "ai-slop-killer",
+  "version": "1.0.0",
+  "description": "The final anti-AI-slop editing pass for any drafted or revised prose — blog posts, newsletters, social, email, marketing/web copy, docs, essays, fiction. Detects documented AI writing tells, scores the passage, rewrites in place, and proves what it caught. Configurable via slop.config.md.",
+  "author": {
+    "name": "The AIE Network",
+    "url": "https://theaie.net"
+  },
+  "homepage": "https://github.com/mrhinkle/aienterprise-skills",
+  "license": "MIT",
+  "keywords": ["writing", "editing", "ai-slop", "copyediting", "content", "humanize"]
+}

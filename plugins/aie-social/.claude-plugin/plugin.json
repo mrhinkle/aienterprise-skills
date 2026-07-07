@@ -1,0 +1,12 @@
+{
+  "name": "aie-social",
+  "version": "1.0.0",
+  "description": "Research-driven social media post generators. Turns any topic into a high-quality LinkedIn post or X post/thread: real research phase with cited sources, proven hook and formatting structures tuned to each platform's 2026 algorithm, a quality rubric, and a final ai-slop-killer pass. Brand- and person-neutral; configurable via voice.config.md / slop.config.md.",
+  "author": {
+    "name": "The AIE Network",
+    "url": "https://theaie.net"
+  },
+  "homepage": "https://github.com/mrhinkle/aienterprise-skills",
+  "license": "MIT",
+  "keywords": ["linkedin", "twitter", "x", "social-media", "content", "copywriting", "threads", "research"]
+}

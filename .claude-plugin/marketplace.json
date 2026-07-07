@@ -1,0 +1,49 @@
+{
+  "name": "aienterprise-skills",
+  "owner": {
+    "name": "The AIE Network",
+    "url": "https://theaie.net"
+  },
+  "metadata": {
+    "description": "Open source Agent Skills from The AIE Network for Claude Code and Cowork — practical, source-backed tools for people doing real work with AI. Writing, web, and social bundles.",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "ai-slop-killer",
+      "source": "./plugins/ai-slop-killer",
+      "description": "The final anti-AI-slop editing pass for any prose. Detects documented AI writing tells, scores the passage, rewrites in place, and proves what it caught. Configurable per house style.",
+      "version": "1.0.0",
+      "author": { "name": "The AIE Network", "url": "https://theaie.net" },
+      "keywords": ["writing", "editing", "ai-slop", "copyediting", "content", "humanize"],
+      "category": "writing"
+    },
+    {
+      "name": "aie-web",
+      "source": "./plugins/aie-web",
+      "description": "Eight focused web skills — SEO/AEO audit, site health audit, performance, pre-launch QA, defensive security review, link checking, form wiring, and UX review. Stack-agnostic.",
+      "version": "1.0.0",
+      "author": { "name": "The AIE Network", "url": "https://theaie.net" },
+      "keywords": ["web", "seo", "aeo", "performance", "qa", "security", "accessibility", "ux", "forms", "audit"],
+      "category": "web"
+    },
+    {
+      "name": "aie-social",
+      "source": "./plugins/aie-social",
+      "description": "Research-driven social post generators for LinkedIn and X. Real research phase with cited sources, proven hooks and platform-tuned formatting, a quality rubric, and a final ai-slop-killer pass.",
+      "version": "1.0.0",
+      "author": { "name": "The AIE Network", "url": "https://theaie.net" },
+      "keywords": ["linkedin", "twitter", "x", "social-media", "content", "copywriting", "research"],
+      "category": "content"
+    },
+    {
+      "name": "aie-chief-of-staff",
+      "source": "./plugins/aie-chief-of-staff",
+      "description": "Your morning chief of staff. One prioritized daily brief from your calendar, inbox (read-only triage), and a scan of your industry news + tracked competitors. Read-only and safe by default; configurable per industry via cos.config.md.",
+      "version": "1.0.0",
+      "author": { "name": "The AIE Network", "url": "https://theaie.net" },
+      "keywords": ["chief-of-staff", "daily-brief", "email", "calendar", "news", "competitive-intelligence", "productivity"],
+      "category": "productivity"
+    }
+  ]
+}

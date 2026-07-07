@@ -1,0 +1,12 @@
+{
+  "name": "aie-chief-of-staff",
+  "version": "1.0.0",
+  "description": "Your morning chief of staff. Assembles one prioritized daily brief from your calendar, your inbox (read-only triage), and a fresh scan of your industry news and tracked competitors. Read-only and safe by default — drafts and recommends, never sends or deletes. Configurable per person and industry via cos.config.md.",
+  "author": {
+    "name": "The AIE Network",
+    "url": "https://theaie.net"
+  },
+  "homepage": "https://github.com/mrhinkle/aienterprise-skills",
+  "license": "MIT",
+  "keywords": ["chief-of-staff", "daily-brief", "morning-briefing", "email", "calendar", "news", "competitive-intelligence", "productivity"]
+}

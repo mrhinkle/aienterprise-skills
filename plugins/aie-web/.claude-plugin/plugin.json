@@ -1,0 +1,12 @@
+{
+  "name": "aie-web",
+  "version": "1.0.0",
+  "description": "A web toolkit of eight focused skills for auditing and improving any website — SEO/AEO, a broad site health audit, load performance, pre-launch QA, a defensive security review, link checking, form wiring, and a UX/usability review. Stack-agnostic: plain HTML, WordPress, React, Next.js, Vite, Astro, or a hosted builder.",
+  "author": {
+    "name": "The AIE Network",
+    "url": "https://theaie.net"
+  },
+  "homepage": "https://github.com/mrhinkle/aienterprise-skills",
+  "license": "MIT",
+  "keywords": ["web", "seo", "aeo", "performance", "qa", "security", "accessibility", "ux", "forms", "audit"]
+}
