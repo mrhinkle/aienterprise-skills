@@ -4,7 +4,7 @@ Open source [Agent Skills](https://docs.claude.com/en/docs/claude-code/skills) f
 
 Skills are folders of instructions and reference material that Claude loads on demand, only when they're relevant. These are the ones we use ourselves, cleaned up and depersonalized so anyone can run them. They work in **Claude Code** and in **Cowork**.
 
-**12 skills across 4 bundles:** writing, web, social, and chief-of-staff.
+**14 skills across 5 bundles:** writing, web, social, chief-of-staff, and skill-creator.
 
 ---
 
@@ -28,6 +28,7 @@ Skills are folders of instructions and reference material that Claude loads on d
 | **[aie-web-links](plugins/aie-web/skills/aie-web-links)** | Crawl and validate every link, image, and asset — broken links, mixed content, redirect chains, orphaned pages, dead anchors. |
 | **[aie-web-forms](plugins/aie-web/skills/aie-web-forms)** | Wire forms to any provider with validation, spam protection, accessible labels, and success/error states. |
 | **[aie-web-ux](plugins/aie-web/skills/aie-web-ux)** | Usability review against Nielsen's heuristics + readability. Scorecard and prioritized fixes. |
+| **[aie-web-testing](plugins/aie-web/skills/aie-web-testing)** | Write and run automated Playwright browser tests for critical journeys (sign-up, login, forms), catch console/network errors, and report failures with screenshots. Wires into CI. |
 
 ### 📣 aie-social &nbsp;·&nbsp; [plugin](plugins/aie-social) &nbsp;·&nbsp; research-driven
 
@@ -41,6 +42,12 @@ Skills are folders of instructions and reference material that Claude loads on d
 | Skill | What it does |
 | --- | --- |
 | **[aie-chief-of-staff](plugins/aie-chief-of-staff/skills/aie-chief-of-staff)** | A morning brief that pulls together your calendar, your inbox (read-only triage), and a scan of your industry news + tracked competitors — with your top 3 for the day, prep flags, and a focus block. Configurable per person and industry via `cos.config.md`. Drafts and recommends; never sends or deletes. |
+
+### 🛠 aie-skill-creator &nbsp;·&nbsp; [plugin](plugins/aie-skill-creator) &nbsp;·&nbsp; meta
+
+| Skill | What it does |
+| --- | --- |
+| **[aie-skill-creator](plugins/aie-skill-creator/skills/aie-skill-creator)** | Build a new, high-quality skill from scratch — right frontmatter, tight SKILL.md, progressive-disclosure reference files, a self-test, and packaging as a `.skill` or plugin. Also audits and improves existing skills and fixes descriptions that don't trigger. The tool for growing this marketplace. |
 
 ---
 
@@ -56,6 +63,7 @@ In Claude Code or Cowork:
 /plugin install aie-web@aienterprise-skills
 /plugin install aie-social@aienterprise-skills
 /plugin install aie-chief-of-staff@aienterprise-skills
+/plugin install aie-skill-creator@aienterprise-skills
 ```
 
 Install only the bundles you want. Skills trigger automatically when relevant, or on cue ("de-slop this," "audit my SEO," "write a LinkedIn post about X").

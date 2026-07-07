@@ -1,6 +1,6 @@
 # Web bundle (aie-web)
 
-Eight focused skills for auditing and improving any website. All are **stack-agnostic** — plain HTML, WordPress, React, Next.js, Vite, Astro, or a hosted builder — and most work from just a live URL. Each produces a scored findings report with severity levels and a prioritized fix list.
+Nine focused skills for auditing and improving any website. All are **stack-agnostic** — plain HTML, WordPress, React, Next.js, Vite, Astro, or a hosted builder — and most work from just a live URL. Each produces a scored findings report with severity levels and a prioritized fix list.
 
 Start with **aie-web-audit** for a broad scan; it hands off to the specialists below. Or call a specialist directly.
 
@@ -44,6 +44,11 @@ Reference: `providers.md`, `serverless-example.md`, `accessibility.md`.
 Reviews the site against Nielsen's 10 usability heuristics plus WCAG readability: navigation clarity, visual hierarchy, clickable affordances, form feedback, clutter, mobile/touch, readability, and error handling. Returns a scorecard and prioritized fixes.
 Trigger: "review the UX," "is this confusing," "usability audit."
 Reference: `checklists.md`, `journeys.md`.
+
+## aie-web-testing — automated Playwright testing
+Writes and runs real browser tests for your critical journeys (homepage, nav, sign-up, login, the main form, search), catches console/network errors, and reports pass/fail with screenshots and repro steps. Scaffolds Playwright if needed, uses resilient role/text selectors, and can wire the suite into CI. Complements `aie-web-qa` (manual checklist) with automation. Tests only local/staging/owned sites, reads credentials from env vars.
+Trigger: "write tests for my site," "add Playwright tests," "e2e tests," "test my signup flow."
+Reference: `setup.md`, `patterns.md`, `reporting.md`.
 
 ---
 

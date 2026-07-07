@@ -1,0 +1,12 @@
+{
+  "name": "aie-skill-creator",
+  "version": "1.0.0",
+  "description": "Build a new, high-quality Claude Agent Skill from scratch — right frontmatter, tight SKILL.md, progressive-disclosure reference files, a self-test, and packaging as a .skill zip or a plugin/marketplace entry. Also audits and improves existing skills, and fixes descriptions that don't trigger.",
+  "author": {
+    "name": "The AIE Network",
+    "url": "https://theaie.net"
+  },
+  "homepage": "https://github.com/mrhinkle/aienterprise-skills",
+  "license": "MIT",
+  "keywords": ["skill-creator", "meta", "agent-skills", "authoring", "skill-md", "packaging", "plugin", "marketplace"]
+}

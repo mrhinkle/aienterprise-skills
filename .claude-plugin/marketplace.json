@@ -21,7 +21,7 @@
     {
       "name": "aie-web",
       "source": "./plugins/aie-web",
-      "description": "Eight focused web skills — SEO/AEO audit, site health audit, performance, pre-launch QA, defensive security review, link checking, form wiring, and UX review. Stack-agnostic.",
+      "description": "Nine focused web skills — SEO/AEO audit, site health audit, performance, pre-launch QA, defensive security review, link checking, form wiring, UX review, and automated Playwright testing. Stack-agnostic.",
       "version": "1.0.0",
       "author": { "name": "The AIE Network", "url": "https://theaie.net" },
       "keywords": ["web", "seo", "aeo", "performance", "qa", "security", "accessibility", "ux", "forms", "audit"],
@@ -44,6 +44,15 @@
       "author": { "name": "The AIE Network", "url": "https://theaie.net" },
       "keywords": ["chief-of-staff", "daily-brief", "email", "calendar", "news", "competitive-intelligence", "productivity"],
       "category": "productivity"
+    },
+    {
+      "name": "aie-skill-creator",
+      "source": "./plugins/aie-skill-creator",
+      "description": "Build a new, high-quality Claude Agent Skill from scratch — frontmatter, tight SKILL.md, progressive-disclosure reference files, a self-test, and packaging as a .skill or plugin. Also audits and improves existing skills and fixes descriptions that don't trigger.",
+      "version": "1.0.0",
+      "author": { "name": "The AIE Network", "url": "https://theaie.net" },
+      "keywords": ["skill-creator", "meta", "agent-skills", "authoring", "packaging", "plugin", "marketplace"],
+      "category": "developer-tools"
     }
   ]
 }
