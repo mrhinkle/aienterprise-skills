@@ -4,7 +4,7 @@ Open source [Agent Skills](https://docs.claude.com/en/docs/claude-code/skills) f
 
 Skills are folders of instructions and reference material that Claude loads on demand, only when they're relevant. These are the ones we use ourselves, cleaned up and depersonalized so anyone can run them. They work in **Claude Code** and in **Cowork**.
 
-**14 skills across 5 bundles:** writing, web, social, chief-of-staff, and skill-creator.
+**15 skills across 6 bundles:** writing, web, social, chief-of-staff, Hermes operations, and skill-creator.
 
 ---
 
@@ -43,6 +43,12 @@ Skills are folders of instructions and reference material that Claude loads on d
 | --- | --- |
 | **[aie-chief-of-staff](plugins/aie-chief-of-staff/skills/aie-chief-of-staff)** | A morning brief that pulls together your calendar, your inbox (read-only triage), and a scan of your industry news + tracked competitors — with your top 3 for the day, prep flags, and a focus block. Configurable per person and industry via `cos.config.md`. Drafts and recommends; never sends or deletes. |
 
+### 🛡️ aie-hermes &nbsp;·&nbsp; [plugin](plugins/aie-hermes) &nbsp;·&nbsp; safe operations
+
+| Skill | What it does |
+| --- | --- |
+| **[aie-hermes-ha](plugins/aie-hermes/skills/aie-hermes-ha)** | Creates and operates safe recurring monitoring for a remote Hermes host: machine health, Tailscale, Telegram, Slack, security posture, and update readiness. Performs only bounded self-healing and protects remote access with explicit approval gates. |
+
 ### 🛠 aie-skill-creator &nbsp;·&nbsp; [plugin](plugins/aie-skill-creator) &nbsp;·&nbsp; meta
 
 | Skill | What it does |
@@ -63,6 +69,7 @@ In Claude Code or Cowork:
 /plugin install aie-web@aienterprise-skills
 /plugin install aie-social@aienterprise-skills
 /plugin install aie-chief-of-staff@aienterprise-skills
+/plugin install aie-hermes@aienterprise-skills
 /plugin install aie-skill-creator@aienterprise-skills
 ```
 
