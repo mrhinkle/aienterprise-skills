@@ -1,0 +1,12 @@
+{
+  "name": "aie-hermes",
+  "version": "1.0.0",
+  "description": "Safe high-availability operations for a remotely accessed Hermes host. Creates recurring health, Tailscale, Telegram, Slack, security, and update monitoring with bounded self-healing and approval gates for risky maintenance.",
+  "author": {
+    "name": "The AIE Network",
+    "url": "https://theaie.net"
+  },
+  "homepage": "https://github.com/mrhinkle/aienterprise-skills",
+  "license": "MIT",
+  "keywords": ["hermes", "high-availability", "monitoring", "tailscale", "telegram", "slack", "security", "maintenance", "operations"]
+}

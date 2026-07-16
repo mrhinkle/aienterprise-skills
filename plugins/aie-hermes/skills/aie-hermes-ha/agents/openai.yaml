@@ -1,0 +1,4 @@
+interface:
+  display_name: "Hermes Host Reliability"
+  short_description: "Keep Hermes remotely available and secure"
+  default_prompt: "Use $aie-hermes-ha to set up safe recurring health, connectivity, security, and update monitoring for this Hermes host."

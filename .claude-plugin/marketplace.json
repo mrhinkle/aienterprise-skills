@@ -5,8 +5,8 @@
     "url": "https://theaie.net"
   },
   "metadata": {
-    "description": "Open source Agent Skills from The AIE Network for Claude Code and Cowork — practical, source-backed tools for people doing real work with AI. Writing, web, and social bundles.",
-    "version": "1.0.0"
+    "description": "Open source Agent Skills from The AIE Network for Claude Code and Cowork — practical, source-backed tools for writing, web, social, productivity, and operations work.",
+    "version": "1.1.0"
   },
   "plugins": [
     {
@@ -44,6 +44,15 @@
       "author": { "name": "The AIE Network", "url": "https://theaie.net" },
       "keywords": ["chief-of-staff", "daily-brief", "email", "calendar", "news", "competitive-intelligence", "productivity"],
       "category": "productivity"
+    },
+    {
+      "name": "aie-hermes",
+      "source": "./plugins/aie-hermes",
+      "description": "Safe high-availability operations for a remotely accessed Hermes host. Creates recurring monitoring for the host, Tailscale, Telegram, Slack, security posture, and updates with bounded self-healing and strict approval gates.",
+      "version": "1.0.0",
+      "author": { "name": "The AIE Network", "url": "https://theaie.net" },
+      "keywords": ["hermes", "high-availability", "monitoring", "tailscale", "telegram", "slack", "security", "maintenance", "operations"],
+      "category": "developer-tools"
     },
     {
       "name": "aie-skill-creator",
