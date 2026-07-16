@@ -5,8 +5,8 @@
     "url": "https://theaie.net"
   },
   "metadata": {
-    "description": "Open source Agent Skills from The AIE Network for Claude Code and Cowork — practical, source-backed tools for people doing real work with AI. Writing, web, and social bundles.",
-    "version": "1.0.0"
+    "description": "Open source Agent Skills from The AIE Network for Claude Code and Cowork — practical, source-backed tools for writing, web, social, productivity, skill creation, and BAAD AI work setup.",
+    "version": "1.1.0"
   },
   "plugins": [
     {
@@ -53,6 +53,15 @@
       "author": { "name": "The AIE Network", "url": "https://theaie.net" },
       "keywords": ["skill-creator", "meta", "agent-skills", "authoring", "packaging", "plugin", "marketplace"],
       "category": "developer-tools"
+    },
+    {
+      "name": "baad-ai-work-setup",
+      "source": "./plugins/baad-ai-work-setup",
+      "description": "Interview-led setup for Claude Cowork, ChatGPT Work, and Manus. Produces one tested first workflow, paste-ready custom instructions, minimum necessary integrations, approval boundaries, and a reusable setup pack.",
+      "version": "1.0.0",
+      "author": { "name": "Mark Hinkle / The Artificially Intelligent Enterprise", "url": "https://theaie.net" },
+      "keywords": ["baad", "onboarding", "claude-cowork", "chatgpt-work", "manus", "custom-instructions", "connectors", "integrations"],
+      "category": "productivity"
     }
   ]
 }

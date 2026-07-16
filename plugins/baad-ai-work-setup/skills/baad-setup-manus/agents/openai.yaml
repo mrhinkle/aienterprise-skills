@@ -1,0 +1,4 @@
+interface:
+  display_name: "BAAD: Set Up Manus"
+  short_description: "Build a working Manus setup through an interview"
+  default_prompt: "Use $baad-setup-manus to interview me and configure Manus for my most important task."

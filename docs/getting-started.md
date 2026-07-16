@@ -15,6 +15,7 @@ These skills run in **Claude Code** (the CLI) and in **Cowork** (the desktop app
 /plugin install ai-slop-killer@aienterprise-skills
 /plugin install aie-web@aienterprise-skills
 /plugin install aie-social@aienterprise-skills
+/plugin install baad-ai-work-setup@aienterprise-skills
 ```
 
 Install only the bundles you want. Update later with `/plugin marketplace update aienterprise-skills`.
@@ -45,6 +46,9 @@ Just describe the work. Examples:
 | "Is my site secure? Do a review." | aie-web-security |
 | "Write a LinkedIn post about our launch, with research." | aie-social-linkedin |
 | "Turn this into an X thread." | aie-social-x |
+| "Set up Claude Cowork for my most important task." | baad-setup-claude-cowork |
+| "Help me configure ChatGPT Work." | baad-setup-chatgpt-work |
+| "Build my first Manus Project workflow." | baad-setup-manus |
 
 ## Configure (optional)
 
