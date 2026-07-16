@@ -1,0 +1,4 @@
+interface:
+  display_name: "BAAD: Build and Publish Class Skills"
+  short_description: "Create, validate, package, and draft-PR BAAD skills"
+  default_prompt: "Use $baad-publish-class-skills to turn this class workflow into validated skills and open a safe draft pull request."

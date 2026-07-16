@@ -57,10 +57,10 @@
     {
       "name": "baad-ai-work-setup",
       "source": "./plugins/baad-ai-work-setup",
-      "description": "Interview-led setup for Claude Cowork, ChatGPT Work, and Manus. Produces one tested first workflow, paste-ready custom instructions, minimum necessary integrations, approval boundaries, and a reusable setup pack.",
+      "description": "BAAD setup for Claude Cowork, ChatGPT Work, and Manus, plus a safe class-skill authoring and draft-PR publishing workflow for Hermes.",
       "version": "1.0.0",
       "author": { "name": "Mark Hinkle / The Artificially Intelligent Enterprise", "url": "https://theaie.net" },
-      "keywords": ["baad", "onboarding", "claude-cowork", "chatgpt-work", "manus", "custom-instructions", "connectors", "integrations"],
+      "keywords": ["baad", "onboarding", "claude-cowork", "chatgpt-work", "manus", "custom-instructions", "connectors", "integrations", "skill-authoring", "hermes"],
       "category": "productivity"
     }
   ]

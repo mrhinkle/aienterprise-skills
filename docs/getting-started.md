@@ -49,6 +49,7 @@ Just describe the work. Examples:
 | "Set up Claude Cowork for my most important task." | baad-setup-claude-cowork |
 | "Help me configure ChatGPT Work." | baad-setup-chatgpt-work |
 | "Build my first Manus Project workflow." | baad-setup-manus |
+| "Turn this class workflow into BAAD skills and open a draft PR." | baad-publish-class-skills |
 
 ## Configure (optional)
 

@@ -1,11 +1,12 @@
 # BAAD AI work setup
 
-Three guided setup skills for a class or individual onboarding session. Each skill conducts a short, adaptive interview and helps the learner finish one useful workflow—not a generic tour of features.
+Four BAAD skills for a class or individual onboarding session: three guided platform setup skills and one safe author/publisher skill for Hermes.
 
 ## Skills
 
 | Skill | Use it when |
 | --- | --- |
+| `baad-publish-class-skills` | Teaching Hermes to turn a class workflow into validated skills, update the marketplace, and open a draft PR through its approved GitHub broker |
 | `baad-setup-claude-cowork` | Setting up Claude Cowork global/task instructions, connectors, folder or project context, permissions, and the first tested task |
 | `baad-setup-chatgpt-work` | Setting up ChatGPT Work global/Project instructions, plugins/apps, action permissions, and the first tested Work task |
 | `baad-setup-manus` | Setting up a Manus Project master instruction, knowledge base, connectors, approvals, and the first tested task |

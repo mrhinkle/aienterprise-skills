@@ -4,7 +4,7 @@ Open source [Agent Skills](https://docs.claude.com/en/docs/claude-code/skills) f
 
 Skills are folders of instructions and reference material that Claude loads on demand, only when they're relevant. These are the ones we use ourselves, cleaned up and depersonalized so anyone can run them. They work in **Claude Code** and in **Cowork**.
 
-**17 skills across 6 bundles:** writing, web, social, chief-of-staff, skill-creator, and BAAD AI work setup.
+**18 skills across 6 bundles:** writing, web, social, chief-of-staff, skill-creator, and BAAD AI work setup.
 
 ---
 
@@ -53,6 +53,7 @@ Skills are folders of instructions and reference material that Claude loads on d
 
 | Skill | What it does |
 | --- | --- |
+| **[baad-publish-class-skills](plugins/baad-ai-work-setup/skills/baad-publish-class-skills)** | Teaches Hermes to turn class workflows into validated BAAD skills, package the marketplace consistently, and open a safe draft PR through its approved GitHub broker. |
 | **[baad-setup-claude-cowork](plugins/baad-ai-work-setup/skills/baad-setup-claude-cowork)** | Interviews a learner, configures Cowork around one important task, drafts global and task instructions, connects only essential tools, and proves the workflow with an acceptance test. |
 | **[baad-setup-chatgpt-work](plugins/baad-ai-work-setup/skills/baad-setup-chatgpt-work)** | Builds a first ChatGPT Work workflow with layered custom instructions, a focused Project, minimum necessary apps, safe action permissions, and a tested first-run prompt. |
 | **[baad-setup-manus](plugins/baad-ai-work-setup/skills/baad-setup-manus)** | Creates a focused Manus Project with a master instruction, curated knowledge, essential connectors, approval boundaries, and a manual test before any scheduling. |
