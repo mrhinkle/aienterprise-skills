@@ -1,0 +1,4 @@
+interface:
+  display_name: "BAAD: Set Up ChatGPT Work"
+  short_description: "Build a working ChatGPT Work setup interactively"
+  default_prompt: "Use $baad-setup-chatgpt-work to interview me and configure ChatGPT Work for my most important task."

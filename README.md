@@ -4,7 +4,7 @@ Open source [Agent Skills](https://docs.claude.com/en/docs/claude-code/skills) f
 
 Skills are folders of instructions and reference material that Claude loads on demand, only when they're relevant. These are the ones we use ourselves, cleaned up and depersonalized so anyone can run them. They work in **Claude Code** and in **Cowork**.
 
-**14 skills across 5 bundles:** writing, web, social, chief-of-staff, and skill-creator.
+**18 skills across 6 bundles:** writing, web, social, chief-of-staff, skill-creator, and BAAD AI work setup.
 
 ---
 
@@ -49,6 +49,15 @@ Skills are folders of instructions and reference material that Claude loads on d
 | --- | --- |
 | **[aie-skill-creator](plugins/aie-skill-creator/skills/aie-skill-creator)** | Build a new, high-quality skill from scratch — right frontmatter, tight SKILL.md, progressive-disclosure reference files, a self-test, and packaging as a `.skill` or plugin. Also audits and improves existing skills and fixes descriptions that don't trigger. The tool for growing this marketplace. |
 
+### 🎓 BAAD AI work setup &nbsp;·&nbsp; [plugin](plugins/baad-ai-work-setup) &nbsp;·&nbsp; interview-led
+
+| Skill | What it does |
+| --- | --- |
+| **[baad-publish-class-skills](plugins/baad-ai-work-setup/skills/baad-publish-class-skills)** | Teaches Hermes to turn class workflows into validated BAAD skills, package the marketplace consistently, and open a safe draft PR through its approved GitHub broker. |
+| **[baad-setup-claude-cowork](plugins/baad-ai-work-setup/skills/baad-setup-claude-cowork)** | Interviews a learner, configures Cowork around one important task, drafts global and task instructions, connects only essential tools, and proves the workflow with an acceptance test. |
+| **[baad-setup-chatgpt-work](plugins/baad-ai-work-setup/skills/baad-setup-chatgpt-work)** | Builds a first ChatGPT Work workflow with layered custom instructions, a focused Project, minimum necessary apps, safe action permissions, and a tested first-run prompt. |
+| **[baad-setup-manus](plugins/baad-ai-work-setup/skills/baad-setup-manus)** | Creates a focused Manus Project with a master instruction, curated knowledge, essential connectors, approval boundaries, and a manual test before any scheduling. |
+
 ---
 
 ## Install
@@ -64,6 +73,7 @@ In Claude Code or Cowork:
 /plugin install aie-social@aienterprise-skills
 /plugin install aie-chief-of-staff@aienterprise-skills
 /plugin install aie-skill-creator@aienterprise-skills
+/plugin install baad-ai-work-setup@aienterprise-skills
 ```
 
 Install only the bundles you want. Skills trigger automatically when relevant, or on cue ("de-slop this," "audit my SEO," "write a LinkedIn post about X").

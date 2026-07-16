@@ -1,0 +1,12 @@
+{
+  "name": "baad-ai-work-setup",
+  "version": "1.0.0",
+  "description": "Four BAAD skills: interview-led setup for Claude Cowork, ChatGPT Work, and Manus, plus a safe authoring/publishing workflow that lets Hermes turn class methods into validated skills and draft pull requests.",
+  "author": {
+    "name": "Mark Hinkle / The Artificially Intelligent Enterprise",
+    "url": "https://theaie.net"
+  },
+  "homepage": "https://github.com/mrhinkle/aienterprise-skills",
+  "license": "MIT",
+  "keywords": ["baad", "onboarding", "claude-cowork", "chatgpt-work", "manus", "custom-instructions", "connectors", "integrations"]
+}
