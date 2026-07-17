@@ -92,3 +92,5 @@ VERIFICATION
 - Field data (real users, CrUX) is the source of truth; lab data (Lighthouse) is a proxy. Say which one a number comes from.
 - Don't invent savings numbers — label estimates as estimates and show the reasoning.
 - All recommended tools are free: Lighthouse CLI, ImageMagick, `cwebp`/`avifenc`, PurgeCSS, and framework bundle analyzers.
+
+**Sample run:** `examples/sample-run.md` — a condensed real run showing the exact output this skill produces.
