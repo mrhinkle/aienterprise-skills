@@ -79,3 +79,5 @@ Be transparent. A public URL audit does **not** see:
 - Performance under real global load — it tests from one location.
 
 For those, the focused skills go deeper: `aie-web-seo` (SEO/AEO), `aie-web-performance` (speed and Core Web Vitals), and `aie-web-qa` (does everything actually work).
+
+**Sample run:** `examples/sample-run.md` — a condensed real run showing the exact output this skill produces.

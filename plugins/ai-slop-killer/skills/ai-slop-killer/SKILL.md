@@ -1,6 +1,6 @@
 ---
 name: ai-slop-killer
-description: The final anti-AI-slop editing pass for any drafted or revised prose — blog posts, newsletters, LinkedIn/social, emails, marketing and web copy, documentation, essays, fiction. Detects documented AI writing tells (negative parallelism "not X, it's Y," rhetorical Q&A, rule-of-three and anaphora pile-ups, em-dash and unicode overuse, corporate-AI vocabulary, wind-up intros and signposted conclusions, bold-first-bullet listicles, low-burstiness rhythm, hedging, vague attributions, participial "-ing" filler, grandiose stakes, invented concept labels), scores the passage, rewrites in place, and reports what it caught. Runs LAST, after any other writing or editing skill. Trigger on "clean this," "de-slop," "kill the AI slop," "copyedit," "does this sound like AI," "make this sound human," "humanize this," or automatically after any skill produces prose meant to be published.
+description: The final anti-AI-slop editing pass for any drafted or revised prose — blog posts, newsletters, LinkedIn/social, emails, marketing and web copy, documentation, essays, fiction. Detects documented AI writing tells (negative parallelism "not X, it's Y," rhetorical Q&A, rule-of-three and anaphora pile-ups, em-dash and unicode overuse, corporate-AI vocabulary, wind-up intros and signposted conclusions, bold-first-bullet listicles, low-burstiness rhythm, hedging, vague attributions, participial "-ing" filler, grandiose stakes, invented concept labels), scores the passage, rewrites in place, and reports what it caught. Runs LAST, after any other writing or editing skill. Trigger on "clean this," "de-slop," "kill the AI slop," "copyedit this for AI tells," "does this sound like AI," "make this sound human," "humanize this," or automatically after any skill produces prose meant to be published.
 ---
 
 # AI Slop Killer
@@ -63,3 +63,5 @@ Left on purpose:
 ```
 
 If clean on first read: one line saying so, with the score. Stop.
+
+**Sample run:** `examples/sample-run.md` — a condensed real run showing the exact output this skill produces.

@@ -60,3 +60,5 @@ If URLs changed, also output a **redirect map** (old URL → new URL → 301/302
 - Google Search Central on crawling and links — https://developers.google.com/search/docs/crawling-indexing
 - MDN Mixed content — https://developer.mozilla.org/en-US/docs/Web/Security/Mixed_content
 - MDN HTTP redirects — https://developer.mozilla.org/en-US/docs/Web/HTTP/Redirections
+
+**Sample run:** `examples/sample-run.md` — a condensed real run showing the exact output this skill produces.
