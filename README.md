@@ -4,7 +4,7 @@ Open source [Agent Skills](https://docs.claude.com/en/docs/claude-code/skills) f
 
 Skills are folders of instructions and reference material that Claude loads on demand, only when they're relevant. These are the ones we use ourselves, cleaned up and depersonalized so anyone can run them. They work in **Claude Code** and in **Cowork**.
 
-**14 skills across 5 bundles:** writing, web, social, chief-of-staff, and skill-creator.
+**15 skills across 6 bundles:** writing, web, social, chief-of-staff, skill-creator, and video *(beta)*.
 
 ---
 
@@ -43,6 +43,12 @@ Skills are folders of instructions and reference material that Claude loads on d
 | --- | --- |
 | **[aie-chief-of-staff](plugins/aie-chief-of-staff/skills/aie-chief-of-staff)** | A morning brief that pulls together your calendar, your inbox (read-only triage), and a scan of your industry news + tracked competitors — with your top 3 for the day, prep flags, and a focus block. Configurable per person and industry via `cos.config.md`. Drafts and recommends; never sends or deletes. |
 
+### 🎬 aie-video &nbsp;·&nbsp; [plugin](plugins/aie-video) &nbsp;·&nbsp; **beta**
+
+| Skill | What it does |
+| --- | --- |
+| **[aie-video-webinar-publish](plugins/aie-video/skills/aie-video-webinar-publish)** | Turn a recorded webinar into a publish-ready YouTube video — pull the recording off the platform, cut the filler words and the "can you hear me" cold open using word-level transcript timing plus audio-energy boundaries, build a thumbnail that still reads at 168px, generate chapters by OCR-ing the slides, and upload private for review. Verifies itself by re-transcribing the render, because a cut list can look perfect and land on the wrong words. Configurable via `webinar.config.md`. |
+
 ### 🛠 aie-skill-creator &nbsp;·&nbsp; [plugin](plugins/aie-skill-creator) &nbsp;·&nbsp; meta
 
 | Skill | What it does |
@@ -64,6 +70,7 @@ In Claude Code or Cowork:
 /plugin install aie-social@aienterprise-skills
 /plugin install aie-chief-of-staff@aienterprise-skills
 /plugin install aie-skill-creator@aienterprise-skills
+/plugin install aie-video@aienterprise-skills   # beta
 ```
 
 Install only the bundles you want. Skills trigger automatically when relevant, or on cue ("de-slop this," "audit my SEO," "write a LinkedIn post about X").
@@ -80,6 +87,7 @@ The skills are designed to hand off to each other:
 
 - **aie-web-audit** runs a broad scan, then points you to **aie-web-seo**, **-performance**, **-security**, or **-qa** for depth.
 - **aie-social-linkedin** and **aie-social-x** both run **ai-slop-killer** as their mandatory final pass, so posts ship clean.
+- **aie-video-webinar-publish** hands its title and description copy to **ai-slop-killer** before upload.
 - **ai-slop-killer** is the last pass for anything you publish — it's useful on its own, and the writing engine behind the social skills.
 
 Full usage docs: **[docs/](docs/)**.

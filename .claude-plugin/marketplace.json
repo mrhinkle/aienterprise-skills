@@ -5,7 +5,7 @@
     "url": "https://theaie.net"
   },
   "metadata": {
-    "description": "Open source Agent Skills from The AIE Network for Claude Code and Cowork — practical, source-backed tools for people doing real work with AI. Writing, web, and social bundles.",
+    "description": "Open source Agent Skills from The AIE Network for Claude Code and Cowork \u2014 practical, source-backed tools for people doing real work with AI. Writing, web, social, chief-of-staff, skill-creator, and video bundles.",
     "version": "1.0.0"
   },
   "plugins": [
@@ -14,17 +14,41 @@
       "source": "./plugins/ai-slop-killer",
       "description": "The final anti-AI-slop editing pass for any prose. Detects documented AI writing tells, scores the passage, rewrites in place, and proves what it caught. Configurable per house style.",
       "version": "1.0.0",
-      "author": { "name": "The AIE Network", "url": "https://theaie.net" },
-      "keywords": ["writing", "editing", "ai-slop", "copyediting", "content", "humanize"],
+      "author": {
+        "name": "The AIE Network",
+        "url": "https://theaie.net"
+      },
+      "keywords": [
+        "writing",
+        "editing",
+        "ai-slop",
+        "copyediting",
+        "content",
+        "humanize"
+      ],
       "category": "writing"
     },
     {
       "name": "aie-web",
       "source": "./plugins/aie-web",
-      "description": "Nine focused web skills — SEO/AEO audit, site health audit, performance, pre-launch QA, defensive security review, link checking, form wiring, UX review, and automated Playwright testing. Stack-agnostic.",
+      "description": "Nine focused web skills \u2014 SEO/AEO audit, site health audit, performance, pre-launch QA, defensive security review, link checking, form wiring, UX review, and automated Playwright testing. Stack-agnostic.",
       "version": "1.0.0",
-      "author": { "name": "The AIE Network", "url": "https://theaie.net" },
-      "keywords": ["web", "seo", "aeo", "performance", "qa", "security", "accessibility", "ux", "forms", "audit"],
+      "author": {
+        "name": "The AIE Network",
+        "url": "https://theaie.net"
+      },
+      "keywords": [
+        "web",
+        "seo",
+        "aeo",
+        "performance",
+        "qa",
+        "security",
+        "accessibility",
+        "ux",
+        "forms",
+        "audit"
+      ],
       "category": "web"
     },
     {
@@ -32,8 +56,19 @@
       "source": "./plugins/aie-social",
       "description": "Research-driven social post generators for LinkedIn and X. Real research phase with cited sources, proven hooks and platform-tuned formatting, a quality rubric, and a final ai-slop-killer pass.",
       "version": "1.0.0",
-      "author": { "name": "The AIE Network", "url": "https://theaie.net" },
-      "keywords": ["linkedin", "twitter", "x", "social-media", "content", "copywriting", "research"],
+      "author": {
+        "name": "The AIE Network",
+        "url": "https://theaie.net"
+      },
+      "keywords": [
+        "linkedin",
+        "twitter",
+        "x",
+        "social-media",
+        "content",
+        "copywriting",
+        "research"
+      ],
       "category": "content"
     },
     {
@@ -41,18 +76,61 @@
       "source": "./plugins/aie-chief-of-staff",
       "description": "Your morning chief of staff. One prioritized daily brief from your calendar, inbox (read-only triage), and a scan of your industry news + tracked competitors. Read-only and safe by default; configurable per industry via cos.config.md.",
       "version": "1.0.0",
-      "author": { "name": "The AIE Network", "url": "https://theaie.net" },
-      "keywords": ["chief-of-staff", "daily-brief", "email", "calendar", "news", "competitive-intelligence", "productivity"],
+      "author": {
+        "name": "The AIE Network",
+        "url": "https://theaie.net"
+      },
+      "keywords": [
+        "chief-of-staff",
+        "daily-brief",
+        "email",
+        "calendar",
+        "news",
+        "competitive-intelligence",
+        "productivity"
+      ],
       "category": "productivity"
     },
     {
       "name": "aie-skill-creator",
       "source": "./plugins/aie-skill-creator",
-      "description": "Build a new, high-quality Claude Agent Skill from scratch — frontmatter, tight SKILL.md, progressive-disclosure reference files, a self-test, and packaging as a .skill or plugin. Also audits and improves existing skills and fixes descriptions that don't trigger.",
+      "description": "Build a new, high-quality Claude Agent Skill from scratch \u2014 frontmatter, tight SKILL.md, progressive-disclosure reference files, a self-test, and packaging as a .skill or plugin. Also audits and improves existing skills and fixes descriptions that don't trigger.",
       "version": "1.0.0",
-      "author": { "name": "The AIE Network", "url": "https://theaie.net" },
-      "keywords": ["skill-creator", "meta", "agent-skills", "authoring", "packaging", "plugin", "marketplace"],
+      "author": {
+        "name": "The AIE Network",
+        "url": "https://theaie.net"
+      },
+      "keywords": [
+        "skill-creator",
+        "meta",
+        "agent-skills",
+        "authoring",
+        "packaging",
+        "plugin",
+        "marketplace"
+      ],
       "category": "developer-tools"
+    },
+    {
+      "name": "aie-video",
+      "source": "./plugins/aie-video",
+      "description": "BETA. Turn a recorded webinar into a publish-ready YouTube video \u2014 pull the recording off the platform, cut filler words and the dead cold open using word-level transcript timing plus audio-energy boundaries, build a thumbnail that survives at 168px, generate chapters by OCR-ing the slides, and upload private for review. Verifies itself by re-transcribing the render.",
+      "version": "0.1.0-beta",
+      "author": {
+        "name": "The AIE Network",
+        "url": "https://theaie.net"
+      },
+      "keywords": [
+        "video",
+        "webinar",
+        "youtube",
+        "transcript",
+        "ffmpeg",
+        "editing",
+        "thumbnail",
+        "beta"
+      ],
+      "category": "media"
     }
   ]
 }

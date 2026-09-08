@@ -1,0 +1,12 @@
+{
+  "name": "aie-video",
+  "version": "0.1.0-beta",
+  "description": "BETA. Turn a recorded webinar into a published YouTube video: pull the recording, cut the filler words and the dead cold open using word-level transcript timing plus audio-energy boundaries, build a thumbnail that survives at 168px, write chapters from the slides, and upload private for review. Verification is built in — every stage is re-measured rather than assumed.",
+  "author": {
+    "name": "The AIE Network",
+    "url": "https://theaie.net"
+  },
+  "homepage": "https://github.com/mrhinkle/aienterprise-skills",
+  "license": "MIT",
+  "keywords": ["video", "webinar", "youtube", "transcript", "ffmpeg", "editing", "beta"]
+}
