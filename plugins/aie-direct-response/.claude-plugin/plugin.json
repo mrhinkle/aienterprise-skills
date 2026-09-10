@@ -1,0 +1,20 @@
+{
+  "name": "aie-direct-response",
+  "version": "1.0.0",
+  "description": "Three evidence-led direct-response skills for copy review, sales pages, VSLs, webinars, and promotional email launches. Supports supplied brand voice, proof ledgers, accessibility, compliance checks, and explicit release states.",
+  "author": {
+    "name": "The AIE Network",
+    "url": "https://theaie.net"
+  },
+  "homepage": "https://github.com/mrhinkle/aienterprise-skills",
+  "license": "MIT",
+  "keywords": [
+    "copywriting",
+    "direct-response",
+    "sales-pages",
+    "vsl",
+    "webinars",
+    "email-marketing",
+    "copy-review"
+  ]
+}

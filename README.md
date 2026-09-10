@@ -4,7 +4,7 @@ Open source [Agent Skills](https://docs.claude.com/en/docs/claude-code/skills) f
 
 Skills are folders of instructions and reference material that Claude loads on demand, only when they're relevant. These are the ones we use ourselves, cleaned up and depersonalized so anyone can run them. They work in **Claude Code** and in **Cowork**.
 
-**15 skills across 6 bundles:** writing, web, social, chief-of-staff, skill-creator, and video *(beta)*.
+**18 skills across 7 bundles:** writing, direct response, web, social, chief-of-staff, skill-creator, and video *(beta)*.
 
 ---
 
@@ -15,6 +15,14 @@ Skills are folders of instructions and reference material that Claude loads on d
 | Skill | What it does |
 | --- | --- |
 | **[ai-slop-killer](plugins/ai-slop-killer/skills/ai-slop-killer)** | The final editing pass for any prose. Detects documented AI writing tells (from Wikipedia's *Signs of AI writing*, tropes.fyi, and working editors' guides), scores how bad it was, rewrites in place, and shows its work. Configurable to your house style via `slop.config.md`. |
+
+### ✒️ aie-direct-response &nbsp;·&nbsp; [plugin](plugins/aie-direct-response) &nbsp;·&nbsp; evidence-led
+
+| Skill | What it does |
+| --- | --- |
+| **[copy-chief](plugins/aie-direct-response/skills/copy-chief)** | Reviews promotional copy for its Big Idea, Four-Legged Stool, Rule of One, specificity, CUB problems, proof, voice, and claim safety. Coaches and prioritizes before rewriting. |
+| **[direct-response-campaign-writer](plugins/aie-direct-response/skills/direct-response-campaign-writer)** | Builds long-form sales letters and pages, VSLs, and sales webinars from discovery through production format, with one evidence ledger and explicit release status. |
+| **[email-launch-writer](plugins/aie-direct-response/skills/email-launch-writer)** | Plans and writes single promotions or five-email deadline launches with segmentation, voice calibration, deliverability, consent, landing-page continuity, and measurement. |
 
 ### 🌐 aie-web &nbsp;·&nbsp; [plugin](plugins/aie-web) &nbsp;·&nbsp; stack-agnostic
 
@@ -66,6 +74,7 @@ In Claude Code or Cowork:
 ```
 /plugin marketplace add mrhinkle/aienterprise-skills
 /plugin install ai-slop-killer@aienterprise-skills
+/plugin install aie-direct-response@aienterprise-skills
 /plugin install aie-web@aienterprise-skills
 /plugin install aie-social@aienterprise-skills
 /plugin install aie-chief-of-staff@aienterprise-skills
@@ -87,6 +96,8 @@ The skills are designed to hand off to each other:
 
 - **aie-web-audit** runs a broad scan, then points you to **aie-web-seo**, **-performance**, **-security**, or **-qa** for depth.
 - **aie-social-linkedin** and **aie-social-x** both run **ai-slop-killer** as their mandatory final pass, so posts ship clean.
+- **direct-response-campaign-writer** creates sales pages, VSLs, and webinar scripts, then hands the asset and its evidence ledger to **copy-chief** for independent critique.
+- **email-launch-writer** turns the shared offer and evidence into a coordinated launch sequence; use it for webinar promotion and follow-up rather than forcing those emails into the webinar script.
 - **aie-video-webinar-publish** hands its title and description copy to **ai-slop-killer** before upload.
 - **ai-slop-killer** is the last pass for anything you publish — it's useful on its own, and the writing engine behind the social skills.
 
@@ -96,7 +107,7 @@ Full usage docs: **[docs/](docs/)**.
 
 ## Configure to your voice
 
-Skills that support it read an optional config from your working directory — add your own banned words, allow words you legitimately use, name a voice to preserve, and set citation strictness. See `ai-slop-killer`'s `reference/slop.config.example.md`. With no config, sensible defaults apply.
+Skills that support it read an optional config from your working directory — add your own banned words, allow words you legitimately use, name a voice to preserve, and set citation strictness. See `ai-slop-killer`'s `reference/slop.config.example.md`. The direct-response skills can also calibrate from a style guide and representative samples you provide; they label low-confidence voice inferences instead of fabricating a house style. With no config or samples, sensible defaults apply.
 
 ## Contributing
 

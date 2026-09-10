@@ -13,6 +13,7 @@ These skills run in **Claude Code** (the CLI) and in **Cowork** (the desktop app
 ```
 /plugin marketplace add mrhinkle/aienterprise-skills
 /plugin install ai-slop-killer@aienterprise-skills
+/plugin install aie-direct-response@aienterprise-skills
 /plugin install aie-web@aienterprise-skills
 /plugin install aie-social@aienterprise-skills
 ```
@@ -40,6 +41,9 @@ Just describe the work. Examples:
 | You say | Skill that activates |
 | --- | --- |
 | "Does this paragraph sound like AI? Clean it up." | ai-slop-killer |
+| "Copy chief this sales page and run the CUB test." | copy-chief |
+| "Build a VSL from this offer and evidence." | direct-response-campaign-writer |
+| "Write a five-email launch in our brand voice." | email-launch-writer |
 | "Audit thesite.com for SEO and answer engines." | aie-web-seo |
 | "Check this site for broken links." | aie-web-links |
 | "Is my site secure? Do a review." | aie-web-security |
@@ -60,4 +64,4 @@ With no config, every skill applies sensible defaults.
 2. Run the specialist skill (SEO audit, security review, LinkedIn draft).
 3. For anything you publish as prose, **ai-slop-killer runs last** — the social skills do this automatically.
 
-See each bundle's page for details: [writing](writing.md) · [web](web.md) · [social](social.md).
+See each bundle's page for details: [writing](writing.md) · [direct response](direct-response.md) · [web](web.md) · [social](social.md) · [chief of staff](chief-of-staff.md) · [video](video.md) · [skill creator](skill-creator.md).
