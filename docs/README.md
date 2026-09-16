@@ -4,7 +4,8 @@ Usage docs for AIEnterprise Skills.
 
 - **[Getting started](getting-started.md)** — what skills are, how to install, how to trigger them, how to configure.
 - **[Writing bundle](writing.md)** — `ai-slop-killer`.
-- **[Web bundle](web.md)** — the eight `aie-web-*` skills.
+- **[Direct Response bundle](direct-response.md)** — `copy-chief`, `direct-response-campaign-writer`, and `email-launch-writer`.
+- **[Web bundle](web.md)** — the nine `aie-web-*` skills.
 - **[Social bundle](social.md)** — `aie-social-linkedin`, `aie-social-x`.
 - **[Chief of Staff bundle](chief-of-staff.md)** — `aie-chief-of-staff` (calendar + inbox + industry brief).
 - **[Video bundle](video.md)** — `aie-video-webinar-publish` (beta).

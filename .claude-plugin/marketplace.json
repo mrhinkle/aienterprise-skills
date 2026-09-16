@@ -5,7 +5,7 @@
     "url": "https://theaie.net"
   },
   "metadata": {
-    "description": "Open source Agent Skills from The AIE Network for Claude Code and Cowork \u2014 practical, source-backed tools for people doing real work with AI. Writing, web, social, chief-of-staff, skill-creator, and video bundles.",
+    "description": "Open source Agent Skills from The AIE Network for Claude Code and Cowork \u2014 practical, source-backed tools for people doing real work with AI. Writing, direct-response, web, social, chief-of-staff, skill-creator, and video bundles.",
     "version": "1.0.0"
   },
   "plugins": [
@@ -131,6 +131,26 @@
         "beta"
       ],
       "category": "media"
+    },
+    {
+      "name": "aie-direct-response",
+      "source": "./plugins/aie-direct-response",
+      "description": "Three evidence-led direct-response skills for copy review, sales pages, VSLs, webinars, and promotional email launches. Supports supplied brand voice, proof ledgers, accessibility, compliance checks, and explicit release states.",
+      "version": "1.0.0",
+      "author": {
+        "name": "The AIE Network",
+        "url": "https://theaie.net"
+      },
+      "keywords": [
+        "copywriting",
+        "direct-response",
+        "sales-pages",
+        "vsl",
+        "webinars",
+        "email-marketing",
+        "copy-review"
+      ],
+      "category": "content"
     }
   ]
 }
