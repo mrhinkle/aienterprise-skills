@@ -67,3 +67,5 @@ Bands: 80–100 excellent · 60–79 good · 40–59 fair (fix friction) · belo
 
 - Nielsen's 10 usability heuristics — https://www.nngroup.com/articles/ten-usability-heuristics/
 - WCAG 2.2 (contrast, targets, readability) — https://www.w3.org/WAI/WCAG22/quickref/
+
+**Sample run:** `examples/sample-run.md` — a condensed real run showing the exact output this skill produces.

@@ -67,3 +67,5 @@ When auditing existing forms, report findings by severity:
 - MDN client-side form validation — https://developer.mozilla.org/en-US/docs/Learn/Forms/Form_validation
 - WCAG 2.2 (labels, errors, input purpose) — https://www.w3.org/WAI/WCAG22/quickref/
 - OWASP input validation cheat sheet — https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html
+
+**Sample run:** `examples/sample-run.md` — a condensed real run showing the exact output this skill produces.

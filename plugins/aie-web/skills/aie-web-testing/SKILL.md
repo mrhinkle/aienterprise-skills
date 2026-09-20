@@ -43,3 +43,5 @@ Return the summary in `reference/reporting.md` order: pass/fail counts, each fai
 - `reference/setup.md` — install, `playwright.config`, browsers, and a CI workflow.
 - `reference/patterns.md` — selector strategy, choosing journeys, and test templates (auth / form / nav).
 - `reference/reporting.md` — the results report format and flaky-test handling.
+
+**Sample run:** `examples/sample-run.md` — a condensed real run showing the exact output this skill produces.

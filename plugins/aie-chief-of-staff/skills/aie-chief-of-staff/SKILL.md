@@ -49,3 +49,5 @@ This is built to run every morning. Offer to schedule it (see the `schedule` ski
 - `reference/cos.config.example.md` — annotated config template (with a filled example).
 - `reference/briefing-format.md` — the exact output layout.
 - `reference/connectors.md` — which connectors it uses and how to connect them.
+
+**Sample run:** `examples/sample-run.md` — a condensed real run showing the exact output this skill produces.

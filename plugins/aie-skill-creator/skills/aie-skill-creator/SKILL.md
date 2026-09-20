@@ -56,3 +56,5 @@ Pointed at an existing skill: score it against `reference/quality-rubric.md`, th
 - `reference/skill-anatomy.md` — structure, frontmatter, progressive disclosure, description-writing with good/bad examples.
 - `reference/quality-rubric.md` — the scorecard used to finish or audit a skill.
 - `reference/packaging.md` — folder, .skill zip, and plugin/marketplace packaging with commands.
+
+**Sample run:** `examples/sample-run.md` — a condensed real run showing the exact output this skill produces.
