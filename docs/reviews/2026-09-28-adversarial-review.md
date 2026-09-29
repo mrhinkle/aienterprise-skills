@@ -107,13 +107,13 @@ PR #1 (`agent/baad-ai-work-setup`) and PR #2 (`agent/add-hermes-ha-skill`) both 
 
 ## Companion pull requests
 
-URLs below are filled in after `gh pr create`. Branch names are final.
+Opened 2026-09-28 against `main`. Not merged.
 
 | Branch | Findings | URL |
 |---|---|---|
-| `grok/review-report` | this report, F22 | pending |
-| `grok/review-video` | F01 F02 F03 F04 F05 F06 F07 F17 F18 F19 F23 F24 F25 F26 F27 F28 F31 F32 | pending |
-| `grok/review-docs` | F08 F09 | pending |
-| `grok/review-web-refs` | F11 F15 F16 F30 | pending |
-| `grok/review-social` | F12 F13 F20 F29 | pending |
-| `grok/review-copy-cos` | F10 F14 F21 F33 | pending |
+| `grok/review-report` | this report, F22 | https://github.com/mrhinkle/aienterprise-skills/pull/7 |
+| `grok/review-video` | F01 F02 F03 F04 F05 F06 F07 F17 F18 F19 F23 F24 F25 F26 F27 F28 F31 F32 | https://github.com/mrhinkle/aienterprise-skills/pull/8 |
+| `grok/review-docs` | F08 F09 | https://github.com/mrhinkle/aienterprise-skills/pull/9 |
+| `grok/review-web-refs` | F11 F15 F16 F30 | https://github.com/mrhinkle/aienterprise-skills/pull/10 |
+| `grok/review-social` | F12 F13 F20 F29 | https://github.com/mrhinkle/aienterprise-skills/pull/11 |
+| `grok/review-copy-cos` | F10 F14 F21 F33 | https://github.com/mrhinkle/aienterprise-skills/pull/12 |
