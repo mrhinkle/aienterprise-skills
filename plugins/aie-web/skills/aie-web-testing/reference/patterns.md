@@ -24,20 +24,28 @@ Rely on Playwright's auto-waiting. Never use fixed `page.waitForTimeout(...)` as
 
 ## Catch silent failures
 
-Fail the journey on uncaught page errors whose script URL is your page's own origin. `page.on('pageerror')` keeps only `err.message` and also fires for other-origin iframes and third-party scripts, so classify with `browserContext.on('weberror')`, which still has the resource URL. Do not fail on every `console` error or `requestfailed` event: ad pixels, analytics, and font CDNs fail constantly and will make a healthy page look broken. If you also watch the console, keep an explicit allowlist and assert it inside the test. Do not hang the list off `(page as any)` and do not leave the assertion in a comment.
+Fail the journey on uncaught page errors that come from your page's own origin. `page.on('pageerror')` gives you an `Error` with a message and a stack, and it also fires for other-origin iframes and third-party scripts. The old fixture kept only `err.message`, which drops the stack and still does not say which script threw. Classify with `browserContext.on('weberror')` instead. This pattern needs Playwright 1.60 or newer, because that is when `WebError.location()` was added, and an existing install may be older. Use `location().url` when it is set. When it is empty, which is what `eval` does, read the script URL from a stack frame (a line starting with `at`), not from the error message. The message can name any URL. If you cannot read a frame location, or the location is `about:blank`, count the error as this page so a first-party throw is not dropped. Do not fail on every `console` error or `requestfailed` event: ad pixels, analytics, and font CDNs fail constantly and will make a healthy page look broken. If you also watch the console, keep an explicit allowlist and assert it inside the test. Do not hang the list off `(page as any)` and do not leave the assertion in a comment.
 
 ```ts
 import { test as base, expect, type Page, type WebError } from '@playwright/test';
 
-// Empty location URL (eval) falls back to the first http(s) URL in the stack.
-// No URL at all counts as this page. about:blank counts as owned so a
-// first-party throw is not dropped before the document URL is committed.
+// Playwright 1.60+ — WebError.location() was added then.
+// An empty location URL means eval. The script URL is on an `at` frame,
+// never in the message. about:blank, or no frame URL, counts as this page.
+function stackFrameURL(stack: string): string {
+  for (const line of stack.split('\n')) {
+    if (!/^\s*at\s+\S/.test(line)) continue;
+    const match = line.match(/https?:\/\/[^\s)]+?(?=:\d+:\d+)/);
+    if (match) return match[0];
+  }
+  return '';
+}
+
 function ownsPageError(page: Page, webError: WebError): boolean {
   if (webError.page() !== page) return false;
   const locationURL = webError.location().url;
-  const resourceURL =
-    locationURL || (webError.error().stack ?? '').match(/https?:\/\/[^\s)]+/)?.[0] || '';
-  if (!resourceURL) return true;
+  const resourceURL = locationURL || stackFrameURL(webError.error().stack ?? '');
+  if (!resourceURL || resourceURL.startsWith('about:')) return true;
   let resourceOrigin = '';
   try {
     resourceOrigin = new URL(resourceURL).origin;
