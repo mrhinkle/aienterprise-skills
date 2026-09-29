@@ -13,9 +13,9 @@ export default async function handler(req, res) {
   const { name = "", email = "", subject = "", message = "", company_website_hp = "" } = req.body || {};
 
   // 1. Honeypot: real users never fill this.
-  // Name it something no legitimate field uses. `company_website` is a real
-  // B2B input and will reject real leads. The HTML snippet in SKILL.md that
-  // still says `company_website` has the same bug — use this name instead.
+  // Same name as the hidden input in SKILL.md (`company_website_hp`).
+  // A real company-website field keeps the name `company_website`. Do not
+  // reject that value; it is a legitimate lead field, not spam.
   if (company_website_hp) return res.status(400).json({ error: "Rejected" });
 
   // 2. Server-side validation (never trust the client)
