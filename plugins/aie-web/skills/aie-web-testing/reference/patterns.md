@@ -4,7 +4,7 @@
 
 Test the flows that cost real money or trust if they break — not every page. A good default set:
 
-1. **Homepage loads** — 200, key content visible, no uncaught errors from your own origin.
+1. **Homepage loads** — 200, key content visible, no uncaught page errors. A third-party script host is ignored only when you pass it in `ignoreURL`.
 2. **Navigation** — primary nav links resolve and land on the right page.
 3. **Auth** — sign-up and log in (against test accounts on staging).
 4. **The main form** — contact / lead / newsletter / checkout submits and shows success.
@@ -24,66 +24,73 @@ Rely on Playwright's auto-waiting. Never use fixed `page.waitForTimeout(...)` as
 
 ## Catch silent failures
 
-Fail the journey on uncaught page errors that come from your page's own origin. `page.on('pageerror')` gives you an `Error` with a message and a stack, and it also fires for other-origin iframes and third-party scripts. The old fixture kept only `err.message`, which drops the stack and still does not say which script threw. Classify with `browserContext.on('weberror')` instead. This pattern needs Playwright 1.60 or newer, because that is when `WebError.location()` was added, and an existing install may be older. Use `location().url` when it is set. When it is empty, which is what `eval` does, read the script URL from a stack frame (a line starting with `at`), not from the error message. The message can name any URL. If you cannot read a frame location, or the location is `about:blank`, count the error as this page so a first-party throw is not dropped. Do not fail on every `console` error or `requestfailed` event: ad pixels, analytics, and font CDNs fail constantly and will make a healthy page look broken. If you also watch the console, keep an explicit allowlist and assert it inside the test. Do not hang the list off `(page as any)` and do not leave the assertion in a comment.
+Every uncaught page error fails the test. Do not classify the error by origin. `page.on('pageerror')` gives you an `Error` with a message and a stack, and it also fires for iframes and third-party scripts. The old fixture kept only `err.message`, which drops the stack. Listen with `browserContext.on('weberror')` so the failure text includes the message, the stack, and `location()`. This pattern needs Playwright 1.60 or newer, because that is when `WebError.location()` was added ([docs](https://playwright.dev/docs/api/class-weberror#web-error-location)), and an existing install may be older.
+
+To ignore a known third-party script host, pass `ignoreURL`: an array of `RegExp` values. Each pattern is tested against `location().url` and against the stack frames. In Chromium and WebKit a frame is a line that starts with `at`. The message is not tested, and neither is the first stack line that repeats the message, because that text can name any URL. Leave `ignoreURL` empty and every uncaught error fails. That includes an empty location, `about:blank`, a virtual URL such as `webpack-internal:///`, and a location string of `undefined`. Name the host (`googletagmanager\.com`). Do not put your own origin on the list, do not anchor the pattern with `^`, and do not use the `g` or `y` flag. If the location and the frames contain no URL, the error still fails.
+
+Do not fail on every `console` error or `requestfailed` event: ad pixels, analytics, and font CDNs fail constantly and will make a healthy page look broken. If you also watch the console, keep a separate allowlist and assert it inside the test. Do not hang the list off `(page as any)` and do not leave the assertion in a comment.
 
 ```ts
-import { test as base, expect, type Page, type WebError } from '@playwright/test';
+import { test, expect, type Page, type WebError } from '@playwright/test';
 
 // Playwright 1.60+ — WebError.location() was added then.
-// An empty location URL means eval. The script URL is on an `at` frame,
-// never in the message. about:blank, or no frame URL, counts as this page.
-function stackFrameURL(stack: string): string {
-  for (const line of stack.split('\n')) {
-    if (!/^\s*at\s+\S/.test(line)) continue;
-    const match = line.match(/https?:\/\/[^\s)]+?(?=:\d+:\d+)/);
-    if (match) return match[0];
-  }
-  return '';
+// ignoreURL is matched against location().url and stack frames, never the message.
+function stackFrames(stack: string): string {
+  return stack
+    .split('\n')
+    .filter((line) => /^\s*at\s+\S/.test(line))
+    .join('\n');
 }
 
-function ownsPageError(page: Page, webError: WebError): boolean {
-  if (webError.page() !== page) return false;
-  const locationURL = webError.location().url;
-  const resourceURL = locationURL || stackFrameURL(webError.error().stack ?? '');
-  if (!resourceURL || resourceURL.startsWith('about:')) return true;
-  let resourceOrigin = '';
+function hits(pattern: RegExp, value: string): boolean {
+  const previous = pattern.lastIndex;
+  pattern.lastIndex = 0;
   try {
-    resourceOrigin = new URL(resourceURL).origin;
-  } catch {
-    return true;
+    return pattern.test(value);
+  } finally {
+    pattern.lastIndex = previous;
   }
-  let pageOrigin = '';
-  try {
-    pageOrigin = new URL(page.url()).origin;
-  } catch {
-    return true;
-  }
-  if (!pageOrigin || pageOrigin === 'null') return true;
-  return resourceOrigin === pageOrigin;
 }
 
-export const test = base.extend<{ pageErrors: string[] }>({
-  pageErrors: async ({ page }, use) => {
-    const errors: string[] = [];
-    const onWebError = (webError: WebError) => {
-      if (!ownsPageError(page, webError)) return;
-      const location = webError.location();
-      const err = webError.error();
-      const where = location.url || page.url();
-      errors.push(
-        `${where}:${location.line}:${location.column} ${err.name}: ${err.message}\n${err.stack ?? ''}`,
-      );
-    };
-    page.context().on('weberror', onWebError);
-    await use(errors);
-    page.context().off('weberror', onWebError);
-  },
-});
+function watchPageErrors(page: Page, ignoreURL: RegExp[] = []) {
+  const errors: string[] = [];
+  const onWebError = (webError: WebError) => {
+    const owner = webError.page();
+    if (owner && owner !== page) return;
+    const err = webError.error();
+    const location = webError.location();
+    const locationURL = location.url ?? '';
+    const stack = err.stack ?? '';
+    const frames = stackFrames(stack);
+    const ignored = ignoreURL.some(
+      (pattern) => hits(pattern, locationURL) || hits(pattern, frames),
+    );
+    if (ignored) return;
+    const where = locationURL || '(no location)';
+    errors.push(
+      `${where}:${location.line}:${location.column} ${err.name}: ${err.message}\n${stack}`,
+    );
+  };
+  page.context().on('weberror', onWebError);
+  return {
+    errors,
+    dispose() {
+      page.context().off('weberror', onWebError);
+    },
+  };
+}
 
-test('homepage has no uncaught page errors', async ({ page, pageErrors }) => {
-  await page.goto('/');
-  await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
-  expect(pageErrors, pageErrors.join('\n')).toEqual([]);
+test('homepage has no uncaught page errors', async ({ page }) => {
+  // Pass a host only when you mean to ignore it:
+  // const watched = watchPageErrors(page, [/googletagmanager\.com/]);
+  const watched = watchPageErrors(page);
+  try {
+    await page.goto('/');
+    await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+    expect(watched.errors, watched.errors.join('\n\n')).toEqual([]);
+  } finally {
+    watched.dispose();
+  }
 });
 ```
 

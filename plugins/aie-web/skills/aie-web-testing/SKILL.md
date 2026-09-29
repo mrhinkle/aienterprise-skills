@@ -26,7 +26,7 @@ If the project has no Playwright, scaffold it (`npm init playwright@latest` or a
 - **Resilient selectors:** prefer `getByRole`, `getByLabel`, `getByText` over brittle CSS/XPath. Add `data-testid` only where semantics can't.
 - **One journey per test**, arranged Arrange → Act → Assert. Assert on user-visible outcomes (URL, visible text, element state), not implementation details.
 - **Auto-wait** — rely on Playwright's built-in waiting; avoid fixed `sleep`s.
-- **Catch silent failures:** fail the journey on uncaught page errors from your own origin. Use the `weberror` pattern in `reference/patterns.md` (it keeps the script URL). Do not fail on third-party scripts or iframes, and do not fail because the console logged an error or a network request failed.
+- **Catch silent failures:** every uncaught page error fails the journey. To ignore a known third-party script host, pass `ignoreURL`, an array of `RegExp` values matched against the error's location URL and stack frames, not the message. See `reference/patterns.md`. Do not classify the error by origin. Do not fail because the console logged an error or a network request failed.
 - **Accessibility smoke:** optionally assert the page has one `h1`, labeled inputs, and no obvious ARIA violations.
 Templates for auth, form-submit, and navigation journeys are in `reference/patterns.md`.
 
@@ -41,5 +41,5 @@ Return the summary in `reference/reporting.md` order: pass/fail counts, each fai
 
 ## Reference
 - `reference/setup.md` — install, `playwright.config`, browsers, and a CI workflow.
-- `reference/patterns.md` — selector strategy, choosing journeys, and test templates (auth / form / nav).
+- `reference/patterns.md` — selector strategy, choosing journeys, the page-error allowlist, and test templates (auth / form / nav).
 - `reference/reporting.md` — the results report format and flaky-test handling.
