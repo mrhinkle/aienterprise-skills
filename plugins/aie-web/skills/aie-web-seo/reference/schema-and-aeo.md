@@ -14,7 +14,7 @@ Google recommends JSON-LD in a `<script type="application/ld+json">` block. Vali
 |---|---|---|
 | `Organization` / `WebSite` | Knowledge panel and site name. Google removed the sitelinks search box on 2024-11-21; `WebSite` markup for the site name is still valid. | name, url, logo, sameAs |
 | `Article` / `BlogPosting` | Article rich result | headline, image, datePublished, author |
-| `FAQPage` | Not a Google rich result. Google removed the FAQ rich-result feature and its docs in May 2026. Visible Q&A on the page can still help readers and other answer engines. | mainEntity -> Question -> acceptedAnswer |
+| `FAQPage` | Not a Google rich result. Google stopped showing the FAQ rich result on May 7, 2026, and removed the docs on June 15, 2026. Visible Q&A on the page can still help readers and other answer engines. | mainEntity -> Question -> acceptedAnswer |
 | `HowTo` | Not a Google rich result. Google removed HowTo rich results (desktop and mobile) and the docs in September 2023. Keep real numbered steps in the HTML anyway. | name, step |
 | `Product` | Price, rating, availability | name, offers, aggregateRating, review |
 | `LocalBusiness` | Local pack, map panel | name, address, telephone, geo, openingHours |
@@ -22,7 +22,7 @@ Google recommends JSON-LD in a `<script type="application/ld+json">` block. Vali
 | `Recipe` | Recipe card | name, image, recipeIngredient, recipeInstructions |
 | `BreadcrumbList` | Breadcrumb trail in results | itemListElement |
 
-Note: Google has fully dropped HowTo rich results (September 2023) and FAQ rich results (May 2026), and dropped the sitelinks search box (November 2024). Do not promise those treatments. Confirm any other type in current Search Central docs before you tell someone it will earn a rich result. Sources: [HowTo/FAQ changelog](https://developers.google.com/search/updates), [sitelinks search box retirement](https://developers.google.com/search/blog/2024/10/sitelinks-search-box).
+Note: Google has fully dropped HowTo rich results (September 2023) and FAQ rich results (May 7, 2026; the FAQ docs were removed June 15, 2026), and dropped the sitelinks search box (November 21, 2024). Do not promise those treatments. Confirm any other type in current Search Central docs before you tell someone it will earn a rich result. Sources: [HowTo/FAQ changelog](https://developers.google.com/search/updates), [sitelinks search box retirement](https://developers.google.com/search/blog/2024/10/sitelinks-search-box).
 
 ### Validation checklist
 
