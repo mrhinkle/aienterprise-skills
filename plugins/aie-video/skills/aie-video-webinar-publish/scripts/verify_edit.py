@@ -15,11 +15,11 @@ That second baseline matters: pass --cuts cuts.json when a cold-open range was
 used, and the baseline becomes "words not inside any merged cut" rather than the
 raw source total. Without it, a legitimate cold-open cut that removes real
 dialogue (an apology, chit-chat) reads as clipped speech and fails a healthy
-edit -- caught on the Build Skills recording, where a 12-minute cold-open cut
+edit -- caught on a real hour-long webinar, where a 12-minute cold-open cut
 removed 272 real words and the raw-total comparison flagged a false failure at
 -3.39% before the true figure (against cuts.json's keep list) was -0.7%.
 """
-import argparse, json, os, re, subprocess, sys, collections
+import argparse, json, os, re, subprocess, sys, collections, tempfile
 from pathlib import Path
 
 FILLERS = {"um", "umm", "ummm", "uh", "uhh", "uhhh", "er", "err", "erm",
@@ -33,13 +33,36 @@ def norm(w):
 def scribe(mp3):
     key = os.environ.get("ELEVENLABS_API_KEY")
     if not key:
-        sys.exit("ELEVENLABS_API_KEY not set (it lives in ~/.zshrc)")
-    out = subprocess.run(
-        ["curl", "-s", "-X", "POST", "https://api.elevenlabs.io/v1/speech-to-text",
-         "-H", f"xi-api-key: {key}", "-F", "model_id=scribe_v1",
-         "-F", "timestamps_granularity=word", "-F", f"file=@{mp3}"],
-        capture_output=True, text=True).stdout
-    d = json.loads(out)
+        sys.exit(
+            "ELEVENLABS_API_KEY is not set. Export it in the environment "
+            "for this command. Do not commit it or paste it into the skill.")
+    # Curl config keeps the key off the process argument list.
+    fd, name = tempfile.mkstemp(prefix="scribe-", suffix=".curl")
+    os.close(fd)
+    cfg = Path(name)
+    cfg.chmod(0o600)
+    cfg.write_text('header = "xi-api-key: ' + key.replace("\\", "\\\\").replace('"', '\\"') + '"\n')
+    try:
+        proc = subprocess.run(
+            ["curl", "-sS", "-X", "POST",
+             "https://api.elevenlabs.io/v1/speech-to-text",
+             "-K", str(cfg), "-F", "model_id=scribe_v1",
+             "-F", "timestamps_granularity=word", "-F", f"file=@{mp3}",
+             "-w", "\n%{http_code}"],
+            capture_output=True, text=True)
+    finally:
+        cfg.unlink(missing_ok=True)
+    raw = proc.stdout.replace(key, "[redacted]")
+    body, _, code = raw.rpartition("\n")
+    if proc.returncode != 0 or not code.startswith("2"):
+        err = proc.stderr.replace(key, "[redacted]").strip()
+        sys.exit(
+            f"Scribe request failed (HTTP {code or '?'}): "
+            f"{err[:200] or body[:300]}")
+    try:
+        d = json.loads(body)
+    except json.JSONDecodeError:
+        sys.exit(f"Scribe returned non-JSON: {body[:300]}")
     if "words" not in d:
         sys.exit(f"Scribe error: {str(d)[:300]}")
     return d

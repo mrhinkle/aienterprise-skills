@@ -30,9 +30,15 @@ contain exactly the wrong audio. The only defence that worked was re-measuring t
 output instead of trusting the plan, so that is built into each step.
 
 Copy `reference/webinar.config.example.md` to `webinar.config.md` and fill in your
-channel, brand and platform details before the first run.
+channel, brand and platform details before the first run. That file is for you,
+the agent: channel, brand, and where the recording lives. The Python scripts do
+not parse it. Filler lists and the pass/fail gate are hardcoded in the scripts;
+if the config and a script disagree, the script wins.
 
-Work in a per-webinar folder.
+Work in a per-webinar folder. The scripts are not in that folder. Run them by
+the path next to this SKILL.md (`scripts/build_edit.py` and the rest). Pass
+absolute paths for the MP4, wav, and output so the shell's current directory
+does not matter.
 
 ## Process
 
@@ -74,16 +80,17 @@ Use an ASR that keeps disfluencies. **Whisper does not** — it is trained to ti
 speech, and on the same hour of audio it found 5 filler words where a verbatim
 model found 294. An `initial_prompt` asking for verbatim output does not fix it.
 
-ElevenLabs Scribe works and is what the scripts expect:
+ElevenLabs Scribe works and is what the scripts expect. Make the mp3 from the
+synced wav first — same timebase, far less upload — then send that file. Do not
+upload the wav under an `.mp3` name.
 
 ```bash
-curl -s -X POST "https://api.elevenlabs.io/v1/speech-to-text" \
+ffmpeg -y -i audio_sync.wav -ac 1 -ar 16000 -c:a libmp3lame -b:a 64k audio_sync.mp3
+curl -sS -X POST "https://api.elevenlabs.io/v1/speech-to-text" \
   -H "xi-api-key: $ELEVENLABS_API_KEY" \
   -F "model_id=scribe_v1" -F "timestamps_granularity=word" -F "diarize=true" \
   -F "file=@audio_sync.mp3" -o transcript.json
 ```
-
-Send a 64 kbps mp3 made from the synced wav — same timebase, far less upload.
 
 Scribe attaches punctuation to tokens (`"uh,"`, `"Um..."`), so strip non-word
 characters before matching or your filler count comes back zero. That mistake reads
@@ -92,8 +99,8 @@ as "this speaker is remarkably clean," which is why it survives review.
 ### 4. Build the cut list
 
 ```bash
-pip install numpy soundfile        # once; ffmpeg must be on PATH too
-python3 scripts/build_edit.py --src raw.mp4 --audio audio_sync.wav \
+pip install numpy soundfile pillow   # once; ffmpeg must be on PATH too
+python3 /path/to/aie-video-webinar-publish/scripts/build_edit.py --src raw.mp4 --audio audio_sync.wav \
   --transcript transcript.json [--cold-open cold_open.json]
 ```
 
@@ -111,8 +118,10 @@ merges into a neighbouring word, where there is no silence to cut on. Removing t
 clips real speech. **60–70% removal with zero words lost is the correct outcome;
 100% is not.** A tool that claims all of them is either lying or cutting words.
 
-Discourse markers (`like`, `you know`, `basically`) are counted and reported but
-never cut — removing them changes sentences, not just noise.
+Single-token discourse markers (`like`, `basically`, `actually`, `literally`,
+`right`) are counted and reported but never cut — removing them changes
+sentences, not just noise. Multi-word habits such as "you know" are not in the
+filler list, so the script neither cuts nor counts them.
 
 Every cut lands in `cuts.csv` with a timestamp so a human can veto any of them.
 
@@ -131,12 +140,14 @@ handoff — then straight into the guest's first substantive sentence.
 Watch for lines that stop making sense once the cut lands: an apology for a delay
 that no longer exists, "as I mentioned earlier", a reference to a poll you removed.
 
-The script prints the reconstructed opening. Read it before rendering.
+The script prints how many cold-open ranges it removed and their total seconds.
+It does not print the words that remain. Reconstruct that opening from the
+transcript with those ranges removed, and read it before rendering.
 
 ### 6. Render
 
 ```bash
-python3 scripts/render.py --src raw.mp4 --cuts cuts.json --out edited.mp4
+python3 /path/to/aie-video-webinar-publish/scripts/render.py --src raw.mp4 --cuts cuts.json --out edited.mp4
 ```
 
 Three constraints are baked in, each learned from a wrong render:
@@ -154,16 +165,18 @@ Three constraints are baked in, each learned from a wrong render:
 ### 7. Verify — non-negotiable
 
 ```bash
-python3 scripts/verify_edit.py --before transcript.json --after edited.mp4
+python3 /path/to/aie-video-webinar-publish/scripts/verify_edit.py --before transcript.json --after edited.mp4 --cuts cuts.json
 ```
 
-Re-transcribes the **rendered output** and diffs it against the source. Two numbers
-decide it:
+Pass `--cuts`. Without it, a legitimate cold-open cut that removes real
+dialogue (apologies, chit-chat) is scored as clipped speech and a healthy edit
+fails. Re-transcribes the **rendered output** and diffs it against the source.
+The script's pass gate, not a vibe, decides it:
 
-| Signal | Healthy | Means |
+| Signal | Pass gate | Healthy target |
 |---|---|---|
-| fillers before → after | large drop | cuts are landing on fillers |
-| non-filler word count | flat (±1%) | no speech was clipped |
+| fillers removed | at least 40% | 60–70% removed, not 100% |
+| non-filler word count vs words outside the cuts | within ±1.5% | about 0% |
 
 Fillers barely moving **and** real words vanishing is the timebase-drift signature
 from step 2. Then spot-check the actual audio at one mapped timestamp — a
@@ -204,10 +217,21 @@ consent before publishing.
 
 ### 9. Metadata
 
-- **Chapters from the slides, not from memory.** `scripts/ocr_slides.swift` reads
-  slide titles off sampled frames (one per 10 s, collapse repeats) — real chapter
-  names in a couple of minutes. Then map each source timestamp through the cut list;
-  chapters must be in *edited* time.
+Chapters come from the slides, not from memory. Sample one frame every 10
+seconds of the *edited* file, OCR the titles, then collapse consecutive
+repeats yourself. `ocr_slides.swift` only reads images you hand it. macOS only
+(Vision).
+
+```bash
+mkdir -p frames
+ffmpeg -y -i edited.mp4 -vf "fps=1/10" frames/f%04d.jpg
+swift /path/to/aie-video-webinar-publish/scripts/ocr_slides.swift frames/*.jpg
+```
+
+Map each kept title back through the cut list so chapter times are *edited*
+time. If the tool prints nothing and exits 1, no title was recognized. Do not
+invent chapter names.
+
 - Unwrap any hard-wrapped markdown into real paragraphs before sending. YouTube does
   its own wrapping.
 - Keep the title under ~70 characters so it survives truncation in search results.
@@ -243,18 +267,8 @@ what it said.
 
 ## Self-improvement
 
-This skill should get better every time it runs. Before finishing a run that taught
-you something — a correction from the user, a failure mode you hit, a step that was
-ambiguous, a rule you had to infer — fold it back in.
-
-Prefer the strongest form the lesson supports:
-
-1. **Enforce it in a script.** An assert or check that makes the mistake impossible
-   is worth more than a paragraph asking nicely.
-2. **State it as a rule here**, with the *why* — that is what lets the next run
-   resolve an edge case the rule didn't anticipate.
-3. **Put it in `reference/`** when it is detail that would bloat this file.
-
-Change only what the lesson touches. Record the evidence and the rule, not the war
-story. Don't add speculative rules for things that haven't actually gone wrong —
-they cost context on every future run.
+When a run teaches a durable lesson — a correction from the user, a failure mode,
+a step that was ambiguous — tell the user what you'd change and why. Do not edit
+this skill's installed files, scripts, or config examples unless the user
+explicitly asks you to change the skill. Offer a patch or an issue. A marketplace
+install is not a scratchpad.

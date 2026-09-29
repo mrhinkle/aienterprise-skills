@@ -23,7 +23,6 @@ FILLERS = {"um", "umm", "ummm", "uh", "uhh", "uhhh", "er", "err", "erm",
 # Counted and reported, never cut: removing these changes sentences, not noise.
 MARKERS = {"like", "basically", "actually", "literally", "right"}
 
-PAD = 0.06          # breathing room before the filler's reported onset
 ONSET_GUARD = 0.03  # never clip the next word's onset, which Scribe gets right
 MAX_CUT = 3.00      # a runaway window means a bad timestamp; skip it
 KEEP_BEAT = 0.15    # natural pause handed back when the cut span is long
@@ -51,7 +50,18 @@ def energy_envelope(path, hop=0.01):
 def check_timebase(src, audio):
     """The WAV must share the MP4's timebase or every cut lands on the wrong word."""
     def dur(cmd):
-        return float(subprocess.run(cmd, capture_output=True, text=True).stdout.strip())
+        out = subprocess.run(cmd, capture_output=True, text=True)
+        lines = [ln.strip() for ln in out.stdout.splitlines() if ln.strip()]
+        if out.returncode != 0 or not lines:
+            sys.exit(
+                "ffprobe failed (" + " ".join(cmd) + "): "
+                + (out.stderr.strip()[:200] or "no duration"))
+        if len(lines) > 1:
+            sys.exit(
+                f"{cmd[-1]} reported {len(lines)} durations ({', '.join(lines)}). "
+                "Extract a single audio stream before cutting, or the timebase check "
+                "cannot tell which stream the transcript follows.")
+        return float(lines[0])
     a = dur(["ffprobe", "-v", "error", "-select_streams", "a",
              "-show_entries", "stream=duration", "-of", "csv=p=0", src])
     w = dur(["ffprobe", "-v", "error", "-show_entries", "format=duration",
