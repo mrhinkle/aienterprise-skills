@@ -28,7 +28,7 @@ By default the skill auto-detects available email/calendar tools. To pin specifi
 1. Drop a `cos.config.md` in your working directory (copy `cos.config.example.md`). Fill in `industry`, `competitors`, and `vips` first — they matter most.
 2. Run it: "run my chief of staff" or "morning briefing."
 3. Tune the config based on what the brief got right and wrong.
-4. When it's dialed in, schedule it (see the `schedule` skill) for weekday mornings at your start time.
+4. When it's dialed in, schedule it with your host's scheduled-task feature for weekday mornings at your start time. This marketplace does not include a schedule skill.
 
 ## Privacy & safety
 

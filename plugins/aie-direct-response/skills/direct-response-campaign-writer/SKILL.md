@@ -1,6 +1,6 @@
 ---
 name: direct-response-campaign-writer
-description: Develop evidence-led sales letters, sales pages, video sales letters, and sales webinars through production-ready formats with explicit release status. Trigger on "write a sales letter," "build a VSL," "write a sales webinar," "create a direct-response campaign," "turn this offer into a sales page," or "build a three-secrets webinar." Use a copy-review skill when critique is the main request.
+description: Develop evidence-led sales letters, sales pages, video sales letters, and sales webinars through production-ready formats with explicit release status. Trigger on "write a sales letter," "build a VSL," "write a sales webinar," "create a direct-response campaign," "turn this offer into a sales page," or "build a three-secrets webinar." Do not use for promotional email or launch sequences — use email-launch-writer. Use copy-chief when the request is critique rather than drafting.
 ---
 
 # Direct Response Campaign Writer

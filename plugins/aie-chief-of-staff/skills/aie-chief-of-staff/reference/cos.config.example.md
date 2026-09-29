@@ -71,11 +71,11 @@ working_hours: "8:30-17:30"
 industry: "vertical SaaS for logistics"
 keywords: ["freight tech", "supply chain AI", "TMS platforms"]
 competitors:
-  - { name: "FreightIQ", domain: "freightiq.com" }
-  - { name: "HaulPilot", domain: "haulpilot.io" }
-company: "ShipLoop"
-vips: ["ceo@shiploop.com", "head-of-sales@shiploop.com"]
-priorities: ["Launch carrier-scorecard v2", "Renew Northwind account"]
+  - { name: "Example Hauler", domain: "example-hauler.example" }
+  - { name: "Sample Logistics", domain: "sample-logistics.example" }
+company: "Northwind Freight"
+vips: ["ceo@northwind-freight.example", "sales@northwind-freight.example"]
+priorities: ["Launch carrier-scorecard v2", "Renew the Example Co account"]
 ```
 
 ## Notes
