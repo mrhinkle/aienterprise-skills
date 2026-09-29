@@ -1,6 +1,7 @@
 ---
 name: aie-web-forms
-description: Wire up HTML/JSX web forms so they actually work — connect a contact, inquiry, or newsletter form to a delivery provider, add client- and server-side validation, spam protection (honeypot and rate limiting), accessible labels and error messages, loading states, and clear success/error feedback. Provider-agnostic: shows email-delivery, form-backend, and newsletter providers as swappable examples. Also audits existing forms for broken submission, missing validation, or accessibility gaps. Trigger on "wire up my form," "connect my contact form," "my form doesn't submit," "audit my forms," "add form validation," "add spam protection to my form," "hook up newsletter signup," "make my form accessible," or "add a honeypot."
+description: >-
+  Wire up HTML/JSX web forms so they actually work — connect a contact, inquiry, or newsletter form to a delivery provider, add client- and server-side validation, spam protection (honeypot and rate limiting), accessible labels and error messages, loading states, and clear success/error feedback. Provider-agnostic: shows email-delivery, form-backend, and newsletter providers as swappable examples. Also audits existing forms for broken submission, missing validation, or accessibility gaps. Trigger on "wire up my form," "connect my contact form," "my form doesn't submit," "audit my forms," "add form validation," "add spam protection to my form," "hook up newsletter signup," "make my form accessible," or "add a honeypot."
 ---
 
 # Web Form Wiring
@@ -24,19 +25,19 @@ Turns a static form into a working one: submission goes somewhere, input is vali
 
 ## Honeypot (minimum spam protection)
 
-A hidden field bots fill and humans never see. Reject any submission where it's non-empty. Hide with CSS, not just `type="hidden"` (some bots skip hidden inputs), and mark it `aria-hidden` + `tabindex="-1"` so assistive tech and keyboard users skip it.
+A hidden field bots fill and humans never see. Reject any submission where it's non-empty. Hide with CSS, not just `type="hidden"` (some bots skip hidden inputs), and mark it `aria-hidden` + `tabindex="-1"` so assistive tech and keyboard users skip it. Name that field `company_website_hp`. `company_website` is a real input; a filled company website must still be accepted.
 
 ```html
 <div style="position:absolute;left:-9999px" aria-hidden="true">
   <label>Leave this field empty
-    <input type="text" name="company_website" tabindex="-1" autocomplete="off">
+    <input type="text" name="company_website_hp" tabindex="-1" autocomplete="off">
   </label>
 </div>
 ```
 
 ```js
-// server side
-if (body.company_website) return respond(400, "Rejected");
+// server side — same name as the input above. Do not reject company_website.
+if (body.company_website_hp) return respond(400, "Rejected");
 ```
 
 ## Validation essentials

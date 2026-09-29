@@ -26,7 +26,7 @@ If the project has no Playwright, scaffold it (`npm init playwright@latest` or a
 - **Resilient selectors:** prefer `getByRole`, `getByLabel`, `getByText` over brittle CSS/XPath. Add `data-testid` only where semantics can't.
 - **One journey per test**, arranged Arrange → Act → Assert. Assert on user-visible outcomes (URL, visible text, element state), not implementation details.
 - **Auto-wait** — rely on Playwright's built-in waiting; avoid fixed `sleep`s.
-- **Catch silent failures:** attach listeners for uncaught page errors and failed network requests, and fail the test if the console logs errors during a journey.
+- **Catch silent failures:** every uncaught page error fails the journey. To ignore a known third-party script host, pass `ignoreHosts`, an array of hostnames. Suppress an error only when `location().url` parses with `new URL()`, the protocol is `http:` or `https:`, and its hostname equals an entry or ends with `.` plus that entry (case-insensitive). The check uses only `location().url`, never `err.stack` or `err.message`. Anything that does not parse, or is not `http:` or `https:`, is never suppressed, and the test fails. Some third-party `eval` errors in WebKit report the location string `undefined` and cannot be allowlisted; that failure is intended. See `reference/patterns.md`. Do not classify the error by origin. Do not fail because the console logged an error or a network request failed.
 - **Accessibility smoke:** optionally assert the page has one `h1`, labeled inputs, and no obvious ARIA violations.
 Templates for auth, form-submit, and navigation journeys are in `reference/patterns.md`.
 
@@ -41,5 +41,5 @@ Return the summary in `reference/reporting.md` order: pass/fail counts, each fai
 
 ## Reference
 - `reference/setup.md` — install, `playwright.config`, browsers, and a CI workflow.
-- `reference/patterns.md` — selector strategy, choosing journeys, and test templates (auth / form / nav).
+- `reference/patterns.md` — selector strategy, choosing journeys, the page-error allowlist, and test templates (auth / form / nav).
 - `reference/reporting.md` — the results report format and flaky-test handling.

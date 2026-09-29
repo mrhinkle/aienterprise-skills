@@ -12,17 +12,17 @@ Google recommends JSON-LD in a `<script type="application/ld+json">` block. Vali
 
 | Schema type | Eligible result | Key required/recommended properties |
 |---|---|---|
-| `Organization` / `WebSite` | Knowledge panel, sitelinks search box | name, url, logo, sameAs |
+| `Organization` / `WebSite` | Knowledge panel and site name. Google removed the sitelinks search box on 2024-11-21; `WebSite` markup for the site name is still valid. | name, url, logo, sameAs |
 | `Article` / `BlogPosting` | Article rich result | headline, image, datePublished, author |
-| `FAQPage` | FAQ rich result (limited eligibility) | mainEntity -> Question -> acceptedAnswer |
-| `HowTo` | Step guide | name, step, (image, totalTime) |
+| `FAQPage` | Not a Google rich result. Google stopped showing the FAQ rich result on May 7, 2026, and removed the docs on June 15, 2026. Visible Q&A on the page can still help readers and other answer engines. | mainEntity -> Question -> acceptedAnswer |
+| `HowTo` | Not a Google rich result. Google removed HowTo rich results (desktop and mobile) and the docs in September 2023. Keep real numbered steps in the HTML anyway. | name, step |
 | `Product` | Price, rating, availability | name, offers, aggregateRating, review |
 | `LocalBusiness` | Local pack, map panel | name, address, telephone, geo, openingHours |
 | `Event` | Event card | name, startDate, location |
 | `Recipe` | Recipe card | name, image, recipeIngredient, recipeInstructions |
 | `BreadcrumbList` | Breadcrumb trail in results | itemListElement |
 
-Note: Google periodically changes which schema earns rich results (e.g. FAQ and HowTo visibility has been reduced for many sites). Confirm current eligibility in Google's docs rather than assuming.
+Note: Google has fully dropped HowTo rich results (September 2023) and FAQ rich results (May 7, 2026; the FAQ docs were removed June 15, 2026), and dropped the sitelinks search box (November 21, 2024). Do not promise those treatments. Confirm any other type in current Search Central docs before you tell someone it will earn a rich result. Sources: [HowTo/FAQ changelog](https://developers.google.com/search/updates), [sitelinks search box retirement](https://developers.google.com/search/blog/2024/10/sitelinks-search-box).
 
 ### Validation checklist
 
