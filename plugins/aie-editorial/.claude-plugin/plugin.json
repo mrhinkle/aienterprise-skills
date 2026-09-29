@@ -1,0 +1,19 @@
+{
+  "name": "aie-editorial",
+  "version": "1.0.0",
+  "description": "Editorial tools for any writer: build and write in a voice profile from someone's transcripts, enforce a configurable house style, run a developmental edit with an editorial letter, and explain AI concepts with 1980s pop culture analogies.",
+  "author": {
+    "name": "The AIE Network",
+    "url": "https://theaie.net"
+  },
+  "homepage": "https://github.com/mrhinkle/aienterprise-skills",
+  "license": "MIT",
+  "keywords": [
+    "writing",
+    "voice",
+    "style-guide",
+    "editing",
+    "developmental-edit",
+    "analogies"
+  ]
+}

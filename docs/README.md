@@ -4,6 +4,9 @@ Usage docs for AIEnterprise Skills.
 
 - **[Getting started](getting-started.md)** — what skills are, how to install, how to trigger them, how to configure.
 - **[Writing bundle](writing.md)** — `ai-slop-killer`.
+- **[Writing Room bundle](writing-room.md)** — `writing-room` orchestrator plus ten fiction passes.
+- **[Newsletter bundle](newsletter.md)** — five `newsletter-*` edition skills.
+- **[Editorial bundle](editorial.md)** — `voice-profile`, `house-style`, `developmental-editor`, `retro-analogies`.
 - **[Direct Response bundle](direct-response.md)** — `copy-chief`, `direct-response-campaign-writer`, and `email-launch-writer`.
 - **[Web bundle](web.md)** — the nine `aie-web-*` skills.
 - **[Social bundle](social.md)** — `aie-social-linkedin`, `aie-social-x`.

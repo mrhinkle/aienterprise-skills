@@ -4,7 +4,7 @@ Open source [Agent Skills](https://docs.claude.com/en/docs/claude-code/skills) f
 
 Skills are folders of instructions and reference material that Claude loads on demand, only when they're relevant. These are the ones we use ourselves, cleaned up and depersonalized so anyone can run them. They work in **Claude Code** and in **Cowork**.
 
-**18 skills across 7 bundles:** writing, direct response, web, social, chief-of-staff, skill-creator, and video *(beta)*.
+**38 skills across 10 bundles:** writing, writing room, newsletter, editorial, direct response, web, social, chief-of-staff, skill-creator, and video *(beta)*.
 
 ---
 
@@ -15,6 +15,43 @@ Skills are folders of instructions and reference material that Claude loads on d
 | Skill | What it does |
 | --- | --- |
 | **[ai-slop-killer](plugins/ai-slop-killer/skills/ai-slop-killer)** | The final editing pass for any prose. Detects documented AI writing tells (from Wikipedia's *Signs of AI writing*, tropes.fyi, and working editors' guides), scores how bad it was, rewrites in place, and shows its work. Configurable to your house style via `slop.config.md`. |
+
+### 📚 aie-writing-room &nbsp;·&nbsp; [plugin](plugins/aie-writing-room) &nbsp;·&nbsp; [docs](docs/writing-room.md)
+
+A fiction writing room. `writing-room` runs a draft through the other passes in a fixed order and ends with ai-slop-killer. Everything book-specific lives in `writing-room.config.md`.
+
+| Skill | What it does |
+| --- | --- |
+| **[writing-room](plugins/aie-writing-room/skills/writing-room)** | Orchestrator. Runs the passes in order, carries notes forward, gates the result. |
+| **[story-architect](plugins/aie-writing-room/skills/story-architect)** | Decides what a scene or chapter must do before it's drafted: job, stakes, throughline, end-of-chapter pull. |
+| **[fiction-writer](plugins/aie-writing-room/skills/fiction-writer)** | Drafts and revises scenes with goal, conflict, consequence, subtext, and clean POV. |
+| **[editorial-board](plugins/aie-writing-room/skills/editorial-board)** | Configurable panel of editor personas that improves a passage and reconciles the notes into one revision. |
+| **[character-architect](plugins/aie-writing-room/skills/character-architect)** | Casts and audits characters so every named one earns a place; catches confusable names. |
+| **[technical-editor](plugins/aie-writing-room/skills/technical-editor)** | Checks domain content (AI, medicine, law, finance, whatever you set) for accuracy and legibility. |
+| **[realism-editor](plugins/aie-writing-room/skills/realism-editor)** | Checks that dilemmas and everyday mechanics ring true for the intended reader. |
+| **[continuity-editor](plugins/aie-writing-room/skills/continuity-editor)** | Continuity only: names, facts, timeline, places, objects, against your canon ledger. |
+| **[author-voice](plugins/aie-writing-room/skills/author-voice)** | Matches prose to the author's voice profile; builds the profile from sample chapters. |
+| **[manuscript-reviewer](plugins/aie-writing-room/skills/manuscript-reviewer)** | Scores against a weighted rubric, then runs writer-panel and reader-panel debates. |
+| **[idea-backlog](plugins/aie-writing-room/skills/idea-backlog)** | Captures and weighs candidate ideas in `IDEAS.md` without acting on them. |
+
+### 📰 aie-newsletter &nbsp;·&nbsp; [plugin](plugins/aie-newsletter) &nbsp;·&nbsp; [docs](docs/newsletter.md)
+
+| Skill | What it does |
+| --- | --- |
+| **[newsletter-news-digest](plugins/aie-newsletter/skills/newsletter-news-digest)** | The week's top stories in your beat, researched from canonical sources, written to a fixed structure, scored on a 100-point rubric. |
+| **[newsletter-tutorial](plugins/aie-newsletter/skills/newsletter-tutorial)** | A tactical how-to edition that teaches one skill the reader can use today. |
+| **[newsletter-tactic](plugins/aie-newsletter/skills/newsletter-tactic)** | A short, single-tactic edition with a hard word cap and an expert-panel critique. |
+| **[newsletter-deep-dive](plugins/aie-newsletter/skills/newsletter-deep-dive)** | A 2,500–4,000-word strategic analysis of one hard question, with an executive summary. |
+| **[newsletter-community](plugins/aie-newsletter/skills/newsletter-community)** | A community newsletter with a feature, a secondary piece, and an upcoming-events roundup. |
+
+### 🖋 aie-editorial &nbsp;·&nbsp; [plugin](plugins/aie-editorial) &nbsp;·&nbsp; [docs](docs/editorial.md)
+
+| Skill | What it does |
+| --- | --- |
+| **[voice-profile](plugins/aie-editorial/skills/voice-profile)** | Builds a voice profile from someone's transcripts or writing, then drafts in that voice. |
+| **[house-style](plugins/aie-editorial/skills/house-style)** | Checks or fixes a draft against a configurable style guide. PASS / FAIL report. |
+| **[developmental-editor](plugins/aie-editorial/skills/developmental-editor)** | Big-picture edit of a manuscript or long-form piece: editorial letter, chapter map, revision roadmap. |
+| **[retro-analogies](plugins/aie-editorial/skills/retro-analogies)** | Plain-English AI explanations with an accurate 1980s pop culture analogy, and where it breaks. |
 
 ### ✒️ aie-direct-response &nbsp;·&nbsp; [plugin](plugins/aie-direct-response) &nbsp;·&nbsp; evidence-led
 
