@@ -35,4 +35,4 @@ Score the draft before delivery. Fix failures; don't ship them. If more than one
 - [ ] Every post verified within its character limit.
 - [ ] **ai-slop-killer has run on the full post/thread** and reported clean (or its fixes applied). Non-negotiable.
 
-Report score, format decision, and ai-slop-killer confirmation in the delivery.
+Score is the count of checks that pass, out of 10 (write it as `9/10`, not a letter and not a vague "passed"). Report that score, the format decision, and the ai-slop-killer confirmation in the delivery.

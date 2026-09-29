@@ -1,5 +1,7 @@
 # Formatting & Algorithm Guide (X, 2026)
 
+The numbers below are a 2026 snapshot, not a law. Before you treat a figure as current (thread length, reply weights, save ranking, link penalty, hashtag count), read `sources.md` in this folder and re-check those URLs. If a source is gone or contradicts this guide, trust the source you just opened and say so in the delivery. Do not cite a dead page.
+
 ## Character limits
 
 - **Default: 280 characters per post.** Write to this so the output works for every account.
