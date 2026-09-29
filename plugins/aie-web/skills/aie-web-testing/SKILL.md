@@ -26,7 +26,7 @@ If the project has no Playwright, scaffold it (`npm init playwright@latest` or a
 - **Resilient selectors:** prefer `getByRole`, `getByLabel`, `getByText` over brittle CSS/XPath. Add `data-testid` only where semantics can't.
 - **One journey per test**, arranged Arrange → Act → Assert. Assert on user-visible outcomes (URL, visible text, element state), not implementation details.
 - **Auto-wait** — rely on Playwright's built-in waiting; avoid fixed `sleep`s.
-- **Catch silent failures:** every uncaught page error fails the journey. To ignore a known third-party script host, pass `ignoreURL`, an array of `RegExp` values matched against the error's location URL and stack frames, not the message. See `reference/patterns.md`. Do not classify the error by origin. Do not fail because the console logged an error or a network request failed.
+- **Catch silent failures:** every uncaught page error fails the journey. To ignore a known third-party script host, pass `ignoreURL`, an array of `RegExp` values matched only against `location().url` from the weberror event, never against `err.stack` or `err.message`. If that URL is empty, `undefined`, `about:blank`, or otherwise unusable, the error is not suppressible and the test fails. Some third-party `eval` errors in WebKit report the location string `undefined` and cannot be allowlisted; that failure is intended. See `reference/patterns.md`. Do not classify the error by origin. Do not fail because the console logged an error or a network request failed.
 - **Accessibility smoke:** optionally assert the page has one `h1`, labeled inputs, and no obvious ARIA violations.
 Templates for auth, form-submit, and navigation journeys are in `reference/patterns.md`.
 
