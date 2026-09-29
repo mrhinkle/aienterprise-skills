@@ -2,29 +2,29 @@
 
 Hostile pass over every tracked file on `origin/main` at `f05c378` ("Add aie-direct-response skill bundle (#4)"). 101 tracked files, 7 plugin bundles, 18 skills. The question for each skill was: if an agent follows this literally, does it fail, mislead a stranger, or embarrass a public repo?
 
-Line numbers in the table are the pre-fix locations on that commit. Status is against the companion branches listed at the bottom. Open pull requests #1, #2, #3, and #5 were not modified, rebased, or commented on. Files those PRs already change were left alone unless a fix could live in an unlocked reference or doc.
+Line numbers in the table are the pre-fix locations on that commit. Status is against the companion branches listed at the bottom, rechecked on 2026-09-28 at those SHAs. F16 and F27 are partial: the branch does not do what an earlier draft of this report called fixed. Open pull requests #1, #2, #3, and #5 were not modified, rebased, or commented on. Files those PRs already change were left alone unless a fix could live in an unlocked reference or doc.
 
 ## What held up
 
-- All 18 `SKILL.md` files have `name` and `description`. Each `name` matches its directory, matches `[a-z0-9-]{1,64}`, and the description is under 1024 characters.
+- 16 of 18 `SKILL.md` files have frontmatter that Ruby `YAML.safe_load` accepts, with `name` and `description`. Each `name` matches its directory, matches `[a-z0-9-]{1,64}`, and the description is under 1024 characters. `aie-web-forms` and `aie-web-links` do not parse (D22, D23). The `name` and description text are present; an unquoted colon makes the header invalid YAML. The plugin manifest validator does not read skill headers.
 - `.claude-plugin/marketplace.json` lists the same 7 plugins that exist on disk. Each `plugin.json` parses and its version matches the marketplace entry (all `1.0.0` except `aie-video` at `0.1.0-beta`). Skills are discovered from `skills/`; nothing on disk is an unlisted plugin, and nothing listed is missing.
 - README skill and bundle counts match the tree (18 / 7). Those count lines live in files owned by open PRs, so they were not edited.
 - No committed API keys, tokens, private phone numbers, client-confidential material, or private-repo URLs. The only home-directory-shaped string was a redacted example in the video publishing notes (F23). Email addresses in examples are placeholders.
 - No `curl | bash`. No instruction to auto-approve destructive operations.
-- Banned marketing words (delve, realm, unleash, tapestry, paradigm, landscape, cornerstone, game-changer, revolutionary, "unlock potential") appear only where a skill is listing words not to use. "Open source" is not hyphenated anywhere.
+- Banned marketing words (delve, realm, unleash, tapestry, paradigm, landscape, cornerstone, game-changer, revolutionary, "unlock potential") appear only in explicit banlist quotations: a skill listing words not to use, or this report naming that list. There is no promotional use. The two-word phrase "open source" is not hyphenated anywhere in the tree.
 - `python3 -m py_compile` passes on the three video Python scripts. `swiftc -parse` passes on `ocr_slides.swift` and `liftsubject.swift` when each file is parsed alone (passing both in one invocation is a false failure: `swiftc` treats them as one module). All 8 JSON manifests parse.
 
 ## Severity counts
 
-| Severity | Fixed | Deferred | Total |
-|---|---:|---:|---:|
-| P0 | 0 | 0 | 0 |
-| P1 | 16 | 11 | 27 |
-| P2 | 15 | 6 | 21 |
-| P3 | 2 | 1 | 3 |
-| **Total** | **33** | **18** | **51** |
+| Severity | Fixed | Partial | Deferred | Total |
+|---|---:|---:|---:|---:|
+| P0 | 0 | 0 | 0 | 0 |
+| P1 | 15 | 1 | 11 | 27 |
+| P2 | 14 | 1 | 8 | 23 |
+| P3 | 2 | 0 | 1 | 3 |
+| **Total** | **31** | **2** | **20** | **53** |
 
-P0 would have been a leak, a committed secret, or an install that cannot work. None of those showed up. The video failures are P1: an agent that follows the skill produces a wrong edit or a false verification failure, but the marketplace itself still installs.
+Partial means the companion branch landed a narrower change and the rest of the claim is still open. P0 would have been a leak, a committed secret, or an install that cannot work. None of those showed up. The video failures are P1: an agent that follows the skill produces a wrong edit or a false verification failure, but the marketplace itself still installs.
 
 ## Findings
 
@@ -45,7 +45,7 @@ P0 would have been a leak, a committed secret, or an install that cannot work. N
 | F13 | P1 | `plugins/aie-social/skills/aie-social-linkedin/reference/quality-rubric.md:37` | "Report the score" after ten pass/fail checks, with no mapping from checks to a number. Same line in the X rubric (`quality-rubric.md:38`). | Score is the count of passing checks, written `N/10`. | fixed |
 | F14 | P1 | `plugins/aie-direct-response/skills/direct-response-campaign-writer/SKILL.md:3` | The description trigger "create a direct-response campaign" selects this skill for email launches. The body already routes email to `email-launch-writer`; the description, which is what triggers, did not. | Description now says not to use it for promotional email or launch sequences, and to use `copy-chief` when the request is critique. Length 482, still under 1024. | fixed |
 | F15 | P1 | `plugins/aie-web/skills/aie-web-forms/reference/serverless-example.md:13` | Honeypot field is `company_website`, a real B2B form field. Legitimate submissions get rejected. The same name is in the skill snippet at `SKILL.md:32`, which PR #3 owns. | Example now uses `company_website_hp` and says the skill snippet is still wrong. | fixed in the example; skill line deferred (D20) |
-| F16 | P1 | `plugins/aie-web/skills/aie-web-testing/reference/patterns.md:33` | The "catch silent failures" sample hangs errors on `(page as any)._errors`, listens to every console error and every `requestfailed` (ads and analytics), and the assertion is only a comment. | Fixture collects same-origin `pageerror`s and asserts inside the test. Console and third-party request failures are called out as noise, not a default failure. | fixed |
+| F16 | P1 | `plugins/aie-web/skills/aie-web-testing/reference/patterns.md:33` | The "catch silent failures" sample hangs errors on `(page as any)._errors`, listens to every console error and every `requestfailed` (ads and analytics), and the assertion is only a comment. | The fixture no longer listens to `console` or `requestfailed`, no longer stores errors on `(page as any)`, and asserts `pageErrors` inside the test. The prose says "your own origin", but the callback is `page.on('pageerror', (err) => errors.push(err.message))`. It checks no origin and drops the stack, so an uncaught exception from a third-party script still fails the test. | partial — noise capture removed and the assertion is real, at #10 `353b9602`. Origin filtering is not implemented. |
 | F17 | P2 | `plugins/aie-video/skills/aie-video-webinar-publish/SKILL.md:114` | Docs say "you know" is counted and never cut. The script has no bigram matcher, so it neither cuts nor counts it. Config `never_cut` listed it too (`webinar.config.example.md:38`). | Discourse-marker list matches `MARKERS`. "you know" is described as undetected. | fixed |
 | F18 | P2 | `plugins/aie-video/skills/aie-video-webinar-publish/reference/webinar.config.example.md:40` | Config and the written gate used ±1%. `verify_edit.py` passes at ±1.5% and at least 40% of fillers removed. | Skill table, doc table, and config notes match the script: ≥40% fillers, ±1.5% word drift. Healthy target stays 60–70%. | fixed |
 | F19 | P2 | `plugins/aie-video/skills/aie-video-webinar-publish/SKILL.md:95` | Thumbnail step imports Pillow. `pip install` line omitted `pillow`. Same gap in `docs/video.md`. | Add `pillow` to both install lines. | fixed |
@@ -56,8 +56,8 @@ P0 would have been a leak, a committed secret, or an install that cannot work. N
 | F24 | P2 | `plugins/aie-video/skills/aie-video-webinar-publish/scripts/verify_edit.py:18` | Docstring named an internal recording ("Build Skills") as the evidence for the cold-open false failure. | Say "a real hour-long webinar" and keep the measured numbers (272 words, false −3.39%, true −0.7%). | fixed |
 | F25 | P2 | `plugins/aie-video/skills/aie-video-webinar-publish/scripts/verify_edit.py:38` | `curl -s` with no status check. A 401 body could be parsed as a transcript. | `-sS`, append `%{http_code}`, fail unless curl exits 0 and the code starts with 2. | fixed |
 | F26 | P2 | `plugins/aie-video/skills/aie-video-webinar-publish/scripts/build_edit.py:54` | `dur()` did `float(stdout.strip())`. Two audio streams print two durations and the check crashes, or a failed ffprobe yields an empty float. | Require return code 0, exactly one non-empty duration line, and say to extract a single stream. | fixed |
-| F27 | P2 | `plugins/aie-video/skills/aie-video-webinar-publish/scripts/ocr_slides.swift:8` | Unreadable images and Vision failures `continue` with no stderr. Zero arguments and zero titles both exit 0. The skill then treats silence as "no chapters" and may invent titles. | Usage on stderr and exit 2 when there are no args. Stderr per failure. Exit 1 when nothing was recognized. | fixed |
-| F28 | P2 | `plugins/aie-video/skills/aie-video-webinar-publish/SKILL.md:207` | Chapter step said the tool "reads slide titles off sampled frames" but never gave the sample or OCR commands, so the agent improvises. | `ffmpeg -vf fps=1/10` plus the swift invocation. Exit 1 means invent nothing. | fixed |
+| F27 | P2 | `plugins/aie-video/skills/aie-video-webinar-publish/scripts/ocr_slides.swift:8` | Unreadable images and Vision failures `continue` with no stderr. Zero arguments and zero titles both exit 0. The skill then treats silence as "no chapters" and may invent titles. | No arguments print usage on stderr and exit 2. An unreadable image prints stderr, and if every input fails that way the process exits 1. A readable image still increments `wrote` and exits 0 when the recognized title list is empty. | partial — no-args exits 2, and an unreadable file exits 1, both checked at #8 `145e74e0`. A generated blank 320×320 PNG exits 0 with stdout `blank-slide.png`, a tab, and an empty title. Empty recognition is unresolved. |
+| F28 | P2 | `plugins/aie-video/skills/aie-video-webinar-publish/SKILL.md:207` | Chapter step said the tool "reads slide titles off sampled frames" but never gave the sample or OCR commands, so the agent improvises. | The skill now gives `ffmpeg -vf fps=1/10` and the swift invocation. It also says an exit of 1 means invent nothing. A readable frame with no title does not take that exit (F27). | fixed — the missing commands are on #8 `145e74e0`. The exit-1 sentence overclaims. |
 | F29 | P2 | `docs/social.md:5` | Both social skills honor a `voice.config.md` in the working directory. No example file existed, so the agent invents the schema. | `reference/voice.config.example.md` in each social skill. `docs/social.md` says to copy it and not commit the filled file. | fixed |
 | F30 | P2 | `plugins/aie-web/skills/aie-web-links/reference/fixes.md:24` | Orphan section told the agent to fix pages a homepage crawl cannot see. Following it means inventing orphans. | Say a crawl cannot see unlinked pages. Need a sitemap, source tree, or host file list. URL-only means out of scope. | fixed |
 | F31 | P3 | `plugins/aie-video/skills/aie-video-webinar-publish/scripts/build_edit.py:26` | `PAD = 0.06` was defined and never used. | Removed. | fixed |
@@ -81,6 +81,8 @@ P0 would have been a leak, a committed secret, or an install that cannot work. N
 | D18 | P2 | `plugins/aie-chief-of-staff/skills/aie-chief-of-staff/SKILL.md:3` | "brief me" and "catch me up" are broad. The skill also still names a `schedule` skill at line 46 (see F10). | Docs and connectors are fixed. The skill file is in PR #3. | deferred — PR #3 owns the skill |
 | D20 | P1 | `plugins/aie-web/skills/aie-web-forms/SKILL.md:32` | Honeypot snippet still uses `company_website`. The worked example no longer matches it, on purpose, and the example says so. | Change the skill when PR #3 is not sitting on it. | deferred — PR #3 owns the skill |
 | D21 | P3 | `plugins/aie-video/skills/aie-video-webinar-publish/scripts/render.py:45` | Snyk Code reports low path-traversal on CLI paths (`--cuts`, `--out`, and the same pattern in `build_edit.py` and `verify_edit.py`). These are local operator tools. The path is the file the user named. Refusing absolute paths would break the skill, which requires them. | The new `rmtree` sink was removed (F32). Remaining findings are the CLI itself. | deferred — not a service-side traversal; sanitizing it breaks the tool |
+| D22 | P2 | `plugins/aie-web/skills/aie-web-forms/SKILL.md:3` | Frontmatter is not valid YAML. `YAML.safe_load` of the opening `---` block raises "mapping values are not allowed in this context" on the unquoted `Provider-agnostic: shows`. A strict loader cannot read `name` or `description`. The plugin still installs: the manifest validator does not parse skill headers. P2, not P1, because an agent that opens the file can still read the text. | Quote the description, or fold it. Not edited in this pull request. | deferred — already on `f05c378`. PR #3 `347c963b` edits this file and leaves the colon unquoted |
+| D23 | P2 | `plugins/aie-web/skills/aie-web-links/SKILL.md:3` | Same parse failure, at the unquoted `mailto:/tel: links`. | Quote the description, or fold it. Not edited in this pull request. | deferred — already on `f05c378`. PR #3 `347c963b` edits this file and leaves the colon unquoted |
 
 D10 from the working notes (social skill files lack the untrusted-page rule) is not a separate item. F12 puts the rule in the checklists those skills already require.
 
@@ -96,10 +98,13 @@ D10 from the working notes (social skill files lack the untrusted-page rule) is 
 - `python3 -m py_compile` on `build_edit.py`, `render.py`, and `verify_edit.py` after the last edit.
 - `swiftc -parse` on `ocr_slides.swift` alone, and on `liftsubject.swift` alone.
 - `json` parse of every `*.json` in the tree (8 files).
-- `git diff` scanned for the banned words and for `open-source`. No hits.
+- The diff was scanned for the banned marketing words and for the hyphenated spelling of open source. Matches are only the explicit banlist quotation in this report (the list of words not to use). No promotional use. The hyphenated spelling itself is not in the diff.
 - Campaign-writer description length measured at 482 characters.
 - Snyk Code on the video `scripts/` directory. The `shutil.rmtree` finding closed when cleanup became unlink plus `rmdir`. Remaining lows are D21.
 - No ffmpeg render was run. There is no fixture webinar in the repo, and synthesizing one would not exercise Scribe.
+- Recheck on 2026-09-28, after the Codex review. `ocr_slides.swift` from #8 `145e74e0` was run three ways: no arguments (exit 2, usage on stderr), an unreadable file (exit 1, stderr names the file), and a generated blank 320×320 PNG (exit 0, stdout is the filename, a tab, and an empty title, stderr empty). That last run is why F27 is partial.
+- The #10 fixture at `353b9602` was read in full. `page.on('pageerror', ...)` pushes `err.message` and the test asserts the list is empty. Nothing in that callback checks an origin. That is why F16 is partial.
+- Ruby `YAML.safe_load` on the opening frontmatter block of all 18 `SKILL.md` files: 16 parse, `aie-web-forms` and `aie-web-links` do not (D22, D23). The same two headers still fail on PR #3 `347c963b`.
 
 ## Files left untouched on purpose
 
@@ -107,13 +112,13 @@ PR #1 (`agent/baad-ai-work-setup`) and PR #2 (`agent/add-hermes-ha-skill`) both 
 
 ## Companion pull requests
 
-Opened 2026-09-28 against `main`. Not merged.
+Opened 2026-09-28 against `main`. Not merged. The SHA is the commit the status was checked against. Those branches can move later; do not treat the URL alone as the reviewed tree. This report lives on pull request #7, so its own SHA moves with the commit that records a correction.
 
-| Branch | Findings | URL |
-|---|---|---|
-| `grok/review-report` | this report, F22 | https://github.com/mrhinkle/aienterprise-skills/pull/7 |
-| `grok/review-video` | F01 F02 F03 F04 F05 F06 F07 F17 F18 F19 F23 F24 F25 F26 F27 F28 F31 F32 | https://github.com/mrhinkle/aienterprise-skills/pull/8 |
-| `grok/review-docs` | F08 F09 | https://github.com/mrhinkle/aienterprise-skills/pull/9 |
-| `grok/review-web-refs` | F11 F15 F16 F30 | https://github.com/mrhinkle/aienterprise-skills/pull/10 |
-| `grok/review-social` | F12 F13 F20 F29 | https://github.com/mrhinkle/aienterprise-skills/pull/11 |
-| `grok/review-copy-cos` | F10 F14 F21 F33 | https://github.com/mrhinkle/aienterprise-skills/pull/12 |
+| Branch | Findings | Checked SHA | URL |
+|---|---|---|---|
+| `grok/review-report` | this report, F22 | pull request #7 | https://github.com/mrhinkle/aienterprise-skills/pull/7 |
+| `grok/review-video` | F01 F02 F03 F04 F05 F06 F07 F17 F18 F19 F23 F24 F25 F26, F27 partial, F28 F31 F32 | `145e74e0ee125af11cf58af78fcba95451096dd0` | https://github.com/mrhinkle/aienterprise-skills/pull/8 |
+| `grok/review-docs` | F08 F09 | `03c95c9c62602a87321c171fce1406bf8a23e637` | https://github.com/mrhinkle/aienterprise-skills/pull/9 |
+| `grok/review-web-refs` | F11 F15, F16 partial, F30 | `353b9602d8f427d2801b0f03163e2f0c54859998` | https://github.com/mrhinkle/aienterprise-skills/pull/10 |
+| `grok/review-social` | F12 F13 F20 F29 | `1551f82dcd286e756a1200161adf53ba793efa0f` | https://github.com/mrhinkle/aienterprise-skills/pull/11 |
+| `grok/review-copy-cos` | F10 F14 F21 F33 | `20b0573532ea199958ded2ae57fcdb1bef80a766` | https://github.com/mrhinkle/aienterprise-skills/pull/12 |
