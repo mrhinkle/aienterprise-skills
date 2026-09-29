@@ -7,7 +7,7 @@ Start with **aie-web-audit** for a broad scan; it hands off to the specialists b
 ---
 
 ## aie-web-audit — broad health audit
-Four-part scan of a live site from its URL: on-page basics, performance signals, obvious SEO issues, and surface UX. No repo or code access needed. Best first step — it tells you which specialist to run next.
+Four-part scan of a live site from its URL: SEO and answer-engine signals, copy and messaging, UX and mobile usability, and a public security-header scan. No repo or code access needed. It does not measure Core Web Vitals from HTML alone — speed numbers belong to `aie-web-performance`. Best first step — it tells you which specialist to run next.
 Trigger: "audit my site," "review thesite.com."
 
 ## aie-web-seo — SEO + answer-engine optimization
