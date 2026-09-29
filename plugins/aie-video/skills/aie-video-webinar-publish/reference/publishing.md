@@ -18,7 +18,7 @@ The thing that trips people up: `YOUTUBE_MULTIPART_UPLOAD_VIDEO` takes
 storage**. Passing a local path fails with
 
 ```
-Failed to download file with s3key '/Users/.../edited.mp4': storage returned HTTP 404
+Failed to download file with s3key '/path/to/edited.mp4': storage returned HTTP 404
 ```
 
 Browser-automation upload is not an alternative either — those tools cap around

@@ -12,14 +12,18 @@ Two numbers decide it:
   non-filler word count     should stay flat against what SHOULD survive
 
 That second baseline matters: pass --cuts cuts.json when a cold-open range was
-used, and the baseline becomes "words not inside any merged cut" rather than the
-raw source total. Without it, a legitimate cold-open cut that removes real
-dialogue (an apology, chit-chat) reads as clipped speech and fails a healthy
-edit -- caught on the Build Skills recording, where a 12-minute cold-open cut
-removed 272 real words and the raw-total comparison flagged a false failure at
--3.39% before the true figure (against cuts.json's keep list) was -0.7%.
+used. The baseline then drops words inside cold_open only. That is the one
+removal allowed to take real dialogue. Filler cuts stay in the baseline.
+Exempting every merged cut hides a filler window that also took a real word:
+the render and the "expected survivors" list both lose it, and drift reads 0%.
+
+Without --cuts, a legitimate cold-open cut that removes real dialogue (an
+apology, chit-chat) reads as clipped speech and fails a healthy edit -- caught
+on a real hour-long webinar, where a 12-minute cold-open cut removed 272 real
+words and the raw-total comparison flagged a false failure at -3.39% before
+the true figure (against words outside that cold open) was -0.7%.
 """
-import argparse, json, os, re, subprocess, sys, collections
+import argparse, json, os, re, subprocess, sys, collections, tempfile
 from pathlib import Path
 
 FILLERS = {"um", "umm", "ummm", "uh", "uhh", "uhhh", "er", "err", "erm",
@@ -33,13 +37,36 @@ def norm(w):
 def scribe(mp3):
     key = os.environ.get("ELEVENLABS_API_KEY")
     if not key:
-        sys.exit("ELEVENLABS_API_KEY not set (it lives in ~/.zshrc)")
-    out = subprocess.run(
-        ["curl", "-s", "-X", "POST", "https://api.elevenlabs.io/v1/speech-to-text",
-         "-H", f"xi-api-key: {key}", "-F", "model_id=scribe_v1",
-         "-F", "timestamps_granularity=word", "-F", f"file=@{mp3}"],
-        capture_output=True, text=True).stdout
-    d = json.loads(out)
+        sys.exit(
+            "ELEVENLABS_API_KEY is not set. Export it in the environment "
+            "for this command. Do not commit it or paste it into the skill.")
+    # Curl config keeps the key off the process argument list.
+    fd, name = tempfile.mkstemp(prefix="scribe-", suffix=".curl")
+    os.close(fd)
+    cfg = Path(name)
+    cfg.chmod(0o600)
+    cfg.write_text('header = "xi-api-key: ' + key.replace("\\", "\\\\").replace('"', '\\"') + '"\n')
+    try:
+        proc = subprocess.run(
+            ["curl", "-sS", "-X", "POST",
+             "https://api.elevenlabs.io/v1/speech-to-text",
+             "-K", str(cfg), "-F", "model_id=scribe_v1",
+             "-F", "timestamps_granularity=word", "-F", f"file=@{mp3}",
+             "-w", "\n%{http_code}"],
+            capture_output=True, text=True)
+    finally:
+        cfg.unlink(missing_ok=True)
+    raw = proc.stdout.replace(key, "[redacted]")
+    body, _, code = raw.rpartition("\n")
+    if proc.returncode != 0 or not code.startswith("2"):
+        err = proc.stderr.replace(key, "[redacted]").strip()
+        sys.exit(
+            f"Scribe request failed (HTTP {code or '?'}): "
+            f"{err[:200] or body[:300]}")
+    try:
+        d = json.loads(body)
+    except json.JSONDecodeError:
+        sys.exit(f"Scribe returned non-JSON: {body[:300]}")
     if "words" not in d:
         sys.exit(f"Scribe error: {str(d)[:300]}")
     return d
@@ -49,13 +76,30 @@ def norm_words(d):
     return [w for w in d["words"] if w.get("type") == "word"]
 
 
+def cold_open_ranges(path):
+    """[start, end] pairs the operator approved as dialogue removal. Nothing else."""
+    data = json.loads(Path(path).read_text())
+    raw = data.get("cold_open") or []
+    if not isinstance(raw, list):
+        sys.exit("cuts.json cold_open must be a list of [start, end]")
+    ranges = []
+    for r in raw:
+        if not isinstance(r, (list, tuple)) or len(r) != 2:
+            sys.exit(f"cuts.json cold_open entry must be [start, end], got {r!r}")
+        try:
+            ranges.append((float(r[0]), float(r[1])))
+        except (TypeError, ValueError):
+            sys.exit(f"cuts.json cold_open entry must be numeric, got {r!r}")
+    return ranges
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--before", required=True, help="source transcript json (Scribe)")
     ap.add_argument("--after", required=True, help="rendered mp4")
-    ap.add_argument("--cuts", help="cuts.json from build_edit.py -- use this whenever "
-                                    "a cold-open range was cut, or the baseline below "
-                                    "counts real removed dialogue as clipped speech")
+    ap.add_argument("--cuts", help="cuts.json from build_edit.py. Exempts cold_open "
+                                    "ranges only. Filler cuts are not exempt: one that "
+                                    "also removes a real word still fails")
     ap.add_argument("--keep-audio", action="store_true")
     a = ap.parse_args()
 
@@ -73,12 +117,14 @@ def main():
     act = norm_words(after)
 
     if a.cuts:
-        # Correct baseline: only words NOT inside any merged cut should survive.
-        merged = [tuple(m) for m in json.loads(Path(a.cuts).read_text())["merged"]]
+        # Approved dialogue removal only. A filler cut that also covers a real
+        # word must stay in the baseline, or the loss disappears from the diff.
+        approved = cold_open_ranges(a.cuts)
         def inside(w):
-            return any(x <= w["start"] < y or x < w["end"] <= y for x, y in merged)
+            return any(x <= w["start"] < y or x < w["end"] <= y for x, y in approved)
         baseline = [w for w in before_words if not inside(w)]
-        baseline_label = "expected survivors (post-cuts)"
+        baseline_label = ("expected survivors (cold-open exempted)" if approved
+                          else "source total (no cold-open in cuts)")
     else:
         baseline = before_words
         baseline_label = "source total (no --cuts given)"
@@ -110,6 +156,11 @@ def main():
         if not a.cuts:
             print("  0. no --cuts given -- if a cold-open range removed real dialogue,")
             print("     re-run with --cuts cuts.json before concluding this is real drift")
+        elif drift < -1.5:
+            print("  0. a filler cut took real speech. Only cold_open ranges are exempt.")
+            print("     render.py reads keeps in cuts.json, not cuts.csv. Put that span")
+            print("     back inside a keep, then re-render. Do not re-run build_edit.py:")
+            print("     it overwrites cuts.json and never reads the CSV.")
         print("  1. audio timebase drift  -> re-extract with aresample=async=1,")
         print("     re-run Scribe on the synced wav, rebuild cuts")
         print("  2. cuts built from Scribe word ends rather than energy bursts")

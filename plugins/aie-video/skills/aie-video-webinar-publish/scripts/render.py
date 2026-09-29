@@ -65,11 +65,19 @@ def main():
     subprocess.run(["ffmpeg", "-y", "-v", "error", "-f", "concat", "-safe", "0",
                     "-i", str(lst), "-c", "copy", "-movflags", "+faststart",
                     a.out], check=True)
+    for p in parts:
+        p.unlink(missing_ok=True)
+    lst.unlink(missing_ok=True)
+    try:
+        tmp.rmdir()
+    except OSError:
+        print(f"left {tmp} in place (not empty)")
 
     kept = sum(e - s for s, e in keeps)
     print(f"wrote {a.out}  ({kept / 60:.2f} min expected)")
-    print("now VERIFY: scripts/verify_edit.py --before <scribe_full.json> --after "
-          f"{a.out}")
+    print("now VERIFY: python3 /path/to/aie-video-webinar-publish/scripts/verify_edit.py "
+          f"--before <scribe_full.json> --after {a.out} --cuts {a.cuts}")
+    print("(--cuts exempts cold_open only; a filler cut that takes a real word still fails)")
 
 
 if __name__ == "__main__":
