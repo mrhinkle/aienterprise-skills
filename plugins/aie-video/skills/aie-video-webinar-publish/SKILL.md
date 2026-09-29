@@ -84,12 +84,27 @@ ElevenLabs Scribe works and is what the scripts expect. Make the mp3 from the
 synced wav first — same timebase, far less upload — then send that file. Do not
 upload the wav under an `.mp3` name.
 
+Do not pass the key with `-H`. The shell puts that value on curl's argument
+list. Write it into a mode-0600 config, pass that with `-K`, delete the file,
+and stop unless curl itself succeeded and the HTTP status is 2xx.
+
 ```bash
 ffmpeg -y -i audio_sync.wav -ac 1 -ar 16000 -c:a libmp3lame -b:a 64k audio_sync.mp3
-curl -sS -X POST "https://api.elevenlabs.io/v1/speech-to-text" \
-  -H "xi-api-key: $ELEVENLABS_API_KEY" \
+scribe_cfg=$(mktemp)
+chmod 600 "$scribe_cfg"
+# Same escaping as verify_edit.py: a quote or backslash in the key must not break the config line.
+escaped=$(printf '%s' "$ELEVENLABS_API_KEY" | sed 's/\\/\\\\/g; s/"/\\"/g')
+printf 'header = "xi-api-key: %s"\n' "$escaped" > "$scribe_cfg"
+code=$(curl -sS -X POST "https://api.elevenlabs.io/v1/speech-to-text" \
+  -K "$scribe_cfg" \
   -F "model_id=scribe_v1" -F "timestamps_granularity=word" -F "diarize=true" \
-  -F "file=@audio_sync.mp3" -o transcript.json
+  -F "file=@audio_sync.mp3" \
+  -o transcript.json -w "%{http_code}") || code="000"
+rm -f "$scribe_cfg"
+case "$code" in
+  2*) ;;
+  *) echo "Scribe request failed (HTTP $code)" >&2; exit 1 ;;
+esac
 ```
 
 Scribe attaches punctuation to tokens (`"uh,"`, `"Um..."`), so strip non-word
@@ -170,13 +185,17 @@ python3 /path/to/aie-video-webinar-publish/scripts/verify_edit.py --before trans
 
 Pass `--cuts`. Without it, a legitimate cold-open cut that removes real
 dialogue (apologies, chit-chat) is scored as clipped speech and a healthy edit
-fails. Re-transcribes the **rendered output** and diffs it against the source.
+fails. `--cuts` exempts `cold_open` ranges only. A filler cut is not an
+approved deletion: if it also takes a real word, the check fails. Do not
+widen the exemption to every merged cut — that hides the loss, because the
+render and the baseline both drop the word and the drift reads 0%.
+Re-transcribes the **rendered output** and diffs it against the source.
 The script's pass gate, not a vibe, decides it:
 
 | Signal | Pass gate | Healthy target |
 |---|---|---|
 | fillers removed | at least 40% | 60–70% removed, not 100% |
-| non-filler word count vs words outside the cuts | within ±1.5% | about 0% |
+| non-filler words vs words outside the cold open | within ±1.5% | about 0% |
 
 Fillers barely moving **and** real words vanishing is the timebase-drift signature
 from step 2. Then spot-check the actual audio at one mapped timestamp — a
@@ -228,9 +247,16 @@ ffmpeg -y -i edited.mp4 -vf "fps=1/10" frames/f%04d.jpg
 swift /path/to/aie-video-webinar-publish/scripts/ocr_slides.swift frames/*.jpg
 ```
 
-Map each kept title back through the cut list so chapter times are *edited*
-time. If the tool prints nothing and exits 1, no title was recognized. Do not
-invent chapter names.
+Those frames are already on the edited timeline. Do not map them through the
+cut list a second time. The command above does not set `-start_number`, so
+`f%04d` starts at 1: `frames/f0001.jpg` is edited 00:00, `frames/f0007.jpg` is
+edited 01:00, and frame N is edited time `(N - 1) * 10` seconds. A ten-second
+opening cut puts a slide that was at source 01:10 at edited 01:00 in this
+file. Subtracting the cuts again would place that chapter at 00:50.
+
+If the tool prints nothing and exits 1, no title was recognized. A blank frame
+or a frame whose text sits below the title band does not count. Exit 2 means
+no images were passed. Do not invent chapter names.
 
 - Unwrap any hard-wrapped markdown into real paragraphs before sending. YouTube does
   its own wrapping.

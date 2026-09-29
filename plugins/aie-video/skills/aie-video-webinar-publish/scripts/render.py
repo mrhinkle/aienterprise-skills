@@ -77,6 +77,7 @@ def main():
     print(f"wrote {a.out}  ({kept / 60:.2f} min expected)")
     print("now VERIFY: python3 /path/to/aie-video-webinar-publish/scripts/verify_edit.py "
           f"--before <scribe_full.json> --after {a.out} --cuts {a.cuts}")
+    print("(--cuts exempts cold_open only; a filler cut that takes a real word still fails)")
 
 
 if __name__ == "__main__":

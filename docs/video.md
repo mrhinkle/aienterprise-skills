@@ -60,12 +60,13 @@ python3 /path/to/aie-video-webinar-publish/scripts/verify_edit.py \
 
 Pass `--cuts`. A cold-open cut removes real words on purpose; without the cut
 list the checker treats those words as clipped speech and fails a healthy edit.
-The scripts do not read `webinar.config.md`. Their pass gate is:
+`--cuts` exempts that cold open only. A filler cut that also takes a real word
+still fails. The scripts do not read `webinar.config.md`. Their pass gate is:
 
 | Signal | Pass gate | Healthy target |
 | --- | --- | --- |
 | fillers removed | at least 40% | 60–70%, not 100% |
-| non-filler words vs words outside the cuts | within ±1.5% | about 0% |
+| non-filler words vs words outside the cold open | within ±1.5% | about 0% |
 
 Fillers barely moving **and** real words vanishing means the audio you transcribed
 drifted against the video — go back to the extraction step. Comparing two

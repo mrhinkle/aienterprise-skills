@@ -23,10 +23,17 @@ for f in files {
         continue
     }
     // Vision origin is bottom-left: keep the top ~28% of the frame (slide title).
-    let lines = obs.filter { $0.boundingBox.midY > 0.72 }
+    let title = obs.filter { $0.boundingBox.midY > 0.72 }
         .sorted { $0.boundingBox.midY > $1.boundingBox.midY }
         .compactMap { $0.topCandidates(1).first?.string }
-    print("\(f)\t\(lines.joined(separator: " | "))")
+        .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+        .filter { !$0.isEmpty }
+        .joined(separator: " | ")
+    if title.isEmpty {
+        fputs("no title in \(f)\n", stderr)
+        continue
+    }
+    print("\(f)\t\(title)")
     wrote += 1
 }
 if wrote == 0 {
