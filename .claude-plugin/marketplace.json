@@ -5,7 +5,7 @@
     "url": "https://theaie.net"
   },
   "metadata": {
-    "description": "Open source Agent Skills from The AIE Network for Claude Code and Cowork \u2014 practical, source-backed tools for people doing real work with AI. Writing, direct-response, web, social, chief-of-staff, skill-creator, and video bundles.",
+    "description": "Open source Agent Skills from The AIE Network for Claude Code and Cowork \u2014 practical, source-backed tools for people doing real work with AI. Writing, line editing, direct-response, web, social, chief-of-staff, skill-creator, and video bundles.",
     "version": "1.0.0"
   },
   "plugins": [
@@ -26,6 +26,25 @@
         "content",
         "humanize"
       ],
+      "category": "writing"
+    },
+    {
+      "name": "aie-line-editor",
+      "version": "1.0.0",
+      "description": "Professional line editing for fiction and narrative nonfiction. Preserve authorial voice with direct edits or guided approval of one change at a time; configure house style without private manuscript dependencies.",
+      "author": {
+        "name": "The AIE Network",
+        "url": "https://theaie.net"
+      },
+      "keywords": [
+        "writing",
+        "editing",
+        "line-editing",
+        "fiction",
+        "narrative-nonfiction",
+        "copyediting"
+      ],
+      "source": "./plugins/aie-line-editor",
       "category": "writing"
     },
     {
