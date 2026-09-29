@@ -4,7 +4,7 @@ Open source [Agent Skills](https://docs.claude.com/en/docs/claude-code/skills) f
 
 Skills are folders of instructions and reference material that Claude loads on demand, only when they're relevant. These are the ones we use ourselves, cleaned up and depersonalized so anyone can run them. They work in **Claude Code** and in **Cowork**.
 
-**18 skills across 7 bundles:** writing, direct response, web, social, chief-of-staff, skill-creator, and video *(beta)*.
+**19 skills across 8 bundles:** writing, line editing, direct response, web, social, chief-of-staff, skill-creator, and video *(beta)*.
 
 ---
 
@@ -15,6 +15,12 @@ Skills are folders of instructions and reference material that Claude loads on d
 | Skill | What it does |
 | --- | --- |
 | **[ai-slop-killer](plugins/ai-slop-killer/skills/ai-slop-killer)** | The final editing pass for any prose. Detects documented AI writing tells (from Wikipedia's *Signs of AI writing*, tropes.fyi, and working editors' guides), scores how bad it was, rewrites in place, and shows its work. Configurable to your house style via `slop.config.md`. |
+
+### 📝 aie-line-editor &nbsp;·&nbsp; [plugin](plugins/aie-line-editor)
+
+| Skill | What it does |
+| --- | --- |
+| **[line-editor](plugins/aie-line-editor/skills/line-editor)** | Professional line editing for fiction and narrative nonfiction. Preserves voice, meaning, and viewpoint; supports direct edits, review-only feedback, samples, and guided approval of one change at a time. Optional project house style; no companion skills required. |
 
 ### ✒️ aie-direct-response &nbsp;·&nbsp; [plugin](plugins/aie-direct-response) &nbsp;·&nbsp; evidence-led
 
@@ -74,6 +80,7 @@ In Claude Code or Cowork:
 ```
 /plugin marketplace add mrhinkle/aienterprise-skills
 /plugin install ai-slop-killer@aienterprise-skills
+/plugin install aie-line-editor@aienterprise-skills
 /plugin install aie-direct-response@aienterprise-skills
 /plugin install aie-web@aienterprise-skills
 /plugin install aie-social@aienterprise-skills
@@ -99,6 +106,7 @@ The skills are designed to hand off to each other:
 - **direct-response-campaign-writer** creates sales pages, VSLs, and webinar scripts, then hands the asset and its evidence ledger to **copy-chief** for independent critique.
 - **email-launch-writer** turns the shared offer and evidence into a coordinated launch sequence; use it for webinar promotion and follow-up rather than forcing those emails into the webinar script.
 - **aie-video-webinar-publish** hands its title and description copy to **ai-slop-killer** before upload.
+- **line-editor** improves sentences, dialogue, and rhythm while preserving authorial intent. Its guided mode approves every change individually, including suggestions from an optional **ai-slop-killer** audit.
 - **ai-slop-killer** is the last pass for anything you publish — it's useful on its own, and the writing engine behind the social skills.
 
 Full usage docs: **[docs/](docs/)**.

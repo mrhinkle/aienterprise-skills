@@ -13,6 +13,7 @@ These skills run in **Claude Code** (the CLI) and in **Cowork** (the desktop app
 ```
 /plugin marketplace add mrhinkle/aienterprise-skills
 /plugin install ai-slop-killer@aienterprise-skills
+/plugin install aie-line-editor@aienterprise-skills
 /plugin install aie-direct-response@aienterprise-skills
 /plugin install aie-web@aienterprise-skills
 /plugin install aie-social@aienterprise-skills
@@ -41,6 +42,7 @@ Just describe the work. Examples:
 | You say | Skill that activates |
 | --- | --- |
 | "Does this paragraph sound like AI? Clean it up." | ai-slop-killer |
+| "Review line-edits for Chapter 1, one at a time." | line-editor |
 | "Copy chief this sales page and run the CUB test." | copy-chief |
 | "Build a VSL from this offer and evidence." | direct-response-campaign-writer |
 | "Write a five-email launch in our brand voice." | email-launch-writer |
@@ -55,6 +57,8 @@ Just describe the work. Examples:
 Some skills read a small config file from your working directory so they match your house style:
 
 - **`slop.config.md`** (ai-slop-killer, and the social skills' final pass) — your extra banned words, words you legitimately use, a voice to preserve, and citation strictness. Copy the example from `plugins/ai-slop-killer/skills/ai-slop-killer/reference/slop.config.example.md`.
+
+- **`line-editor.config.md`** (line-editor) — optional language, mechanics, voice, continuity, and house preferences. See the [example](../plugins/aie-line-editor/skills/line-editor/reference/line-editor.config.example.md).
 
 With no config, every skill applies sensible defaults.
 

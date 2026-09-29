@@ -1,0 +1,19 @@
+{
+  "name": "aie-line-editor",
+  "version": "1.0.0",
+  "description": "Professional line editing for fiction and narrative nonfiction. Preserve authorial voice with direct edits or guided approval of one change at a time; configure house style without private manuscript dependencies.",
+  "author": {
+    "name": "The AIE Network",
+    "url": "https://theaie.net"
+  },
+  "homepage": "https://github.com/mrhinkle/aienterprise-skills",
+  "license": "MIT",
+  "keywords": [
+    "writing",
+    "editing",
+    "line-editing",
+    "fiction",
+    "narrative-nonfiction",
+    "copyediting"
+  ]
+}
