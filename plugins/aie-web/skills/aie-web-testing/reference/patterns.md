@@ -4,7 +4,7 @@
 
 Test the flows that cost real money or trust if they break — not every page. A good default set:
 
-1. **Homepage loads** — 200, key content visible, no console errors.
+1. **Homepage loads** — 200, key content visible, no uncaught errors from your own origin.
 2. **Navigation** — primary nav links resolve and land on the right page.
 3. **Auth** — sign-up and log in (against test accounts on staging).
 4. **The main form** — contact / lead / newsletter / checkout submits and shows success.
@@ -24,16 +24,51 @@ Rely on Playwright's auto-waiting. Never use fixed `page.waitForTimeout(...)` as
 
 ## Catch silent failures
 
-Fail the journey on uncaught page errors from your own origin. Do not fail on every `console` error or `requestfailed` event: ad pixels, analytics, and font CDNs fail constantly and will make a healthy page look broken. If you also watch the console, keep an explicit allowlist and assert it inside the test. Do not hang the list off `(page as any)` and do not leave the assertion in a comment.
+Fail the journey on uncaught page errors whose script URL is your page's own origin. `page.on('pageerror')` keeps only `err.message` and also fires for other-origin iframes and third-party scripts, so classify with `browserContext.on('weberror')`, which still has the resource URL. Do not fail on every `console` error or `requestfailed` event: ad pixels, analytics, and font CDNs fail constantly and will make a healthy page look broken. If you also watch the console, keep an explicit allowlist and assert it inside the test. Do not hang the list off `(page as any)` and do not leave the assertion in a comment.
 
 ```ts
-import { test as base, expect } from '@playwright/test';
+import { test as base, expect, type Page, type WebError } from '@playwright/test';
+
+// Empty location URL (eval) falls back to the first http(s) URL in the stack.
+// No URL at all counts as this page. about:blank counts as owned so a
+// first-party throw is not dropped before the document URL is committed.
+function ownsPageError(page: Page, webError: WebError): boolean {
+  if (webError.page() !== page) return false;
+  const locationURL = webError.location().url;
+  const resourceURL =
+    locationURL || (webError.error().stack ?? '').match(/https?:\/\/[^\s)]+/)?.[0] || '';
+  if (!resourceURL) return true;
+  let resourceOrigin = '';
+  try {
+    resourceOrigin = new URL(resourceURL).origin;
+  } catch {
+    return true;
+  }
+  let pageOrigin = '';
+  try {
+    pageOrigin = new URL(page.url()).origin;
+  } catch {
+    return true;
+  }
+  if (!pageOrigin || pageOrigin === 'null') return true;
+  return resourceOrigin === pageOrigin;
+}
 
 export const test = base.extend<{ pageErrors: string[] }>({
   pageErrors: async ({ page }, use) => {
     const errors: string[] = [];
-    page.on('pageerror', (err) => errors.push(err.message));
+    const onWebError = (webError: WebError) => {
+      if (!ownsPageError(page, webError)) return;
+      const location = webError.location();
+      const err = webError.error();
+      const where = location.url || page.url();
+      errors.push(
+        `${where}:${location.line}:${location.column} ${err.name}: ${err.message}\n${err.stack ?? ''}`,
+      );
+    };
+    page.context().on('weberror', onWebError);
     await use(errors);
+    page.context().off('weberror', onWebError);
   },
 });
 

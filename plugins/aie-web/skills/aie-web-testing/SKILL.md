@@ -26,7 +26,7 @@ If the project has no Playwright, scaffold it (`npm init playwright@latest` or a
 - **Resilient selectors:** prefer `getByRole`, `getByLabel`, `getByText` over brittle CSS/XPath. Add `data-testid` only where semantics can't.
 - **One journey per test**, arranged Arrange → Act → Assert. Assert on user-visible outcomes (URL, visible text, element state), not implementation details.
 - **Auto-wait** — rely on Playwright's built-in waiting; avoid fixed `sleep`s.
-- **Catch silent failures:** attach listeners for uncaught page errors and failed network requests, and fail the test if the console logs errors during a journey.
+- **Catch silent failures:** fail the journey on uncaught page errors from your own origin. Use the `weberror` pattern in `reference/patterns.md` (it keeps the script URL). Do not fail on third-party scripts or iframes, and do not fail because the console logged an error or a network request failed.
 - **Accessibility smoke:** optionally assert the page has one `h1`, labeled inputs, and no obvious ARIA violations.
 Templates for auth, form-submit, and navigation journeys are in `reference/patterns.md`.
 
