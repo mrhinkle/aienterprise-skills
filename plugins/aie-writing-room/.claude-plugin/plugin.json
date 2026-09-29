@@ -1,0 +1,20 @@
+{
+  "name": "aie-writing-room",
+  "version": "1.0.0",
+  "description": "A fiction writing room: an orchestrator that runs a draft through planning, drafting, character, technical, realism, continuity, and voice passes in a fixed order, ending with ai-slop-killer. Every book-specific rule lives in writing-room.config.md.",
+  "author": {
+    "name": "The AIE Network",
+    "url": "https://theaie.net"
+  },
+  "homepage": "https://github.com/mrhinkle/aienterprise-skills",
+  "license": "MIT",
+  "keywords": [
+    "writing",
+    "fiction",
+    "novel",
+    "editing",
+    "continuity",
+    "manuscript",
+    "pipeline"
+  ]
+}

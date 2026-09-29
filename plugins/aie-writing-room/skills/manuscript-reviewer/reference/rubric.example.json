@@ -1,0 +1,13 @@
+{
+  "name": "Example: business-fiction rubric (theme weighted up, hook down)",
+  "dimensions": [
+    {"key": "theme",     "name": "Theme & Argument",          "weight": 0.16},
+    {"key": "story",     "name": "Story Engine",              "weight": 0.14},
+    {"key": "character", "name": "Character",                 "weight": 0.14},
+    {"key": "world",     "name": "World & Authenticity",      "weight": 0.13},
+    {"key": "voice",     "name": "Voice & Prose",             "weight": 0.11},
+    {"key": "dialogue",  "name": "Dialogue",                  "weight": 0.10},
+    {"key": "pacing",    "name": "Pacing & Structure",        "weight": 0.14},
+    {"key": "hook",      "name": "Hook & Reader Conversion",  "weight": 0.08}
+  ]
+}

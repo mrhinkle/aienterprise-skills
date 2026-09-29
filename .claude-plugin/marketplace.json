@@ -5,7 +5,7 @@
     "url": "https://theaie.net"
   },
   "metadata": {
-    "description": "Open source Agent Skills from The AIE Network for Claude Code and Cowork \u2014 practical, source-backed tools for people doing real work with AI. Writing, direct-response, web, social, chief-of-staff, skill-creator, and video bundles.",
+    "description": "Open source Agent Skills from The AIE Network for Claude Code and Cowork — practical, source-backed tools for people doing real work with AI. Writing, writing room, newsletter, editorial, direct-response, web, social, chief-of-staff, skill-creator, and video bundles.",
     "version": "1.0.0"
   },
   "plugins": [
@@ -31,7 +31,7 @@
     {
       "name": "aie-web",
       "source": "./plugins/aie-web",
-      "description": "Nine focused web skills \u2014 SEO/AEO audit, site health audit, performance, pre-launch QA, defensive security review, link checking, form wiring, UX review, and automated Playwright testing. Stack-agnostic.",
+      "description": "Nine focused web skills — SEO/AEO audit, site health audit, performance, pre-launch QA, defensive security review, link checking, form wiring, UX review, and automated Playwright testing. Stack-agnostic.",
       "version": "1.0.0",
       "author": {
         "name": "The AIE Network",
@@ -94,7 +94,7 @@
     {
       "name": "aie-skill-creator",
       "source": "./plugins/aie-skill-creator",
-      "description": "Build a new, high-quality Claude Agent Skill from scratch \u2014 frontmatter, tight SKILL.md, progressive-disclosure reference files, a self-test, and packaging as a .skill or plugin. Also audits and improves existing skills and fixes descriptions that don't trigger.",
+      "description": "Build a new, high-quality Claude Agent Skill from scratch — frontmatter, tight SKILL.md, progressive-disclosure reference files, a self-test, and packaging as a .skill or plugin. Also audits and improves existing skills and fixes descriptions that don't trigger.",
       "version": "1.0.0",
       "author": {
         "name": "The AIE Network",
@@ -114,7 +114,7 @@
     {
       "name": "aie-video",
       "source": "./plugins/aie-video",
-      "description": "BETA. Turn a recorded webinar into a publish-ready YouTube video \u2014 pull the recording off the platform, cut filler words and the dead cold open using word-level transcript timing plus audio-energy boundaries, build a thumbnail that survives at 168px, generate chapters by OCR-ing the slides, and upload private for review. Verifies itself by re-transcribing the render.",
+      "description": "BETA. Turn a recorded webinar into a publish-ready YouTube video — pull the recording off the platform, cut filler words and the dead cold open using word-level transcript timing plus audio-energy boundaries, build a thumbnail that survives at 168px, generate chapters by OCR-ing the slides, and upload private for review. Verifies itself by re-transcribing the render.",
       "version": "0.1.0-beta",
       "author": {
         "name": "The AIE Network",
@@ -151,6 +151,64 @@
         "copy-review"
       ],
       "category": "content"
+    },
+    {
+      "name": "aie-writing-room",
+      "source": "./plugins/aie-writing-room",
+      "description": "A fiction writing room: an orchestrator that runs a draft through planning, drafting, character, technical, realism, continuity, and voice passes in a fixed order, ending with ai-slop-killer. Every book-specific rule lives in writing-room.config.md.",
+      "version": "1.0.0",
+      "author": {
+        "name": "The AIE Network",
+        "url": "https://theaie.net"
+      },
+      "keywords": [
+        "writing",
+        "fiction",
+        "novel",
+        "editing",
+        "continuity",
+        "manuscript",
+        "pipeline"
+      ],
+      "category": "writing"
+    },
+    {
+      "name": "aie-newsletter",
+      "source": "./plugins/aie-newsletter",
+      "description": "Five newsletter production skills: news digest, tutorial, single-tactic edition, deep dive, and community/events roundup. Research with cited sources, fixed structures, 100-point review rubrics, and staging to a file or your CMS.",
+      "version": "1.0.0",
+      "author": {
+        "name": "The AIE Network",
+        "url": "https://theaie.net"
+      },
+      "keywords": [
+        "newsletter",
+        "writing",
+        "research",
+        "editorial",
+        "content",
+        "email"
+      ],
+      "category": "writing"
+    },
+    {
+      "name": "aie-editorial",
+      "source": "./plugins/aie-editorial",
+      "description": "Build and write in a voice profile from someone's transcripts, enforce a configurable house style, run a developmental edit with an editorial letter, and explain AI concepts with 1980s pop culture analogies.",
+      "version": "1.0.0",
+      "author": {
+        "name": "The AIE Network",
+        "url": "https://theaie.net"
+      },
+      "keywords": [
+        "writing",
+        "voice",
+        "style-guide",
+        "editing",
+        "developmental-edit",
+        "analogies"
+      ],
+      "category": "writing"
     }
   ]
 }

@@ -1,0 +1,19 @@
+{
+  "name": "aie-newsletter",
+  "version": "1.0.0",
+  "description": "Five newsletter production skills: news digest, tutorial, single-tactic edition, deep dive, and community/events roundup. Research with cited sources, fixed structures, 100-point review rubrics, and staging to a file or your CMS. Configured via newsletter.config.md.",
+  "author": {
+    "name": "The AIE Network",
+    "url": "https://theaie.net"
+  },
+  "homepage": "https://github.com/mrhinkle/aienterprise-skills",
+  "license": "MIT",
+  "keywords": [
+    "newsletter",
+    "writing",
+    "research",
+    "editorial",
+    "content",
+    "email"
+  ]
+}
