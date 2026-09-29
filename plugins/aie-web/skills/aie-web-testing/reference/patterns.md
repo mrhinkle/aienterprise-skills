@@ -24,15 +24,24 @@ Rely on Playwright's auto-waiting. Never use fixed `page.waitForTimeout(...)` as
 
 ## Catch silent failures
 
+Fail the journey on uncaught page errors from your own origin. Do not fail on every `console` error or `requestfailed` event: ad pixels, analytics, and font CDNs fail constantly and will make a healthy page look broken. If you also watch the console, keep an explicit allowlist and assert it inside the test. Do not hang the list off `(page as any)` and do not leave the assertion in a comment.
+
 ```ts
-test.beforeEach(async ({ page }) => {
-  const errors: string[] = [];
-  page.on('pageerror', e => errors.push(`pageerror: ${e.message}`));
-  page.on('console', m => { if (m.type() === 'error') errors.push(`console: ${m.text()}`); });
-  page.on('requestfailed', r => errors.push(`net: ${r.url()} ${r.failure()?.errorText}`));
-  (page as any)._errors = errors;
+import { test as base, expect } from '@playwright/test';
+
+export const test = base.extend<{ pageErrors: string[] }>({
+  pageErrors: async ({ page }, use) => {
+    const errors: string[] = [];
+    page.on('pageerror', (err) => errors.push(err.message));
+    await use(errors);
+  },
 });
-// ...at the end of a journey: expect((page as any)._errors).toEqual([]);
+
+test('homepage has no uncaught page errors', async ({ page, pageErrors }) => {
+  await page.goto('/');
+  await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+  expect(pageErrors, pageErrors.join('\n')).toEqual([]);
+});
 ```
 
 ## Template — smoke
