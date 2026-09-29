@@ -157,8 +157,10 @@ def main():
             print("  0. no --cuts given -- if a cold-open range removed real dialogue,")
             print("     re-run with --cuts cuts.json before concluding this is real drift")
         elif drift < -1.5:
-            print("  0. a filler cut took real speech. Only cold_open ranges are exempt;")
-            print("     veto that row in cuts.csv and rebuild")
+            print("  0. a filler cut took real speech. Only cold_open ranges are exempt.")
+            print("     render.py reads keeps in cuts.json, not cuts.csv. Put that span")
+            print("     back inside a keep, then re-render. Do not re-run build_edit.py:")
+            print("     it overwrites cuts.json and never reads the CSV.")
         print("  1. audio timebase drift  -> re-extract with aresample=async=1,")
         print("     re-run Scribe on the synced wav, rebuild cuts")
         print("  2. cuts built from Scribe word ends rather than energy bursts")

@@ -82,14 +82,16 @@ model found 294. An `initial_prompt` asking for verbatim output does not fix it.
 
 ElevenLabs Scribe works and is what the scripts expect. Make the mp3 from the
 synced wav first — same timebase, far less upload — then send that file. Do not
-upload the wav under an `.mp3` name.
+upload the wav under an `.mp3` name. If the conversion fails, stop before any
+request. A leftover `audio_sync.mp3` is a different file on a different clock,
+and uploading it would replace `transcript.json` with the wrong transcript.
 
 Do not pass the key with `-H`. The shell puts that value on curl's argument
 list. Write it into a mode-0600 config, pass that with `-K`, delete the file,
 and stop unless curl itself succeeded and the HTTP status is 2xx.
 
 ```bash
-ffmpeg -y -i audio_sync.wav -ac 1 -ar 16000 -c:a libmp3lame -b:a 64k audio_sync.mp3
+ffmpeg -y -i audio_sync.wav -ac 1 -ar 16000 -c:a libmp3lame -b:a 64k audio_sync.mp3 || exit 1
 scribe_cfg=$(mktemp)
 chmod 600 "$scribe_cfg"
 # Same escaping as verify_edit.py: a quote or backslash in the key must not break the config line.
@@ -138,7 +140,11 @@ Single-token discourse markers (`like`, `basically`, `actually`, `literally`,
 sentences, not just noise. Multi-word habits such as "you know" are not in the
 filler list, so the script neither cuts nor counts them.
 
-Every cut lands in `cuts.csv` with a timestamp so a human can veto any of them.
+Every filler cut is also logged in `cuts.csv` (word, start, end) so a human
+can read it. Nothing in this skill reads that file. `render.py` uses `keeps`
+in `cuts.json`. To drop a cut, put that span back inside a keep, then
+re-render. Do not re-run `build_edit.py` to do it: the builder ignores the
+CSV and overwrites `cuts.json` from the transcript, which puts the cut back.
 
 ### 5. Cold open
 
@@ -242,15 +248,26 @@ repeats yourself. `ocr_slides.swift` only reads images you hand it. macOS only
 (Vision).
 
 ```bash
-mkdir -p frames
-ffmpeg -y -i edited.mp4 -vf "fps=1/10" frames/f%04d.jpg
-swift /path/to/aie-video-webinar-publish/scripts/ocr_slides.swift frames/*.jpg
+frame_dir=$(mktemp -d)
+ffmpeg -y -i edited.mp4 -vf "fps=1/10" "$frame_dir/f%04d.jpg" || { rm -rf "$frame_dir"; exit 1; }
+swift /path/to/aie-video-webinar-publish/scripts/ocr_slides.swift "$frame_dir"/*.jpg
+status=$?
+rm -rf "$frame_dir"
+exit "$status"
 ```
+
+Each run samples into a new empty directory and passes only that directory to
+OCR. `ffmpeg -y` overwrites names it writes and leaves higher-numbered JPEGs
+from a longer previous render in place, so do not reuse a `frames/` folder and
+do not pass any other images. If extraction fails, the block removes the
+directory and exits before OCR. A shorter re-render cannot inherit the
+previous video's later titles.
 
 Those frames are already on the edited timeline. Do not map them through the
 cut list a second time. The command above does not set `-start_number`, so
-`f%04d` starts at 1: `frames/f0001.jpg` is edited 00:00, `frames/f0007.jpg` is
-edited 01:00, and frame N is edited time `(N - 1) * 10` seconds. A ten-second
+`f%04d` starts at 1: `f0001.jpg` is edited 00:00, `f0007.jpg` is edited 01:00,
+and frame N is edited time `(N - 1) * 10` seconds. Read the title off the
+tool's stdout; the directory is removed at the end of the block. A ten-second
 opening cut puts a slide that was at source 01:10 at edited 01:00 in this
 file. Subtracting the cuts again would place that chapter at 00:50.
 

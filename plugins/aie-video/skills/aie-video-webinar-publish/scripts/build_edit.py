@@ -13,7 +13,8 @@ Why this is not a one-liner over the transcript:
   Fillers whose burst merges into a neighbouring word are skipped, not forced.
   There is no silence to cut on, so removing them would clip real speech.
 
-Writes cuts.json (machine) and cuts.csv (a vetoable log for a human).
+Writes cuts.json (the file render.py reads) and cuts.csv (a log for a human).
+The CSV is not an input. Re-running this script overwrites both.
 """
 import argparse, csv, json, re, subprocess, sys
 from pathlib import Path
