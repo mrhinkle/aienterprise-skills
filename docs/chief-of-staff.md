@@ -35,7 +35,7 @@ The industry scan needs nothing. The schedule and inbox sections use whatever em
 
 ### Make it a habit
 
-It's built to run every morning. Pair it with the `schedule` skill to fire on weekday mornings at your start time. Ask it to run `ai-slop-killer` on any drafted replies before they go out.
+It's built to run every morning. Use your host's scheduled tasks (Claude Code's schedule feature, or whatever runner you already use) to fire it on weekday mornings at your start time. This marketplace does not ship a separate schedule skill. Ask it to run `ai-slop-killer` on any drafted replies before they go out.
 
 ### Triggers
 

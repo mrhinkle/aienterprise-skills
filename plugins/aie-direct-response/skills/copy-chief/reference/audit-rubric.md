@@ -23,7 +23,7 @@ Score each category from 0 to 5 and show one sentence of evidence. Calculate eac
 | Voice and reader respect | 5 | It sounds recognizably like the supplied voice and treats the reader as an autonomous adult. |
 | Compliance, accessibility, and net impression | 10 | Claims, endorsements, scarcity, pricing, guarantees, disclosures, essential information, and actions survive the relevant legal and access checks. |
 
-Bands: 90–100 A; 80–89 B; 70–79 C; below 70 not ready. While any Blocking issue is open, report `min(uncapped score, 69)` and label the asset `NOT PUBLISHABLE`. While no Blocking issue remains but any Major issue remains, report `min(uncapped score, 89)` and label it `NOT PERFORMANCE-READY`. Missing specialist review for a regulated claim is Blocking regardless of the numerical total. Show both the uncapped arithmetic and reported capped score when a cap applies. Do not inflate the score to be encouraging.
+Bands: 90–100 A; 80–89 B; 70–79 C; below 70 not ready. The letter is not a release decision. While any Blocking issue is open, report `min(uncapped score, 69)` and label the asset `NOT PUBLISHABLE`. While no Blocking issue remains but any Major issue remains, report `min(uncapped score, 89)` and label it `NOT PERFORMANCE-READY`. A capped 89 can still sit in band B and is not performance-ready. Missing specialist review for a regulated claim is Blocking regardless of the numerical total. Show both the uncapped arithmetic and reported capped score when a cap applies. Do not inflate the score to be encouraging.
 
 ## Big Idea test
 

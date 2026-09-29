@@ -75,7 +75,7 @@
       "name": "aie-chief-of-staff",
       "source": "./plugins/aie-chief-of-staff",
       "description": "Your morning chief of staff. One prioritized daily brief from your calendar, inbox (read-only triage), and a scan of your industry news + tracked competitors. Read-only and safe by default; configurable per industry via cos.config.md.",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "author": {
         "name": "The AIE Network",
         "url": "https://theaie.net"
@@ -136,7 +136,7 @@
       "name": "aie-direct-response",
       "source": "./plugins/aie-direct-response",
       "description": "Three evidence-led direct-response skills for copy review, sales pages, VSLs, webinars, and promotional email launches. Supports supplied brand voice, proof ledgers, accessibility, compliance checks, and explicit release states.",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "author": {
         "name": "The AIE Network",
         "url": "https://theaie.net"

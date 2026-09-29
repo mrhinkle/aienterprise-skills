@@ -43,7 +43,7 @@ Then: dedupe, rank by relevance and impact to *this* person, keep the top items 
 Assemble one skimmable brief in the order in `reference/briefing-format.md`. Lead with the 3 things that matter most today, then schedule, then inbox actions, then industry signals, then the recommended focus block. Keep it tight — a brief you can read in two minutes. If `output.save_to` is set, also write it to that file; if `output.email_to_self` is set, *draft* (don't send) a self-email and present it.
 
 ## Make it a habit
-This is built to run every morning. Offer to schedule it (see the `schedule` skill / scheduled tasks) at the person's start time, e.g. weekdays at 7:00 in their timezone. Also offer to run `ai-slop-killer` on any drafted replies before they go out.
+This is built to run every morning. Offer to schedule it with the host's scheduled-task feature (Claude Code's schedule feature, or whatever runner is already in use) at the person's start time, e.g. weekdays at 7:00 in their timezone. This marketplace does not ship a separate schedule skill. Also offer to run `ai-slop-killer` on any drafted replies before they go out.
 
 ## Reference
 - `reference/cos.config.example.md` — annotated config template (with a filled example).
