@@ -13,7 +13,7 @@ The skills work in both. Install is the same `/plugin` flow. Cowork surfaces ski
 Yes — copy just that skill's folder into `.claude/skills/` (see [getting-started](getting-started.md)). The `/plugin` flow installs a bundle at a time; manual install is per-skill.
 
 **Will the web skills change my site?**
-The audit and review skills (seo, audit, performance, qa, security, links, ux) report findings and suggest fixes. They do not change the site unless you ask them to apply a fix. `aie-web-forms` writes form-handling code when you ask it to wire a form. `aie-web-testing` writes Playwright tests when you ask it to. `aie-web-performance` can hand you commands and patches; it should not edit the project until you say to apply them.
+The audit and review skills (seo, audit, qa, security, links, ux) report findings and suggest fixes. They do not change the site unless you ask them to apply a fix. `aie-web-performance` is an audit-and-fix skill: pointed at a local project, it finds what is slow and then fixes it. Ask for a report only if you do not want those edits. `aie-web-forms` writes form-handling code when you ask it to wire a form. `aie-web-testing` writes Playwright tests when you ask it to.
 
 **Is aie-web-security safe / legal?**
 It's a **defensive self-audit** for sites you own or are authorized to review. It has no attack tooling and only inspects public output and code you point it at. Don't run it against sites you don't control.
