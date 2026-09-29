@@ -2,7 +2,7 @@
 
 Two research-driven post generators. The point of both is **research quality**: they gather real facts and citable sources before writing, and never ship a factual claim they can't source. Both run **ai-slop-killer** as a mandatory final pass, so posts don't read as machine-written.
 
-Both are brand- and person-neutral. Point them at a voice skill or a `voice.config.md` / `slop.config.md` to match your tone; otherwise they write in a clear, credible, human voice.
+Both are brand- and person-neutral. Point them at a voice skill or a `voice.config.md` / `slop.config.md` to match your tone; otherwise they write in a clear, credible, human voice. Each skill ships `reference/voice.config.example.md` showing the fields it will honor. Copy that file to `voice.config.md` in the working directory and edit it. Do not commit a filled-in config.
 
 ---
 

@@ -34,4 +34,4 @@ Score the draft before delivery. Anything that fails gets fixed, not shipped. Te
 - [ ] Source log complete: every claim → URL.
 - [ ] **ai-slop-killer has run on the post copy** and reported clean (or its fixes applied). Non-negotiable.
 
-Report the score and the ai-slop-killer confirmation in the delivery.
+Score is the count of checks that pass, out of 10 (write it as `9/10`, not a letter and not a vague "passed"). Report that score and the ai-slop-killer confirmation in the delivery.
