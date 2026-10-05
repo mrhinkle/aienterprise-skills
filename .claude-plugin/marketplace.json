@@ -5,7 +5,7 @@
     "url": "https://theaie.net"
   },
   "metadata": {
-    "description": "Open source Agent Skills from The AIE Network for Claude Code and Cowork \u2014 practical, source-backed tools for people doing real work with AI. Writing, direct-response, web, social, chief-of-staff, skill-creator, and video bundles.",
+    "description": "Open source Agent Skills from The AIE Network for Claude Code and Cowork \u2014 practical, source-backed tools for people doing real work with AI. Writing, direct-response, web, social, chief-of-staff, email, skill-creator, and video bundles.",
     "version": "1.0.0"
   },
   "plugins": [
@@ -151,6 +151,26 @@
         "copy-review"
       ],
       "category": "content"
+    },
+    {
+      "name": "aie-email",
+      "version": "0.1.0",
+      "description": "Six focused skills for email system audits, routing, reviewed-mail cleanup, approval-only replies, same-account contacts and digest review. Uses your existing authorized connectors and configurable operating policy.",
+      "author": {
+        "name": "The AIE Network",
+        "url": "https://theaie.net"
+      },
+      "keywords": [
+        "email",
+        "inbox",
+        "gmail",
+        "sanebox",
+        "drafts",
+        "contacts",
+        "productivity"
+      ],
+      "source": "./plugins/aie-email",
+      "category": "productivity"
     }
   ]
 }
