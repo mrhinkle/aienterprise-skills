@@ -26,7 +26,7 @@ produce a YouTube video worth clicking, without silently mangling the speech.
 ## Setup
 
 ```bash
-pip install numpy soundfile     # ffmpeg must also be on PATH
+pip install numpy soundfile pillow   # ffmpeg must also be on PATH
 ```
 
 Copy `reference/webinar.config.example.md` to `webinar.config.md` and fill in your
@@ -54,13 +54,19 @@ correct outcome is 60–70% removed with the non-filler word count flat.
 ## The verification step is the point
 
 ```bash
-python3 scripts/verify_edit.py --before transcript.json --after edited.mp4
+python3 /path/to/aie-video-webinar-publish/scripts/verify_edit.py \
+  --before transcript.json --after edited.mp4 --cuts cuts.json
 ```
 
-| Signal | Healthy | Means |
+Pass `--cuts`. A cold-open cut removes real words on purpose; without the cut
+list the checker treats those words as clipped speech and fails a healthy edit.
+`--cuts` exempts that cold open only. A filler cut that also takes a real word
+still fails. The scripts do not read `webinar.config.md`. Their pass gate is:
+
+| Signal | Pass gate | Healthy target |
 | --- | --- | --- |
-| fillers before → after | large drop | cuts are landing on fillers |
-| non-filler word count | flat (±1%) | no speech was clipped |
+| fillers removed | at least 40% | 60–70%, not 100% |
+| non-filler words vs words outside the cold open | within ±1.5% | about 0% |
 
 Fillers barely moving **and** real words vanishing means the audio you transcribed
 drifted against the video — go back to the extraction step. Comparing two

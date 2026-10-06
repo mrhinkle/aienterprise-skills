@@ -31,13 +31,23 @@ asr: elevenlabs_scribe              # must be a VERBATIM ASR; Whisper deletes fi
 asr_key_env: ELEVENLABS_API_KEY
 ```
 
-## Editing defaults
+## Editing defaults (notes only — the scripts do not read this block)
+
+`build_edit.py` and `verify_edit.py` hardcode their lists and the pass gate.
+Changing the numbers below does not change what the scripts do. They are here
+so a human and the agent share the same expectations.
 
 ```yaml
-filler_words: [um, umm, uh, uhh, er, erm, ah, eh, hm, hmm, mm]
-never_cut: [like, you know, basically, actually, literally, right]
-expected_removal_rate: 0.6-0.7      # anything near 1.0 means it is cutting speech
-max_word_loss_pct: 1.0              # verification fails above this
+# What build_edit.py actually cuts:
+filler_words: [um, umm, ummm, uh, uhh, uhhh, er, err, erm, ah, ahh, eh, hm, hmm, mm, mhm]
+# Counted, never cut. "you know" is not detected (no bigram matcher).
+never_cut: [like, basically, actually, literally, right]
+expected_removal_rate: 0.6-0.7      # healthy target; 1.0 means it is cutting speech
+# verify_edit.py passes at >= 40% fillers removed and real-word drift within ±1.5%
+# against words outside cold_open. --cuts does not exempt filler cuts.
+# It does not read max_word_loss_pct.
+pass_gate_filler_removed_pct: 40
+pass_gate_word_drift_pct: 1.5
 ```
 
 ## Brand (thumbnail + graphics)
