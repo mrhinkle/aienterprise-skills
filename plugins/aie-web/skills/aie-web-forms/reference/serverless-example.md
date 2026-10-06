@@ -10,10 +10,13 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
-  const { name = "", email = "", subject = "", message = "", company_website = "" } = req.body || {};
+  const { name = "", email = "", subject = "", message = "", company_website_hp = "" } = req.body || {};
 
-  // 1. Honeypot: real users never fill this
-  if (company_website) return res.status(400).json({ error: "Rejected" });
+  // 1. Honeypot: real users never fill this.
+  // Same name as the hidden input in SKILL.md (`company_website_hp`).
+  // A real company-website field keeps the name `company_website`. Do not
+  // reject that value; it is a legitimate lead field, not spam.
+  if (company_website_hp) return res.status(400).json({ error: "Rejected" });
 
   // 2. Server-side validation (never trust the client)
   if (!name.trim() || !message.trim()) {

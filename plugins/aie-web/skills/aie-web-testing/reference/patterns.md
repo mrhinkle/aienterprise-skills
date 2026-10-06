@@ -4,7 +4,7 @@
 
 Test the flows that cost real money or trust if they break — not every page. A good default set:
 
-1. **Homepage loads** — 200, key content visible, no console errors.
+1. **Homepage loads** — 200, key content visible, no uncaught page errors. A third-party script host is ignored only when you pass its hostname in `ignoreHosts` and `location().url` is an `http:` or `https:` URL whose hostname is that host or a subdomain of it.
 2. **Navigation** — primary nav links resolve and land on the right page.
 3. **Auth** — sign-up and log in (against test accounts on staging).
 4. **The main form** — contact / lead / newsletter / checkout submits and shows success.
@@ -24,15 +24,73 @@ Rely on Playwright's auto-waiting. Never use fixed `page.waitForTimeout(...)` as
 
 ## Catch silent failures
 
+Every uncaught page error fails the test. Do not classify the error by origin. `page.on('pageerror')` gives you an `Error` with a message and a stack, and it also fires for iframes and third-party scripts. The old fixture kept only `err.message`, which drops the stack. Listen with `browserContext.on('weberror')` so the failure text includes the message, the full stack, and `location()`. The message and the stack are failure diagnostics only. Do not parse them, and do not match `ignoreHosts` against them. This pattern needs Playwright 1.60 or newer, because that is when `WebError.location()` was added ([docs](https://playwright.dev/docs/api/class-weberror#web-error-location)), and an existing install may be older.
+
+To ignore a known third-party script host, pass `ignoreHosts`: an array of hostnames. Suppress an error only when `location().url` parses with `new URL()`, the protocol is `http:` or `https:`, and its hostname equals an entry or ends with `.` plus that entry. The comparison is case-insensitive. The check reads only `location().url`. It is never tested against `err.stack` or `err.message`. A message line such as `    at http://host/...` is not a location, even when that line also shows up inside `err.stack`. Leave `ignoreHosts` empty and every uncaught error fails.
+
+Anything `new URL()` cannot parse, or any URL whose protocol is not `http:` or `https:`, is never suppressed. It fails even when the message or the stack names an allowlisted host. A missing location is not proof the script was allowlisted. The trade-off is plain: some third-party `eval` errors in WebKit report the location string `undefined`. That string does not parse, so those errors cannot be allowlisted and will fail the test. That is intended. A virtual URL such as `webpack-internal:///` is not an `http:` or `https:` URL, so it is not suppressible and the error still fails. Pass hostnames, for example `ignoreHosts: ['googletagmanager.com']`. That entry also ignores a subdomain such as `www.googletagmanager.com`. It does not ignore a first-party page whose path or query only mentions that name, and it does not ignore a lookalike host such as `googletagmanager.com.evil.test`. Use the full host. A short entry such as `com` matches every hostname that ends in `.com`. Do not put your own origin on the list.
+
+Do not fail on every `console` error or `requestfailed` event: ad pixels, analytics, and font CDNs fail constantly and will make a healthy page look broken. If you also watch the console, keep a separate allowlist and assert it inside the test. Do not hang the list off `(page as any)` and do not leave the assertion in a comment.
+
 ```ts
-test.beforeEach(async ({ page }) => {
+import { test, expect, type Page, type WebError } from '@playwright/test';
+
+// Playwright 1.60+ — WebError.location() was added then.
+// ignoreHosts matches only the hostname of location().url, never err.stack or err.message.
+// The URL must parse with new URL() and the protocol must be http: or https:.
+// Anything else is not suppressible.
+function hostIsIgnored(locationURL: string, ignoreHosts: string[]): boolean {
+  if (typeof locationURL !== 'string') return false;
+  let parsed: URL;
+  try {
+    parsed = new URL(locationURL);
+  } catch {
+    return false;
+  }
+  if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') return false;
+  const host = parsed.hostname.toLowerCase();
+  return ignoreHosts.some((entry) => {
+    const name = entry.toLowerCase();
+    if (name === '') return false;
+    return host === name || host.endsWith('.' + name);
+  });
+}
+
+function watchPageErrors(page: Page, ignoreHosts: string[] = []) {
   const errors: string[] = [];
-  page.on('pageerror', e => errors.push(`pageerror: ${e.message}`));
-  page.on('console', m => { if (m.type() === 'error') errors.push(`console: ${m.text()}`); });
-  page.on('requestfailed', r => errors.push(`net: ${r.url()} ${r.failure()?.errorText}`));
-  (page as any)._errors = errors;
+  const onWebError = (webError: WebError) => {
+    const owner = webError.page();
+    if (owner && owner !== page) return;
+    const err = webError.error();
+    const location = webError.location();
+    const stack = err.stack ?? '';
+    if (hostIsIgnored(location.url, ignoreHosts)) return;
+    const where = location.url || '(no location)';
+    errors.push(
+      `${where}:${location.line}:${location.column} ${err.name}: ${err.message}\n${stack}`,
+    );
+  };
+  page.context().on('weberror', onWebError);
+  return {
+    errors,
+    dispose() {
+      page.context().off('weberror', onWebError);
+    },
+  };
+}
+
+test('homepage has no uncaught page errors', async ({ page }) => {
+  // Pass a hostname only when you mean to ignore that host and its subdomains:
+  // const watched = watchPageErrors(page, ['googletagmanager.com']);
+  const watched = watchPageErrors(page);
+  try {
+    await page.goto('/');
+    await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+    expect(watched.errors, watched.errors.join('\n\n')).toEqual([]);
+  } finally {
+    watched.dispose();
+  }
 });
-// ...at the end of a journey: expect((page as any)._errors).toEqual([]);
 ```
 
 ## Template — smoke

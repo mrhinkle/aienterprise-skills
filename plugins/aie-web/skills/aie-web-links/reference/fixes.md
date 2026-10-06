@@ -22,6 +22,9 @@ Time: 5–15 min.
 Time: 5–20 min.
 
 ## Orphaned page (exists, nothing links to it)
+
+A homepage crawl cannot see a page nothing links to. Orphan detection needs a second inventory: an XML sitemap, the source tree, or a host file list. Subtract the crawled set from that inventory. If you only have a URL, say orphan detection is out of scope. Do not invent orphans.
+
 1. Decide if it's still relevant.
 2. Add internal links to it, or delete/redirect it.
 3. Exception: intentional landing pages (e.g., a post-signup thank-you) can stay orphaned by design.
