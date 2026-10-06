@@ -92,3 +92,5 @@ Every finding names the exact element, page, or file and the concrete fix. Cite 
 - A remote URL audit cannot see authenticated pages, server-side code, or a full sitemap crawl — it samples public pages. Say so.
 - Do not fabricate search-volume numbers or domain-authority scores. If the user has no keyword-tool data, describe the method and mark estimates clearly as estimates.
 - Re-running monthly and tracking category scores over time is the right cadence; offer to save prior scores for comparison.
+
+**Sample run:** `examples/sample-run.md` — a condensed real run showing the exact output this skill produces.

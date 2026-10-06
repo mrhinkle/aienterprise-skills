@@ -59,3 +59,5 @@ This skill is brand- and person-neutral by default. If the human names a voice s
 ## Series mode
 
 If the topic is too big for one post, say so and propose a 2-4 post series: one idea per post, each standalone, sequenced from hook-worthy to deep. Research once, then draft each post through the same loop.
+
+**Sample run:** `examples/sample-run.md` — a condensed real run showing the exact output this skill produces.
