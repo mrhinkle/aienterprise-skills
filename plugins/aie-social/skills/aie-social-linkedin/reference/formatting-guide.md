@@ -1,5 +1,7 @@
 # Formatting & Algorithm Guide (LinkedIn, 2026)
 
+The numbers below are a 2026 snapshot, not a law. Before you treat a figure as current (length band, save ranking, dwell time, link penalty), read `sources.md` in this folder and re-check those URLs. If a source is gone or contradicts this guide, trust the source you just opened and say so in the delivery. Do not cite a dead page.
+
 ## Length
 
 - **Character limit:** 3,000.
