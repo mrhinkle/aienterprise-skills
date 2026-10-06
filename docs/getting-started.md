@@ -4,7 +4,7 @@
 
 A skill is a folder with a `SKILL.md` file (and optional `reference/` material). The `SKILL.md` frontmatter has a `name` and a `description`; Claude reads that description and loads the skill only when it's relevant to what you're doing. You don't call skills like commands — you just work, and the right one activates. You can also trigger one explicitly by naming it or using a phrase from its description ("de-slop this," "audit my SEO").
 
-These skills run in **Claude Code** (the CLI) and in **Cowork** (the desktop app). No API keys are required by the skills themselves — a few of the web skills fetch public URLs, which the host already supports.
+These skills run in **Claude Code** (the CLI) and in **Cowork** (the desktop app). The skills do not contain API keys. Mail operations require the host’s existing authorized email and Contacts connections; installation does not grant access or start a scheduled service. Some web skills fetch public URLs.
 
 ## Install
 
@@ -16,6 +16,7 @@ These skills run in **Claude Code** (the CLI) and in **Cowork** (the desktop app
 /plugin install aie-direct-response@aienterprise-skills
 /plugin install aie-web@aienterprise-skills
 /plugin install aie-social@aienterprise-skills
+/plugin install aie-email@aienterprise-skills
 ```
 
 Install only the bundles you want. Update later with `/plugin marketplace update aienterprise-skills`.
@@ -44,6 +45,9 @@ Just describe the work. Examples:
 | "Copy chief this sales page and run the CUB test." | copy-chief |
 | "Build a VSL from this offer and evidence." | direct-response-campaign-writer |
 | "Write a five-email launch in our brand voice." | email-launch-writer |
+| "Audit my email setup and label structure." | email-system-audit |
+| "Draft replies to messages I owe a response to." | email-reply-drafter |
+| "Clean up my inbox using my review policy." | email-inbox-cleanup |
 | "Audit thesite.com for SEO and answer engines." | aie-web-seo |
 | "Check this site for broken links." | aie-web-links |
 | "Is my site secure? Do a review." | aie-web-security |
@@ -56,7 +60,9 @@ Some skills read a small config file from your working directory so they match y
 
 - **`slop.config.md`** (ai-slop-killer, and the social skills' final pass) — your extra banned words, words you legitimately use, a voice to preserve, and citation strictness. Copy the example from `plugins/ai-slop-killer/skills/ai-slop-killer/reference/slop.config.example.md`.
 
-With no config, every skill applies sensible defaults.
+- **`email.config.md`** (email bundle) — account aliases, review signal, task filing, draft owner, contact destination and optional scheduling. Start from the email-system-audit configuration example and record only the decisions needed.
+
+With no config, skills use the current request and ask for material missing decisions. Email changes require existing authorization and verified capability.
 
 ## The order that works
 
@@ -64,4 +70,4 @@ With no config, every skill applies sensible defaults.
 2. Run the specialist skill (SEO audit, security review, LinkedIn draft).
 3. For anything you publish as prose, **ai-slop-killer runs last** — the social skills do this automatically.
 
-See each bundle's page for details: [writing](writing.md) · [direct response](direct-response.md) · [web](web.md) · [social](social.md) · [chief of staff](chief-of-staff.md) · [video](video.md) · [skill creator](skill-creator.md).
+See each bundle's page for details: [writing](writing.md) · [direct response](direct-response.md) · [web](web.md) · [social](social.md) · [chief of staff](chief-of-staff.md) · [email](email.md) · [video](video.md) · [skill creator](skill-creator.md).

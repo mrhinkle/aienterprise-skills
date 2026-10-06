@@ -4,7 +4,7 @@ Open source [Agent Skills](https://docs.claude.com/en/docs/claude-code/skills) f
 
 Skills are folders of instructions and reference material that Claude loads on demand, only when they're relevant. These are the ones we use ourselves, cleaned up and depersonalized so anyone can run them. They work in **Claude Code** and in **Cowork**.
 
-**18 skills across 7 bundles:** writing, direct response, web, social, chief-of-staff, skill-creator, and video *(beta)*.
+**24 skills across 8 bundles:** writing, direct response, web, social, chief-of-staff, email, skill-creator, and video *(beta)*.
 
 ---
 
@@ -51,6 +51,19 @@ Skills are folders of instructions and reference material that Claude loads on d
 | --- | --- |
 | **[aie-chief-of-staff](plugins/aie-chief-of-staff/skills/aie-chief-of-staff)** | A morning brief that pulls together your calendar, your inbox (read-only triage), and a scan of your industry news + tracked competitors — with your top 3 for the day, prep flags, and a focus block. Configurable per person and industry via `cos.config.md`. Drafts and recommends; never sends or deletes. |
 
+### 📬 aie-email &nbsp;·&nbsp; [plugin](plugins/aie-email) &nbsp;·&nbsp; owner-controlled operations
+
+| Skill | What it does |
+| --- | --- |
+| **[email-system-audit](plugins/aie-email/skills/email-system-audit)** | Maps accounts, labels, routing, drafts, contacts and actual automation capabilities into an operating protocol. |
+| **[email-routing-manager](plugins/aie-email/skills/email-routing-manager)** | Repairs arrival rules and folder structure, including optional SaneBox training and Inbox-first account notices. |
+| **[email-inbox-cleanup](plugins/aie-email/skills/email-inbox-cleanup)** | Files reviewed mail using the selected task policy, preserves protected states and reports bounded progress honestly. |
+| **[email-reply-drafter](plugins/aie-email/skills/email-reply-drafter)** | Prepares replies for approval using current threads, Sent, existing drafts and verified context. Never sends. |
+| **[email-contact-sync](plugins/aie-email/skills/email-contact-sync)** | Adds intended human reply recipients to the sending account’s selected Contacts collection after verified sending. |
+| **[email-digest-review](plugins/aie-email/skills/email-digest-review)** | Recovers misfiled requests and account notices, separates news/promotions and reviews confirmed spam. |
+
+These are instructions for existing authorized connectors, not a bundled mail server, OAuth grant, scheduler or autonomous sender. See [email usage and examples](docs/email.md).
+
 ### 🎬 aie-video &nbsp;·&nbsp; [plugin](plugins/aie-video) &nbsp;·&nbsp; **beta**
 
 | Skill | What it does |
@@ -78,6 +91,7 @@ In Claude Code or Cowork:
 /plugin install aie-web@aienterprise-skills
 /plugin install aie-social@aienterprise-skills
 /plugin install aie-chief-of-staff@aienterprise-skills
+/plugin install aie-email@aienterprise-skills
 /plugin install aie-skill-creator@aienterprise-skills
 /plugin install aie-video@aienterprise-skills   # beta
 ```
@@ -98,6 +112,7 @@ The skills are designed to hand off to each other:
 - **aie-social-linkedin** and **aie-social-x** both run **ai-slop-killer** as their mandatory final pass, so posts ship clean.
 - **direct-response-campaign-writer** creates sales pages, VSLs, and webinar scripts, then hands the asset and its evidence ledger to **copy-chief** for independent critique.
 - **email-launch-writer** turns the shared offer and evidence into a coordinated launch sequence; use it for webinar promotion and follow-up rather than forcing those emails into the webinar script.
+- **email-system-audit** establishes the email protocol; the other email skills carry out their requested scope using existing account access. **email-reply-drafter** is for correspondence; **email-launch-writer** remains the promotional campaign skill.
 - **aie-video-webinar-publish** hands its title and description copy to **ai-slop-killer** before upload.
 - **ai-slop-killer** is the last pass for anything you publish — it's useful on its own, and the writing engine behind the social skills.
 

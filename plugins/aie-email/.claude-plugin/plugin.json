@@ -1,0 +1,20 @@
+{
+  "name": "aie-email",
+  "version": "0.1.0",
+  "description": "Six focused skills for email system audits, routing, reviewed-mail cleanup, approval-only replies, same-account contacts and digest review. Uses your existing authorized connectors and configurable operating policy.",
+  "author": {
+    "name": "The AIE Network",
+    "url": "https://theaie.net"
+  },
+  "homepage": "https://github.com/mrhinkle/aienterprise-skills",
+  "license": "MIT",
+  "keywords": [
+    "email",
+    "inbox",
+    "gmail",
+    "sanebox",
+    "drafts",
+    "contacts",
+    "productivity"
+  ]
+}
