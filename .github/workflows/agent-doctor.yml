@@ -1,0 +1,25 @@
+name: agent-doctor
+on:
+  pull_request:
+    paths:
+      - "plugins/aie-agent-doctor/**"
+      - "docs/agent-doctor.md"
+  workflow_dispatch:
+jobs:
+  validate-and-score:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate JSON schemas (draft check)
+        run: |
+          python -c "import json,pathlib; \
+          json.load(open('plugins/aie-agent-doctor/skills/agent-doctor/reference/doctor.config.schema.json')); \
+          json.load(open('plugins/aie-agent-doctor/skills/agent-doctor/reference/scores.schema.json')); \
+          print('schemas ok')"
+      - name: Score fixtures (placeholder)
+        run: |
+          echo "TODO: run scorer against ci/fixtures (monitors + composio + vault status stubs)"
+          test -d plugins/aie-agent-doctor/skills/agent-doctor/ci/fixtures || mkdir -p plugins/aie-agent-doctor/skills/agent-doctor/ci/fixtures

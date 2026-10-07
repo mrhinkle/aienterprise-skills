@@ -11,7 +11,7 @@ Usage docs for AIEnterprise Skills.
 - **[Email bundle](email.md)** — audit, routing, cleanup, reply drafting, contacts and digest review.
 - **[Video bundle](video.md)** — `aie-video-webinar-publish` (beta).
 - **[Skill Creator bundle](skill-creator.md)** — `aie-skill-creator` (build/audit skills from scratch).
-- **[Agent Doctor bundle](agent-doctor.md)** — `agent-doctor` nested fleet health skills (Hermes, Slack, Telegram, Buzz, and more).
+- **[Agent Doctor bundle](agent-doctor.md)** — `agent-doctor` nested fleet health skills (Hermes, Slack, Telegram, Buzz, Composio, Bitwarden/1Password, and more).
 - **[FAQ & troubleshooting](faq.md)**
 
 New to the repo? Start with [Getting started](getting-started.md). Want to add a skill? See [CONTRIBUTING](../CONTRIBUTING.md).

@@ -18,7 +18,7 @@ IDE teammates (Cursor agents, Grok Bot, etc.) are **not** the same runtime as He
 
 - Score Hermes profiles with Hermes monitors.
 - For teammates: track **handoff health** — clear ownership, no two writers on the same launchd unit / config file, proposals routed to the owner agent.
-- Name collisions (a Hermes profile and a Grok teammate both called "Huberman") are fine if proposals say **"Hermes huberman profile"** vs **"Grok Huberman"**.
+- Name collisions (a Hermes profile and a Grok teammate both called "ops-doctor") are fine if proposals say **"Hermes ops-doctor profile"** vs **"Grok ops-doctor"**.
 
 ## Dual-writer rule
 
