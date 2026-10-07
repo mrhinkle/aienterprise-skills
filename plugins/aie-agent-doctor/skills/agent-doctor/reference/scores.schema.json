@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/mrhinkle/aienterprise-skills/scores.schema.json",
+  "title": "AgentDoctorScores",
+  "type": "object",
+  "required": ["scored_at", "timezone", "fleet_score", "fleet_band", "agents"],
+  "properties": {
+    "scored_at": { "type": "string", "format": "date-time" },
+    "timezone": { "type": "string" },
+    "fleet_score": { "type": "number", "minimum": 0, "maximum": 100 },
+    "fleet_band": {
+      "type": "string",
+      "enum": ["green", "yellow", "orange", "red"]
+    },
+    "schema_version": { "type": "string", "default": "1.1" },
+    "agents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "score", "band"],
+        "properties": {
+          "id": { "type": "string" },
+          "score": { "type": "number", "minimum": 0, "maximum": 100 },
+          "band": {
+            "type": "string",
+            "enum": ["green", "yellow", "orange", "red"]
+          },
+          "pillars": {
+            "type": "object",
+            "properties": {
+              "availability": { "type": "number" },
+              "job_reliability": { "type": "number" },
+              "model_quota": { "type": "number" },
+              "config_hygiene": { "type": "number" },
+              "improve_posture": { "type": "number" },
+              "quality": { "type": "number" }
+            }
+          },
+          "quality_axes": {
+            "type": "object",
+            "additionalProperties": { "type": "number", "minimum": 1, "maximum": 5 }
+          },
+          "flags": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "excluded_from_fleet_avg": { "type": "boolean" }
+        }
+      }
+    },
+    "proposals": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["key", "summary", "apply_phrase"],
+        "properties": {
+          "key": { "type": "string" },
+          "agents": { "type": "array", "items": { "type": "string" } },
+          "summary": { "type": "string" },
+          "apply_phrase": { "type": "string" },
+          "aged_days": { "type": "number" }
+        }
+      }
+    }
+  }
+}

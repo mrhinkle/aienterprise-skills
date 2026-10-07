@@ -1,0 +1,374 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/mrhinkle/aienterprise-skills/doctor.config.schema.json",
+  "title": "AgentDoctorConfig",
+  "type": "object",
+  "required": [
+    "identity",
+    "fleet"
+  ],
+  "properties": {
+    "identity": {
+      "type": "object",
+      "required": [
+        "doctor_agent_id",
+        "timezone",
+        "scores_path"
+      ],
+      "properties": {
+        "doctor_agent_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "timezone": {
+          "type": "string",
+          "default": "UTC"
+        },
+        "scores_path": {
+          "type": "string"
+        }
+      }
+    },
+    "fleet": {
+      "type": "object",
+      "required": [
+        "agents"
+      ],
+      "properties": {
+        "agents": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "platforms": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "exclude_from_fleet_avg": {
+                "type": "boolean",
+                "default": false
+              },
+              "retired": {
+                "type": "boolean",
+                "default": false
+              },
+              "adapters": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Override global adapters for this agent"
+              }
+            }
+          }
+        }
+      }
+    },
+    "adapters": {
+      "type": "array",
+      "description": "Ordered signal sources for the pulse (read-only)",
+      "items": {
+        "type": "object",
+        "required": [
+          "type"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "file-monitors",
+              "otel-genai",
+              "langfuse",
+              "helicone",
+              "github-actions",
+              "crewai-health",
+              "custom",
+              "composio-connections",
+              "secrets-vault"
+            ]
+          },
+          "config": {
+            "type": "object"
+          }
+        }
+      },
+      "default": [
+        {
+          "type": "file-monitors"
+        }
+      ]
+    },
+    "monitors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "name",
+          "path"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "path": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "weights": {
+      "type": "object",
+      "description": "Must sum to 100 when quality.enabled is reflected",
+      "properties": {
+        "availability": {
+          "type": "number",
+          "default": 25
+        },
+        "job_reliability": {
+          "type": "number",
+          "default": 25
+        },
+        "model_quota": {
+          "type": "number",
+          "default": 20
+        },
+        "config_hygiene": {
+          "type": "number",
+          "default": 15
+        },
+        "improve_posture": {
+          "type": "number",
+          "default": 15
+        },
+        "quality": {
+          "type": "number",
+          "default": 0
+        }
+      }
+    },
+    "quality": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": false
+        },
+        "axes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "goal_completion",
+              "tool_accuracy",
+              "factual_grounding",
+              "instruction_adherence",
+              "plan_efficiency"
+            ]
+          }
+        },
+        "hard_floor": {
+          "type": "number",
+          "default": 3.5
+        },
+        "target": {
+          "type": "number",
+          "default": 4.0
+        }
+      }
+    },
+    "cadence": {
+      "type": "object",
+      "properties": {
+        "pulse": {
+          "type": "object",
+          "properties": {
+            "cron_minute_offset": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 59
+            },
+            "model": {
+              "type": "string",
+              "const": "none"
+            }
+          }
+        },
+        "daily": {
+          "type": "object",
+          "properties": {
+            "local_time": {
+              "type": "string"
+            },
+            "model": {
+              "type": "string"
+            },
+            "deliver": {
+              "type": "string",
+              "enum": [
+                "relay",
+                "local",
+                "none"
+              ]
+            }
+          }
+        },
+        "weekly": {
+          "type": "object",
+          "properties": {
+            "local_time": {
+              "type": "string"
+            },
+            "model": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "reporting": {
+      "type": "object",
+      "properties": {
+        "slack": {
+          "type": "object",
+          "properties": {
+            "mode": {
+              "type": "string",
+              "enum": [
+                "outbound-relay-only",
+                "dedicated-app",
+                "disabled"
+              ]
+            },
+            "relay_config": {
+              "type": "string"
+            },
+            "target": {
+              "type": "string"
+            }
+          }
+        },
+        "telegram": {
+          "type": "object",
+          "properties": {
+            "mode": {
+              "type": "string",
+              "enum": [
+                "deferred",
+                "dedicated-bot",
+                "disabled"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "policy": {
+      "type": "object",
+      "properties": {
+        "propose_then_apply": {
+          "type": "boolean",
+          "default": true
+        },
+        "require_named_apply": {
+          "type": "boolean",
+          "default": true
+        },
+        "banned_local_models": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "require_two_rung_fallbacks": {
+          "type": "boolean",
+          "default": true
+        },
+        "secrets_cache_ttl_seconds": {
+          "type": "integer",
+          "default": 3600
+        },
+        "never_restart_shared_gateway_without_named_override": {
+          "type": "boolean",
+          "default": true
+        },
+        "context_util_yellow_pct": {
+          "type": "number",
+          "default": 80
+        },
+        "context_util_red_pct": {
+          "type": "number",
+          "default": 95
+        }
+      }
+    },
+    "deductions": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "number"
+      }
+    },
+    "composio": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": false
+        },
+        "required_toolkits": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "name"
+            ],
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "agents": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "required_aliases": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "secrets": {
+      "type": "object",
+      "properties": {
+        "provider": {
+          "type": "string",
+          "enum": [
+            "onepassword",
+            "bitwarden",
+            "both",
+            "none"
+          ]
+        },
+        "onepassword": {
+          "type": "object"
+        },
+        "bitwarden": {
+          "type": "object"
+        }
+      }
+    }
+  }
+}

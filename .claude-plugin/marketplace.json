@@ -175,8 +175,8 @@
     {
       "name": "aie-agent-doctor",
       "source": "./plugins/aie-agent-doctor",
-      "description": "Nested Agent Doctor skills for multi-agent fleets. Diagnose-and-propose health checks with a 0\u2013100 rubric; platform modules for Hermes, Slack, Telegram, Buzz ACP, Mission Control, OpenRouter/Codex, 1Password, and Cursor teammates. Applies only when a human names them.",
-      "version": "1.0.0",
+      "description": "Nested Agent Doctor for multi-agent fleets. 0\u2013100 rubric, Composio connection checks, 1Password/Bitwarden vault health, Slack/Telegram contracts, OTel/Langfuse adapters. Diagnose-and-propose only.",
+      "version": "1.1.0",
       "author": {
         "name": "The AIE Network",
         "url": "https://theaie.net"
@@ -185,8 +185,13 @@
         "agent-doctor",
         "fleet-health",
         "hermes",
+        "composio",
+        "bitwarden",
+        "1password",
         "observability",
-        "ops",
+        "otel",
+        "langfuse",
+        "llmops",
         "multi-agent",
         "diagnose-and-propose",
         "health-score"

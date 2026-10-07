@@ -1,0 +1,7 @@
+{
+  "toolkits": [
+    { "name": "gmail", "status": "Active" },
+    { "name": "slack", "status": "needsAuth" },
+    { "name": "github", "status": "Active" }
+  ]
+}

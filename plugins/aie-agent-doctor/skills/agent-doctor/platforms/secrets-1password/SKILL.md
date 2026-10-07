@@ -1,6 +1,6 @@
 ---
 name: agent-doctor-secrets-1password
-description: 1Password / secrets-manager module for Agent Doctor. Cache TTL, env refs, restart thrash, and never-plaintext rules. Trigger on "1password doctor," "op cache," "secrets thrash," or when agent-doctor scopes secrets.
+description: 1Password / secrets-manager module for Agent Doctor. Cache TTL, env refs, unlock/auth posture, restart thrash, never-plaintext. Pair with secrets-bitwarden when both vaults are in use. Trigger on "1password doctor," "op cache," "secrets thrash," or when agent-doctor scopes 1Password.
 ---
 
 # Agent Doctor — Secrets (1Password)
@@ -9,25 +9,37 @@ description: 1Password / secrets-manager module for Agent Doctor. Cache TTL, env
 
 - Skills and public repos: **refs only** (`op://…` or env names), never secret values.
 - Doctor proposals may name the *ref key*, not the credential.
-- Prefer a single helper binary/path shared by profiles (document in `doctor.config.md`).
+- Prefer a single helper binary/path shared by agents (document in `doctor.config.md`).
+- If Bitwarden is also used, see `platforms/secrets-bitwarden` and set `secrets.provider: both`.
+
+## Auth / resolve posture
+
+| Signal | Score |
+| --- | --- |
+| `op` / helper cannot authenticate | Availability −20; `apply onepassword-auth` |
+| Refs fail to resolve for required env | Availability −10–15 |
+| Short TTL (e.g. 300s) + crash-loop = keychain storms | Job reliability + Config hygiene |
+| Plaintext token in config | Config hygiene critical |
 
 ## Cache TTL
 
-Short TTLs (e.g. 300s) plus crash-looping ACP/gateway jobs = keychain / `op` storms.
+- Default under rate limits: longer TTL (e.g. **3600**).
+- New agents: do **not** copy a legacy short override by accident.
 
-- Root/default: longer TTL under rate limits (e.g. **3600**).
-- New profiles: do **not** copy a legacy 300 override by accident.
-- Score Improve posture / Config hygiene when overrides fight the fleet default.
+## Required items (optional)
 
-## Health signals
+```yaml
+secrets:
+  provider: onepassword
+  onepassword:
+    required_refs:
+      - env: OPENROUTER_API_KEY
+        ref: "op://Vault/openrouter/api-key"
+        agents: [orchestrator]
+```
 
-| Signal | Pillar |
-| --- | --- |
-| Resolve failures in logs | Availability + secrets |
-| Restart loop causing repeated unlock prompts | Job reliability + secrets |
-| Plaintext token in config | Config hygiene critical |
-| Profile missing needed env ref | Availability |
+Pulse verifies refs are declared and resolvable without printing values.
 
 ## Applies
 
-Changing TTL or adding env refs is a named patch key with backup. Never "test" by printing secrets into chat.
+TTL / env-ref changes = named patch key with backup. Never print secrets into chat or scores JSON.

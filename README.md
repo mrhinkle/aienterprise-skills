@@ -75,7 +75,7 @@ These are instructions for existing authorized connectors, not a bundled mail se
 
 | Skill | What it does |
 | --- | --- |
-| **[agent-doctor](plugins/aie-agent-doctor/skills/agent-doctor)** | Fleet / multi-agent health doctor. Scores agents 0–100 (availability, job reliability, model/quota, config hygiene, improve posture). Nested platform modules for Hermes, Slack, Telegram, Buzz ACP, Mission Control, OpenRouter/Codex, 1Password, and Cursor/Grok teammates. Hourly pulse reads existing monitors (no duplicate LLM watchers). Proposes patch keys — applies only when a human names them. |
+| **[agent-doctor](plugins/aie-agent-doctor/skills/agent-doctor)** | Fleet / multi-agent health doctor (v1.1). Scores agents 0–100 (availability, job reliability, model/quota, config hygiene, improve posture). Platforms: Hermes, Slack, Telegram, Buzz ACP, Mission Control, OpenRouter/Codex, **Composio**, **1Password**, **Bitwarden**, Cursor/Grok teammates, Langfuse/OTel. Hourly pulse reads monitors + connection/vault status. Proposes patch keys — applies only when a human names them. |
 
 ### 🛠 aie-skill-creator &nbsp;·&nbsp; [plugin](plugins/aie-skill-creator) &nbsp;·&nbsp; meta
 
