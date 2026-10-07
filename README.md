@@ -4,7 +4,7 @@ Open source [Agent Skills](https://docs.claude.com/en/docs/claude-code/skills) f
 
 Skills are folders of instructions and reference material that Claude loads on demand, only when they're relevant. These are the ones we use ourselves, cleaned up and depersonalized so anyone can run them. They work in **Claude Code** and in **Cowork**.
 
-**24 skills across 8 bundles:** writing, direct response, web, social, chief-of-staff, email, skill-creator, and video *(beta)*.
+**25 skills across 9 bundles:** writing, direct response, web, social, chief-of-staff, email, skill-creator, video *(beta)*, and agent-doctor.
 
 ---
 
@@ -70,6 +70,13 @@ These are instructions for existing authorized connectors, not a bundled mail se
 | --- | --- |
 | **[aie-video-webinar-publish](plugins/aie-video/skills/aie-video-webinar-publish)** | Turn a recorded webinar into a publish-ready YouTube video — pull the recording off the platform, cut the filler words and the "can you hear me" cold open using word-level transcript timing plus audio-energy boundaries, build a thumbnail that still reads at 168px, generate chapters by OCR-ing the slides, and upload private for review. Verifies itself by re-transcribing the render, because a cut list can look perfect and land on the wrong words. Configurable via `webinar.config.md`. |
 
+
+### 🩺 aie-agent-doctor &nbsp;·&nbsp; [plugin](plugins/aie-agent-doctor) &nbsp;·&nbsp; diagnose-and-propose
+
+| Skill | What it does |
+| --- | --- |
+| **[agent-doctor](plugins/aie-agent-doctor/skills/agent-doctor)** | Fleet / multi-agent health doctor. Scores agents 0–100 (availability, job reliability, model/quota, config hygiene, improve posture). Nested platform modules for Hermes, Slack, Telegram, Buzz ACP, Mission Control, OpenRouter/Codex, 1Password, and Cursor/Grok teammates. Hourly pulse reads existing monitors (no duplicate LLM watchers). Proposes patch keys — applies only when a human names them. |
+
 ### 🛠 aie-skill-creator &nbsp;·&nbsp; [plugin](plugins/aie-skill-creator) &nbsp;·&nbsp; meta
 
 | Skill | What it does |
@@ -93,6 +100,7 @@ In Claude Code or Cowork:
 /plugin install aie-chief-of-staff@aienterprise-skills
 /plugin install aie-email@aienterprise-skills
 /plugin install aie-skill-creator@aienterprise-skills
+/plugin install aie-agent-doctor@aienterprise-skills
 /plugin install aie-video@aienterprise-skills   # beta
 ```
 
@@ -115,6 +123,7 @@ The skills are designed to hand off to each other:
 - **email-system-audit** establishes the email protocol; the other email skills carry out their requested scope using existing account access. **email-reply-drafter** is for correspondence; **email-launch-writer** remains the promotional campaign skill.
 - **aie-video-webinar-publish** hands its title and description copy to **ai-slop-killer** before upload.
 - **ai-slop-killer** is the last pass for anything you publish — it's useful on its own, and the writing engine behind the social skills.
+- **agent-doctor** scores the fleet and proposes named applies; it does not restart shared gateways or open a second Slack Socket Mode on an existing app.
 
 Full usage docs: **[docs/](docs/)**.
 

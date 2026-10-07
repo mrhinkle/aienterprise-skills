@@ -1,0 +1,21 @@
+{
+  "name": "aie-agent-doctor",
+  "version": "1.0.0",
+  "description": "Nested Agent Doctor skills for multi-agent fleets. Diagnose-and-propose health checks with a 0–100 rubric, platform modules for Hermes, Slack, Telegram, Buzz, Mission Control, LLM providers, 1Password, and Cursor teammates. Applies only when a human names them.",
+  "author": {
+    "name": "The AIE Network",
+    "url": "https://theaie.net"
+  },
+  "homepage": "https://github.com/mrhinkle/aienterprise-skills",
+  "license": "MIT",
+  "keywords": [
+    "agent-doctor",
+    "fleet-health",
+    "hermes",
+    "observability",
+    "ops",
+    "multi-agent",
+    "diagnose-and-propose",
+    "health-score"
+  ]
+}
