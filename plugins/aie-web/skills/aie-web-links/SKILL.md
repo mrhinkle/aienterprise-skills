@@ -1,6 +1,7 @@
 ---
 name: aie-web-links
-description: Crawl a website and validate every internal link, external link, image, and asset reference — flagging broken links (404/410/5xx), mixed content (HTTP assets on HTTPS pages), redirect chains, orphaned pages, broken in-page anchor links, and malformed mailto:/tel: links. Produces a fix-it report grouped by severity with the exact page, URL, status code, and recommended fix. Works from a source folder or a live/staging URL, on any stack. Trigger on "check my links," "broken links," "link checker," "find dead links," "audit my links," "check for mixed content," "find redirect chains," "orphaned pages," "are my links working," or "validate links before launch."
+description: >-
+  Crawl a website and validate every internal link, external link, image, and asset reference — flagging broken links (404/410/5xx), mixed content (HTTP assets on HTTPS pages), redirect chains, orphaned pages, broken in-page anchor links, and malformed mailto:/tel: links. Produces a fix-it report grouped by severity with the exact page, URL, status code, and recommended fix. Works from a source folder or a live/staging URL, on any stack. Trigger on "check my links," "broken links," "link checker," "find dead links," "audit my links," "check for mixed content," "find redirect chains," "orphaned pages," "are my links working," or "validate links before launch."
 ---
 
 # Website Link Checker
