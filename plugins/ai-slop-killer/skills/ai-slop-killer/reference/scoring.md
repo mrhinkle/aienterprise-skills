@@ -34,7 +34,7 @@ Scan the passage and tally by weight:
 
 ## Normalize
 
-`score = round( total_points / word_count * 1000 )`, capped at 100.
+`score = round( total_points / word_count * 500 )`, capped at 100. This normalizes to points **per 500 words**, matching the bands below and the "clean ≤5 per 500 words" threshold in SKILL.md.
 
 Rough bands (per ~500 words):
 - **0–5:** clean. Reads human. Ship it.

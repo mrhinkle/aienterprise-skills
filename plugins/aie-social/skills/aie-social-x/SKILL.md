@@ -63,3 +63,5 @@ Output in this order:
 ## Voice / config (optional, don't hardcode a person)
 
 Brand- and person-neutral by default. If the human names a voice skill, brand style guide, or a `voice.config.md` / `slop.config.md`, honor it (tone, banned words, emoji, hashtag policy, citation strictness). With nothing set: clear, punchy, credible; 0-1 hashtag max; emoji sparing.
+
+**Sample run:** `examples/sample-run.md` — a condensed real run showing the exact output this skill produces.
