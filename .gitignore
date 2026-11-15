@@ -1,4 +1,12 @@
 .DS_Store
 node_modules/
+__pycache__/
+*.pyc
 slop.config.md
+cos.config.md
+webinar.config.md
+voice.config.md
+.env
+.env.*
+!.env.example
 *.log
