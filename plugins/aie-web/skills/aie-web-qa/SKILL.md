@@ -1,6 +1,6 @@
 ---
 name: aie-web-qa
-description: Runs a unified pre-launch or post-update quality-assurance pass on a website — the holistic "does this actually work?" gate. Walks pages, forms, navigation, third-party integrations, cross-browser and mobile behavior, JavaScript console health, accessibility basics, HTTPS/security, and a performance smoke test. Produces a QA report with issues rated by severity, reproduction steps, and a launch recommendation; supports regression testing after fixes. Stack-agnostic. Trigger on "QA my site," "test my site," "does everything work," "smoke test," "test before launch," "regression test," "check all pages," "test my forms," "check mobile," "cross-browser test," "broken links," or "is my site ready to launch."
+description: Runs a unified pre-launch or post-update quality-assurance pass on a website — the holistic "does this actually work?" gate. Walks pages, forms, navigation, third-party integrations, cross-browser and mobile behavior, JavaScript console health, accessibility basics, HTTPS/security, and a performance smoke test. Produces a QA report with issues rated by severity, reproduction steps, and a launch recommendation; supports regression testing after fixes. Stack-agnostic. Trigger on "QA my site," "does everything work," "smoke test," "test before launch," "regression test," "check all pages," "check mobile," "cross-browser test," or "is my site ready to launch." NOT for writing automated test suites (use aie-web-testing), link crawling (use aie-web-links), or wiring/auditing a specific form (use aie-web-forms).
 ---
 
 # Web QA Tester
@@ -87,3 +87,5 @@ After fixes, re-run only the failed tests using the exact reproduction steps. Co
 - QA is a gift, not a punishment — finding problems before users do is far cheaper than after.
 - Prefer testing on staging. If only production is available, avoid submitting real transactions or polluting analytics/CRM with test data.
 - Where automated fetching can't fully execute JavaScript or reach authenticated pages, say so and recommend a manual or headless-browser pass for those flows.
+
+**Sample run:** `examples/sample-run.md` — a condensed real run showing the exact output this skill produces.

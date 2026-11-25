@@ -56,3 +56,5 @@ Order findings Critical → Warning → Recommendation.
 - MDN HTTP headers — https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers
 - MDN Content Security Policy — https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP
 - MDN Mixed content — https://developer.mozilla.org/en-US/docs/Web/Security/Mixed_content
+
+**Sample run:** `examples/sample-run.md` — a condensed real run showing the exact output this skill produces.
